@@ -21,6 +21,10 @@
             "role" : "Developer"
         }
     ],
+  "require": {                
+        "kartik-v/yii2-tree-manager": "@dev",
+        "wbraganca/yii2-fancytree-widget": "*"
+    },
     "autoload": {
         "psr-4": {
             "andahrm\\structure\\": ""

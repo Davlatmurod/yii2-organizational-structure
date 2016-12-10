@@ -37,8 +37,8 @@ class Section extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
-            [['id', 'root', 'lft', 'rgt', 'level', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['root', 'lft', 'rgt', 'level', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['title', 'code'], 'required'],
             [['note'], 'string'],
             [['code'], 'string', 'max' => 4],
             [['title'], 'string', 'max' => 255],
