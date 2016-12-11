@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use andahrm\structure\models\Section;
+use kartik\tree\TreeView;
 /* @var $this yii\web\View */
 /* @var $searchModel andahrm\structure\models\SectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,7 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create Section'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+  <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -41,4 +44,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+  
+<?=TreeView::widget([
+    // single query fetch to render the tree
+    // use the Product model you have in the previous step
+    'query' => Section::find()->addOrderBy('root, lft'), 
+    'headingOptions' => ['label' => 'Categories'],
+    'fontAwesome' => false,     // optional
+    'isAdmin' => false,         // optional (toggle to enable admin mode)
+    'displayValue' => 1,        // initial display value
+    'softDelete' => true,       // defaults to true
+    'cacheSettings' => [        
+        'enableCache' => true   // defaults to true
+    ]
+]);
+  
+  ?>
+  
+  
+</div>
