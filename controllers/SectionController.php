@@ -35,13 +35,16 @@ class SectionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SectionSearch();
+        /*$searchModel = new SectionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]);*/
+      
+       $treeArray = Section::find()->dataFancytree();
+        return $this->render('index', ['treeArray' => $treeArray]);
     }
 
     /**

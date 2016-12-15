@@ -23,6 +23,7 @@
     ],
   "require": {                
         "kartik-v/yii2-tree-manager": "@dev",
+        "wbraganca/yii2-nested-set-behavior": "*",
         "wbraganca/yii2-fancytree-widget": "*"
     },
     "autoload": {

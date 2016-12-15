@@ -3,7 +3,8 @@
 namespace andahrm\structure\models;
 
 use Yii;
-
+use wbraganca\behaviors\NestedSetBehavior;
+use wbraganca\behaviors\NestedSetQuery;
 /**
  * This is the model class for table "section".
  *
@@ -30,6 +31,25 @@ class Section extends \yii\db\ActiveRecord
     {
         return 'section';
     }
+  
+  
+  function behaviors()
+    {
+        return [           
+            'nestedsets' => [
+                'class' => NestedSetBehavior::className(),
+                // 'rootAttribute' => 'root',
+                // 'levelAttribute' => 'level',
+                // 'hasManyRoots' => true
+            ],
+        ];
+    }
+  
+  public static function find()
+    {
+        return new NestedSetQuery(get_called_class());
+    }
+  
 
     /**
      * @inheritdoc

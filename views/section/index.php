@@ -1,66 +1,97 @@
 <?php
-
+use yii\web\JsExpression;
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
-use andahrm\structure\models\Section;
-use kartik\tree\TreeView;
+use yii\helpers\Url;
+?>
+
+<?php
+
 /* @var $this yii\web\View */
-/* @var $searchModel andahrm\structure\models\SectionSearch */
+/* @var $searchModel culturePnPsu\cms\modules\page\models\PageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sections');
+$this->title = 'Categories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="section-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Section'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    
-  <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-//             'root',
-//             'lft',
-//             'rgt',
-//             'level',
-            'code',
-            'title',
-            'status',
-            // 'note:ntext',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?>
-  
-<?=TreeView::widget([
-    // single query fetch to render the tree
-    // use the Product model you have in the previous step
-    'query' => Section::find()->addOrderBy('root, lft'), 
-    'headingOptions' => ['label' => 'Categories'],
-    'fontAwesome' => false,     // optional
-    'isAdmin' => false,         // optional (toggle to enable admin mode)
-    'displayValue' => 1,        // initial display value
-    'softDelete' => true,       // defaults to true
-    'cacheSettings' => [        
-        'enableCache' => true   // defaults to true
-    ]
-]);
-  
-  ?>
-  
-  
+<div class="page-index">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <?= Html::button('<i class="fa fa-tree"></i> '.Yii::t('app','Create Root'), ['id' =>'create-root', 'class' => 'btn btn-github btn-flat']); ?>
+                <div class="pull-right">
+                <?= Html::button('<i class="fa fa-plus"></i> '.Yii::t('app','Create Child'), ['id' =>'create-sub', 'class' => 'btn btn-success btn-flat']); ?>
+                </div>
+            </div>
+            <?php
+            echo \wbraganca\fancytree\FancytreeWidget::widget([
+                'id' => 'category',
+                'options' =>[
+                    'source' => $treeArray,
+                    'activate' => new JsExpression('function(event, data) {
+    var node = data.node;
+    $.get( "'.Url::to(['update']).'", { id: node.key } )
+        .done(function( data ) {
+            $("#form-tree").html(data);
+    });
+}'),
+                    'extensions' => ['dnd',],
+                    'dnd' => [
+                        'preventVoidMoves' => true,
+                        'preventRecursiveMoves' => true,
+                        'autoExpandMS' => 400,
+                        'dragStart' => new JsExpression('function(node, data) { return true; }'),
+                        'dragEnter' => new JsExpression('function(node, data) { return true; }'),
+                        'dragDrop' => new JsExpression('function(node, data) {
+    $.get( "'.Url::to(['move-node']).'", { id: data.otherNode.key, mode: data.hitMode, targetId: data.node.key } )
+        .done(function( dataAjax ) {
+            if(dataAjax.process){
+                data.otherNode.moveTo(node, data.hitMode);
+            }
+        }, 
+    "json");
+    }'
+                        ),
+                    ],
+                ]
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-9">
+            <div id="form-tree">Loading...</div>
+        </div>
+    </div>
 </div>
+
+<?php
+$js[] = "$(document).on('click', '#create-root', function(){
+    $.get('".Url::to(['create'])."').done(function(data){
+        $('#form-tree').html(data);
+        $('#category-name').focus();
+    });
+});";
+
+$js[] = "$(document).on('click', '#create-sub', function(){
+    var node = $('#fancyree_category').fancytree('getActiveNode');
+      if( node ){
+//        alert('Currently active: ' + node.key);
+        $.get('".Url::to(['create'])."', { parent_id: node.key }).done(function(data){
+            $('#form-tree').html(data);
+            $('#category-name').focus();
+        });
+      }else{
+        alert('No active node.');
+      }
+});";
+
+
+$this->registerJs(implode("\n", $js));
+?>
+<?php
+if(Yii::$app->request->get('id')) {
+    $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".Yii::$app->request->get('id')."\");");
+}else{
+    if(isset($treeArray[0])){
+        $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".$treeArray[0]['key']."\");");
+    }
+}
