@@ -3,6 +3,9 @@
 namespace andahrm\structure\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 use wbraganca\behaviors\NestedSetBehavior;
 use wbraganca\behaviors\NestedSetQuery;
 /**
@@ -35,7 +38,13 @@ class Section extends \yii\db\ActiveRecord
   
   function behaviors()
     {
-        return [           
+        return [ 
+          'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ],
             'nestedsets' => [
                 'class' => NestedSetBehavior::className(),
                 // 'rootAttribute' => 'root',

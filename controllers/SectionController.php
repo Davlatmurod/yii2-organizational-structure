@@ -101,6 +101,10 @@ class SectionController extends Controller
             }
             if($parent_id === null){
                 $model->saveNode();
+                Yii::$app->getSession()->setFlash('clear',[
+                    'type' => 'success',
+                    'msg' => Yii::t('andahrm/setting', 'Clear assets completed.')
+                ]);
             }else{
                 $root = $this->findModel(intval($parent_id));
                 $model->appendTo($root);
