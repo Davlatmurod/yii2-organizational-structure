@@ -1,7 +1,8 @@
 <?php
 use yii\bootstrap\Html;
-use yii\widgets\Menu;
+//use yii\widgets\Menu;
 use yii\bootstrap\Nav;
+use dmstr\widgets\Menu;
 
  $this->beginContent('@app/views/layouts/main.php'); 
  $module = $this->context->module->id;
