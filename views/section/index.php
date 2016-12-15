@@ -2,6 +2,7 @@
 use yii\web\JsExpression;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use wbraganca\fancytree\FancytreeWidget;
 ?>
 
 <?php
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <?php
-            echo \wbraganca\fancytree\FancytreeWidget::widget([
+            echo FancytreeWidget::widget([
                 'id' => 'category',
                 'options' =>[
                     'source' => $treeArray,
