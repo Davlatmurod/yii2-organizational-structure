@@ -3,6 +3,7 @@ use yii\bootstrap\Html;
 //use yii\widgets\Menu;
 use yii\bootstrap\Nav;
 use dmstr\widgets\Menu;
+use mdm\admin\components\Helper;
 
  $this->beginContent('@app/views/layouts/main.php'); 
  $module = $this->context->module->id;
@@ -12,15 +13,24 @@ use dmstr\widgets\Menu;
       
       <?php
                     $menuItems = [
-                            [
+                        [
                             'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ตำแหน่ง'),
-                            'url' => ["/{$module}/default"], #2
+                            'url' => ["/{$module}/default"],
                         ],
-                            [
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ประเภทบุคคล'),
+                            'url' => ["/{$module}/person-type"],
+                        ],
+                        [
                             'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'โครงสร้างองค์กร'),
-                            'url' => ["/{$module}/section"], #0
+                            'url' => ["/{$module}/section"],
+                        ],
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ร'),
+                            'url' => ["/{$module}/person-type"],
                         ],
                     ];
+                    $menuItems = Helper::filter($menuItems);
                     
                     //$nav = new Navigate();
                     echo Menu::widget([

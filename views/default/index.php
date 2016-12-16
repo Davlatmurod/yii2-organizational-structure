@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Positions');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-print_r(\andahrm\structure\models\Position::getList());
+//print_r(\andahrm\structure\models\Position::getList());
 ?>
 <div class="position-index">
 
@@ -21,7 +21,8 @@ print_r(\andahrm\structure\models\Position::getList());
     <p>
         <?= Html::a(Yii::t('app', 'Create Position'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+  <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
