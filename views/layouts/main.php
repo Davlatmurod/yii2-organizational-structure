@@ -1,7 +1,8 @@
 <?php
 use yii\bootstrap\Html;
-use yii\widgets\Menu;
+//use yii\widgets\Menu;
 use yii\bootstrap\Nav;
+use dmstr\widgets\Menu;
 
  $this->beginContent('@app/views/layouts/main.php'); 
  $module = $this->context->module->id;
@@ -25,7 +26,7 @@ use yii\bootstrap\Nav;
                     echo Menu::widget([
                         'options' => ['class' => 'nav nav-tabs'],
                         'encodeLabels' => false,
-                        'activateParents' => true,
+                        //'activateParents' => true,
                         //'linkTemplate' =>'<a href="{url}">{icon} {label} {badge}</a>',
                         'items' => $menuItems,
                     ])

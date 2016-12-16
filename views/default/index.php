@@ -9,6 +9,9 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Positions');
 $this->params['breadcrumbs'][] = $this->title;
+
+
+print_r(\andahrm\structure\models\Position::getList());
 ?>
 <div class="position-index">
 
@@ -24,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
+            'code',
             'person_type_id',
             'section_id',
             'position_type_id',

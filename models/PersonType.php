@@ -29,10 +29,11 @@ class PersonType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title'], 'required'],
-            [['id', 'level'], 'integer'],
+            [['title'], 'required'],
+            [['level'], 'integer'],
             [['code'], 'string', 'max' => 45],
             [['title', 'leveltype'], 'string', 'max' => 255],
+            [['title'], 'unique'],
             [['code'], 'unique'],
         ];
     }
@@ -43,11 +44,11 @@ class PersonType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
-            'title' => Yii::t('app', 'ชื่อประเภทตำแหน่ง'),
-            'level' => Yii::t('app', 'ระดับ'),
-            'leveltype' => Yii::t('app', 'Leveltype'),
+            'id' => Yii::t('andahrm/personType', 'ID'),
+            'code' => Yii::t('andahrm/personType', 'รหัส'),
+            'title' => Yii::t('andahrm/personType', 'ชื่อประเภทตำแหน่ง'),
+            'level' => Yii::t('andahrm/personType', 'ระดับ'),
+            'leveltype' => Yii::t('andahrm/personType', 'Leveltype'),
         ];
     }
 }

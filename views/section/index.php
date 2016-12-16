@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="page-index">
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="form-group">
                 <?= Html::button('<i class="fa fa-tree"></i> '.Yii::t('app','Create Root'), ['id' =>'create-root', 'class' => 'btn btn-github btn-flat']); ?>
                 <div class="pull-right">
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
             ?>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <div id="form-tree">Loading...</div>
         </div>
     </div>
