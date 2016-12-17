@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\PositionType */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('andahrm/structure', 'Update {modelClass}: ', [
     'modelClass' => 'Position Type',
 ]) . $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Position Types'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Position Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('andahrm/structure', 'Update');
 ?>
 <div class="position-type-update">
 

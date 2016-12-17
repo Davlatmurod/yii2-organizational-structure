@@ -3,13 +3,21 @@
 namespace andahrm\structure\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 /**
  * This is the model class for table "position_type".
  *
  * @property integer $id
- * @property string $code
  * @property string $title
+ * @property integer $note
+ * @property integer $created_at
+ * @property integer $created_by
+ * @property integer $updated_at
+ * @property integer $updated_by
+ *
+ * @property Position[] $positions
  */
 class PositionType extends \yii\db\ActiveRecord
 {
@@ -21,15 +29,28 @@ class PositionType extends \yii\db\ActiveRecord
         return 'position_type';
     }
 
+    public function behaviors()
+    {
+        return [ 
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ],
+        ];
+    }
+  
+  
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['code'], 'string', 'max' => 10],
+            [['note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['code'], 'unique'],
+            [['title'], 'unique'],
         ];
     }
 
@@ -39,9 +60,27 @@ class PositionType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('andahrm/personType', 'รหัส'),
-            'code' => Yii::t('andahrm/personType', 'รหัสสายงาน'),
-            'title' => Yii::t('andahrm/personType', 'ชื่อสายงาน'),
+            'id' => Yii::t('andahrm/structure', 'รหัส'),
+            'title' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
+            'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
+            'created_at' => Yii::t('andahrm/structure', 'Created At'),
+            'created_by' => Yii::t('andahrm/structure', 'Created By'),
+            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
+            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPositions()
+    {
+        return $this->hasMany(Position::className(), ['position_type_id' => 'id']);
+    }
+  
+    public static function getList(){
+      return ArrayHelper::map(self::find()->all(),'id','title');
+    }
+  
+  
 }

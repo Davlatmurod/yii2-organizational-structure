@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\Section */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('andahrm/structure', 'Update {modelClass}: ', [
     'modelClass' => 'Section',
 ]) . $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sections'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Sections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('andahrm/structure', 'Update');
 ?>
 <div class="section-update">
 

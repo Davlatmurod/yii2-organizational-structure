@@ -1,98 +1,113 @@
 <?php
-use yii\web\JsExpression;
+
 use yii\helpers\Html;
-use yii\helpers\Url;
-use wbraganca\fancytree\FancytreeWidget;
-?>
-
-<?php
-
+use yii\widgets\Pjax;
+use kartik\grid\GridView;
+use kartik\export\ExportMenu;
 /* @var $this yii\web\View */
-/* @var $searchModel culturePnPsu\cms\modules\page\models\PageSearch */
+/* @var $searchModel andahrm\structure\models\SectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Categories';
+$this->title = Yii::t('andahrm/structure', 'Sections');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<div class="page-index">
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <?= Html::button('<i class="fa fa-tree"></i> '.Yii::t('app','Create Root'), ['id' =>'create-root', 'class' => 'btn btn-github btn-flat']); ?>
-                <div class="pull-right">
-                <?= Html::button('<i class="fa fa-plus"></i> '.Yii::t('app','Create Child'), ['id' =>'create-sub', 'class' => 'btn btn-success btn-flat']); ?>
-                </div>
-            </div>
-            <?php
-            echo FancytreeWidget::widget([
-                'id' => 'category',
-                'options' =>[
-                    'source' => $treeArray,
-                    'activate' => new JsExpression('function(event, data) {
-    var node = data.node;
-    $.get( "'.Url::to(['update']).'", { id: node.key } )
-        .done(function( data ) {
-            $("#form-tree").html(data);
-    });
-}'),
-                    'extensions' => ['dnd',],
-                    'dnd' => [
-                        'preventVoidMoves' => true,
-                        'preventRecursiveMoves' => true,
-                        'autoExpandMS' => 400,
-                        'dragStart' => new JsExpression('function(node, data) { return true; }'),
-                        'dragEnter' => new JsExpression('function(node, data) { return true; }'),
-                        'dragDrop' => new JsExpression('function(node, data) {
-    $.get( "'.Url::to(['move-node']).'", { id: data.otherNode.key, mode: data.hitMode, targetId: data.node.key } )
-        .done(function( dataAjax ) {
-            if(dataAjax.process){
-                data.otherNode.moveTo(node, data.hitMode);
-            }
-        }, 
-    "json");
-    }'
-                        ),
-                    ],
-                ]
-            ]);
-            ?>
-        </div>
-        <div class="col-sm-8">
-            <div id="form-tree">Loading...</div>
-        </div>
-    </div>
-</div>
-
 <?php
-$js[] = "$(document).on('click', '#create-root', function(){
-    $.get('".Url::to(['create'])."').done(function(data){
-        $('#form-tree').html(data);
-        $('#category-name').focus();
-    });
-});";
+$columns = [
+    'id' => 'id',
+    'code' => 'code',
+    'title' => 'title',
+    'created_at' => 'created_at:datetime',
+    'created_by' => 'created_by',
+    'updated_at' => 'updated_at',
+    'updated_by' => 'updated_by',
+];
 
-$js[] = "$(document).on('click', '#create-sub', function(){
-    var node = $('#fancyree_category').fancytree('getActiveNode');
-      if( node ){
-//        alert('Currently active: ' + node.key);
-        $.get('".Url::to(['create'])."', { parent_id: node.key }).done(function(data){
-            $('#form-tree').html(data);
-            $('#category-name').focus();
-        });
-      }else{
-        alert('No active node.');
-      }
-});";
+$gridColumns = [
+   ['class' => '\kartik\grid\SerialColumn'],
+    $columns['code'],
+    $columns['title'],
+    $columns['created_at'],
+    $columns['created_by'],
+    ['class' => '\kartik\grid\ActionColumn',]
+];
 
+$fullExportMenu = ExportMenu::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => $columns,
+    'filename' => $this->title,
+    'showConfirmAlert' => false,
+    'target' => ExportMenu::TARGET_BLANK,
+    'fontAwesome' => true,
+    'pjaxContainerId' => 'kv-pjax-container',
+    'dropdownOptions' => [
+        'label' => 'Full',
+        'class' => 'btn btn-default',
+        'itemsBefore' => [
+            '<li class="dropdown-header">Export All Data</li>',
+        ],
+    ],
+]);
+?>
+<div class="person-index">
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'id' => 'data-grid',
+        'pjax'=>true,
+//        'resizableColumns'=>true,
+//        'resizeStorageKey'=>Yii::$app->user->id . '-' . date("m"),
+//        'floatHeader'=>true,
+//        'floatHeaderOptions'=>['scrollingTop'=>'50'],
+        'export' => [
+            'label' => Yii::t('yii', 'Page'),
+            'fontAwesome' => true,
+            'target' => GridView::TARGET_SELF,
+            'showConfirmAlert' => false,
+        ],
+//         'exportConfig' => [
+//             GridView::HTML=>['filename' => $exportFilename],
+//             GridView::CSV=>['filename' => $exportFilename],
+//             GridView::TEXT=>['filename' => $exportFilename],
+//             GridView::EXCEL=>['filename' => $exportFilename],
+//             GridView::PDF=>['filename' => $exportFilename],
+//             GridView::JSON=>['filename' => $exportFilename],
+//         ],
+        'panel' => [
+            //'heading'=>'<h3 class="panel-title"><i class="fa fa-th"></i> '.Html::encode($this->title).'</h3>',
+//             'type'=>'primary',
+            'before'=> '<div class="btn-group">'.
+                Html::a('<i class="glyphicon glyphicon-plus"></i> '.Yii::t('andahrm', 'Create'), ['create'], [
+                    'class' => 'btn btn-success btn-flat',
+                    'data-pjax' => 0
+                ]) . ' '.
+                Html::a('<i class="glyphicon glyphicon-repeat"></i> '.Yii::t('andahrm', 'Reload'), '#!', [
+                    'class' => 'btn btn-info btn-flat btn-reload',
+                    'title' => 'Reload',
+                    'id' => 'btn-reload-grid'
+                ]) . ' '.
+                Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('andahrm', 'Trash'), ['trash/index'], [
+                    'class' => 'btn btn-warning btn-flat',
+                    'data-pjax' => 0
+                ]) . ' '.
+                '</div>',
+                'heading'=>false,
+                //'footer'=>false,
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+            $fullExportMenu,
+        ],
+        'columns' => $gridColumns,
+    ]); ?>
+</div>
+<?php
+$js[] = "
+$(document).on('click', '#btn-reload-grid', function(e){
+    e.preventDefault();
+    $.pjax.reload({container: '#data-grid-pjax'});
+});
+";
 
 $this->registerJs(implode("\n", $js));
-?>
-<?php
-if(Yii::$app->request->get('id')) {
-    $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".Yii::$app->request->get('id')."\");");
-}else{
-    if(isset($treeArray[0])){
-        $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".$treeArray[0]['key']."\");");
-    }
-}

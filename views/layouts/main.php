@@ -14,20 +14,32 @@ use mdm\admin\components\Helper;
       <?php
                     $menuItems = [
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ตำแหน่ง'),
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Organiaztional Structure'),
                             'url' => ["/{$module}/default"],
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ประเภทบุคคล'),
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Positions'),
+                            'url' => ["/{$module}/position"],
+                        ],
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Person Types'),
                             'url' => ["/{$module}/person-type"],
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'โครงสร้างองค์กร'),
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Sections'),
                             'url' => ["/{$module}/section"],
+                        ],                      
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Lines'),
+                            'url' => ["/{$module}/position-line"],
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('app', 'ร'),
-                            'url' => ["/{$module}/person-type"],
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Types'),
+                            'url' => ["/{$module}/position-type"],
+                        ], 
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Levels'),
+                            'url' => ["/{$module}/position-level"],
                         ],
                     ];
                     $menuItems = Helper::filter($menuItems);
@@ -39,7 +51,7 @@ use mdm\admin\components\Helper;
                         //'activateParents' => true,
                         //'linkTemplate' =>'<a href="{url}">{icon} {label} {badge}</a>',
                         'items' => $menuItems,
-                    ])
+                    ]);
                     ?>
       
       

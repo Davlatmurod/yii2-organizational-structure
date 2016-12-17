@@ -3,37 +3,37 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use andahrm\structure\models\PersonType;
+use andahrm\structure\models\Section;
+use andahrm\structure\models\PositionLine;
+use andahrm\structure\models\PositionType;
+use andahrm\structure\models\PositionLevel;
 /* @var $this yii\web\View */
-/* @var $model andahrm\structure\models\Position */
+/* @var $model andahrm\structure\models\Structure */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="position-form">
+<div class="structure-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>    
 
-    <?= $form->field($model, 'id')->textInput() ?>
+   <div class="row">
+      <div class="col-sm-6">
+        <?= $form->field($model, 'section_id')->dropDownList(Section::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+      </div>
+      <div class="col-sm-6">
+        <?= $form->field($model, 'position_line_id')->dropDownList(PositionLine::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+      </div>
+    </div>  
 
-    <?= $form->field($model, 'person_type_id')->textInput() ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'section_id')->textInput() ?>
+    <?= $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'position_type_id')->textInput() ?>
-
-    <?= $form->field($model, 'number')->textInput() ?>
-
-    <?= $form->field($model, 'name_manage')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'name_work')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'min_salary')->textInput() ?>
-
-    <?= $form->field($model, 'max_salary')->textInput() ?>
-
-    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm/structure', 'Create') : Yii::t('andahrm/structure', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

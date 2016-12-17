@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\PersonType */
 
-$this->title = Yii::t('app', 'Create Person Type');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Person Types'), 'url' => ['index']];
+$this->title = Yii::t('andahrm/structure', 'Create Person Type');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Person Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="person-type-create">

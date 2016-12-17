@@ -6,16 +6,11 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-use wbraganca\behaviors\NestedSetBehavior;
-use wbraganca\behaviors\NestedSetQuery;
+
 /**
  * This is the model class for table "section".
  *
  * @property integer $id
- * @property integer $root
- * @property integer $lft
- * @property integer $rgt
- * @property integer $level
  * @property string $code
  * @property string $title
  * @property integer $status
@@ -24,6 +19,8 @@ use wbraganca\behaviors\NestedSetQuery;
  * @property integer $created_by
  * @property integer $updated_at
  * @property integer $updated_by
+ *
+ * @property Position[] $positions
  */
 class Section extends \yii\db\ActiveRecord
 {
@@ -36,7 +33,7 @@ class Section extends \yii\db\ActiveRecord
     }
   
   
-  function behaviors()
+     function behaviors()
     {
         return [ 
           'timestamp' => [
@@ -45,20 +42,8 @@ class Section extends \yii\db\ActiveRecord
             'blameable' => [
                 'class' => BlameableBehavior::className(),
             ],
-            'nestedsets' => [
-                'class' => NestedSetBehavior::className(),
-                // 'rootAttribute' => 'root',
-                // 'levelAttribute' => 'level',
-                // 'hasManyRoots' => true
-            ],
         ];
     }
-  
-  public static function find()
-    {
-        return new NestedSetQuery(get_called_class());
-    }
-  
 
     /**
      * @inheritdoc
@@ -66,12 +51,13 @@ class Section extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['root', 'lft', 'rgt', 'level', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['title', 'code'], 'required'],
+            [['title'], 'required'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['note'], 'string'],
             [['code'], 'string', 'max' => 4],
             [['title'], 'string', 'max' => 255],
             [['title'], 'unique'],
+            [['code'], 'unique'],
         ];
     }
 
@@ -81,20 +67,33 @@ class Section extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'รหัสกอง'),
-            'root' => Yii::t('app', 'Root'),
-            'lft' => Yii::t('app', 'Lft'),
-            'rgt' => Yii::t('app', 'Rgt'),
-            'level' => Yii::t('app', 'Level'),
-            'code' => Yii::t('app', 'รหัสกอง'),
-            'title' => Yii::t('app', 'ชื่อกอง'),
-            'status' => Yii::t('app', 'Status'),
-            'note' => Yii::t('app', 'Note'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'updated_by' => Yii::t('app', 'Updated By'),
+            'id' => Yii::t('andahrm/structure', 'รหัสกอง'),
+            'code' => Yii::t('andahrm/structure', 'รหัสกอง'),
+            'title' => Yii::t('andahrm/structure', 'ชื่อกอง'),
+            'status' => Yii::t('andahrm/structure', 'Status'),
+            'note' => Yii::t('andahrm/structure', 'Note'),
+            'created_at' => Yii::t('andahrm/structure', 'Created At'),
+            'created_by' => Yii::t('andahrm/structure', 'Created By'),
+            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
+            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPositions()
+    {
+        return $this->hasMany(Position::className(), ['section_id' => 'id']);
+    }
+  
+  
+   public function getTitleCode(){
+      return $this->title."(".$this->code.")";
+    }
+
+    public static function getList(){
+      return ArrayHelper::map(self::find()->all(),'id','titleCode');
     }
   
 }

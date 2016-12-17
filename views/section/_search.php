@@ -17,21 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'root') ?>
+    <?= $form->field($model, 'code') ?>
 
-    <?= $form->field($model, 'lft') ?>
+    <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'rgt') ?>
+    <?= $form->field($model, 'status') ?>
 
-    <?= $form->field($model, 'level') ?>
-
-    <?php // echo $form->field($model, 'code') ?>
-
-    <?php // echo $form->field($model, 'title') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'note') ?>
+    <?= $form->field($model, 'note') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 
@@ -42,8 +34,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('andahrm/structure', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('andahrm/structure', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

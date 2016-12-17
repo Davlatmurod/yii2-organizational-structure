@@ -37,10 +37,10 @@ class Module extends \yii\base\Module
 
     public function registerTranslations()
     {      
-        Yii::$app->i18n->translations['andahrm/structure'] = [
+        Yii::$app->i18n->translations['andahrm/*'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en-US',
-            'basePath' => '@andahrm/setting/messages',
+            'basePath' => '@andahrm/structure/messages',
             'fileMap' => [
                 'andahrm/structure' => 'structure.php',
             ]

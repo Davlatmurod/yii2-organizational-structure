@@ -18,7 +18,7 @@ class SectionSearch extends Section
     public function rules()
     {
         return [
-            [['id', 'root', 'lft', 'rgt', 'level', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code', 'title', 'note'], 'safe'],
         ];
     }
@@ -60,10 +60,6 @@ class SectionSearch extends Section
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'root' => $this->root,
-            'lft' => $this->lft,
-            'rgt' => $this->rgt,
-            'level' => $this->level,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,

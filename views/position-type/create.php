@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\PositionType */
 
-$this->title = Yii::t('app', 'Create Position Type');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Position Types'), 'url' => ['index']];
+$this->title = Yii::t('andahrm/structure', 'Create Position Type');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Position Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="position-type-create">

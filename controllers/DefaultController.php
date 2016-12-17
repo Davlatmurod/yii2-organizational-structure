@@ -3,14 +3,16 @@
 namespace andahrm\structure\controllers;
 
 use Yii;
-use andahrm\structure\models\Position;
-use andahrm\structure\models\PositionSearch;
+use andahrm\structure\models\Structure;
+use andahrm\structure\models\StructureSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 /**
- * DefaultController implements the CRUD actions for Position model.
+ * DefaultController implements the CRUD actions for Structure model.
  */
 class DefaultController extends Controller
 {
@@ -30,22 +32,38 @@ class DefaultController extends Controller
     }
 
     /**
-     * Lists all Position models.
+     * Lists all Structure models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PositionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $treeArray = Structure::find()->dataFancytree();
+        return $this->render('index', ['treeArray' => $treeArray]);
     }
 
+  public function actionMoveNode($id, $mode, $targetId)
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $model = $this->findModel($id);
+            $target = $this->findModel($targetId);
+            switch ($mode){
+                case 'over': $model->moveAsLast($target);
+                    break;
+                case 'before': $model->moveBefore($target);
+                    break;
+                case 'after': $model->moveAfter($target);
+                    break;
+            }
+            $result = ['process' => true, 'message' => 'Move '.$model->id.' to '.$target->id.' has success..', 'mode' => $mode];
+            echo \yii\helpers\Json::encode($result);
+            return;
+            //return $this->redirect(['tree', 'id' => $model->id]);
+        }
+    }
+  
     /**
-     * Displays a single Position model.
+     * Displays a single Structure model.
      * @param integer $id
      * @return mixed
      */
@@ -57,44 +75,102 @@ class DefaultController extends Controller
     }
 
     /**
-     * Creates a new Position model.
+     * Creates a new Structure model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($parent_id=null)
     {
-        $model = new Position();
+        $model = new Structure();
+        $treeArray = Structure::find()->dataFancytree();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->post();
+        if ($model->load($post)) {
+            if (Yii::$app->request->isAjax){
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+            if($parent_id === null){
+                $model->saveNode();
+                Yii::$app->getSession()->setFlash('clear',[
+                    'type' => 'success',
+                    'msg' => Yii::t('andahrm/setting', 'Clear assets completed.')
+                ]);
+            }else{
+                $root = $this->findModel(intval($parent_id));
+                $model->appendTo($root);
+            }
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
+            if (Yii::$app->request->isAjax){
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                    'treeArray' => $treeArray,
+                ]);
+            }
             return $this->render('create', [
                 'model' => $model,
+                'treeArray' => $treeArray,
             ]);
         }
     }
 
     /**
-     * Updates an existing Position model.
+     * Updates an existing Section model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+   public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->post();
+        if ($model->load($post)) {
+            if (Yii::$app->request->isAjax){
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+            $model->saveNode();
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
+            if(Yii::$app->request->isAjax){
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
     }
 
+  
+  
+  public function actionTree($id=null, $mode=null, $targetId=null)
+    {
+        if (Yii::$app->request->isAjax && $id !== null) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $model = $this->findModel($id);
+            $target = $this->findModel($targetId);
+            switch ($mode){
+                case 'over': $model->moveAsLast($target);
+                    break;
+                case 'before': $model->moveBefore($target);
+                    break;
+                case 'after': $model->moveAfter($target);
+                    break;
+            }
+            $result = ['process' => true, 'message' => 'Move '.$model->id.' to '.$target->id.' has success..', 'mode' => $mode];
+            echo \yii\helpers\Json::encode($result);
+            return;
+            //return $this->redirect(['tree', 'id' => $model->id]);
+        }
+        $treeArray = Section::find()->dataFancytree();
+        return $this->render('tree', ['treeArray' => $treeArray]);
+    }
     /**
-     * Deletes an existing Position model.
+     * Deletes an existing Section model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +183,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the Position model based on its primary key value.
+     * Finds the Structure model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Position the loaded model
+     * @return Structure the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Position::findOne($id)) !== null) {
+        if (($model = Structure::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

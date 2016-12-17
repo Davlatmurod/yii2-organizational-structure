@@ -18,8 +18,8 @@ class PositionSearch extends Position
     public function rules()
     {
         return [
-            [['id', 'person_type_id', 'section_id', 'position_type_id', 'number', 'min_salary', 'max_salary'], 'integer'],
-            [['name_manage', 'name_work', 'note'], 'safe'],
+            [['id', 'person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['title', 'note'], 'safe'],
         ];
     }
 
@@ -62,14 +62,19 @@ class PositionSearch extends Position
             'id' => $this->id,
             'person_type_id' => $this->person_type_id,
             'section_id' => $this->section_id,
-            'position_type_id' => $this->position_type_id,
+            'position_line_id' => $this->position_line_id,
             'number' => $this->number,
+            'position_type_id' => $this->position_type_id,
+            'position_level_id' => $this->position_level_id,
             'min_salary' => $this->min_salary,
             'max_salary' => $this->max_salary,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name_manage', $this->name_manage])
-            ->andFilterWhere(['like', 'name_work', $this->name_work])
+        $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;

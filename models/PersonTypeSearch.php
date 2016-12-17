@@ -18,8 +18,8 @@ class PersonTypeSearch extends PersonType
     public function rules()
     {
         return [
-            [['id', 'level'], 'integer'],
-            [['code', 'title', 'leveltype'], 'safe'],
+            [['id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['code', 'title', 'note'], 'safe'],
         ];
     }
 
@@ -60,12 +60,15 @@ class PersonTypeSearch extends PersonType
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'level' => $this->level,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'leveltype', $this->leveltype]);
+            ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }
