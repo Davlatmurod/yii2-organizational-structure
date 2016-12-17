@@ -121,7 +121,7 @@ class Structure extends \yii\db\ActiveRecord
             $str .= '<ul>';
             foreach ($sub as $org) {
                 $str .= '<li>';
-                $str .= '<a href="#" id="head">'. $org['title'] . '</a>';               
+                $str .= $org['title'];               
                 $str .= isset($org['children'])?self::getOrgSub($org['children'], $parent):''; 
                 $str .= '</li>';
             }
@@ -134,6 +134,14 @@ class Structure extends \yii\db\ActiveRecord
         }
         return false;
      
+   }
+    
+    /**
+    * @return \yii\db\ActiveQuery
+    */
+   public function getStructurePositions()
+   {
+       return $this->hasMany(StructurePosition::className(), ['structure_id' => 'id']);
    }
   
   

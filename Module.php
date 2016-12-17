@@ -23,7 +23,7 @@ class Module extends \yii\base\Module
         // custom initialization code goes here
         $this->setLayout();
         
-        $this->registerTranslations();
+        //$this->registerTranslations();
     }
   
   /**
@@ -35,17 +35,17 @@ class Module extends \yii\base\Module
         $this->layout = 'main';
     }
 
-    public function registerTranslations()
-    {      
-        Yii::$app->i18n->translations['andahrm/*'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => '@andahrm/structure/messages',
-            'fileMap' => [
-                'andahrm/structure' => 'structure.php',
-            ]
-        ];
-    }
+//     public function registerTranslations()
+//     {      
+//         Yii::$app->i18n->translations['andahrm/*'] = [
+//             'class' => 'yii\i18n\PhpMessageSource',
+//             'sourceLanguage' => 'en-US',
+//             'basePath' => '@andahrm/structure/messages',
+//             'fileMap' => [
+//                 'andahrm/structure' => 'structure.php',
+//             ]
+//         ];
+//     }
   
   
 }

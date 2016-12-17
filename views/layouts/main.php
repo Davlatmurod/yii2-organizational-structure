@@ -8,17 +8,17 @@ use mdm\admin\components\Helper;
  $this->beginContent('@app/views/layouts/main.php'); 
  $module = $this->context->module->id;
 ?>
-<div class="row">
+<div class="row hidden-print">
     <div class="col-md-12"> 
       
       <?php
                     $menuItems = [
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Organiaztional Structure'),
+                            'label' => '<i class="fa fa-sitemap"></i> ' . Yii::t('andahrm/structure', 'Organiaztional Structure'),
                             'url' => ["/{$module}/default"],
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Positions'),
+                            'label' => Html::icon('knight') . ' ' . Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
                         ],
                         [
@@ -58,8 +58,7 @@ use mdm\admin\components\Helper;
      
       
     </div>
-    </div>
-
+</div>
 <div class="row">
     <div class="col-md-12">
       

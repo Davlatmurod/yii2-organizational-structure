@@ -13,6 +13,8 @@ use andahrm\structure\models\PositionLevel;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+ <h3><?= Html::encode($this->title) ?></h3>
+
 <div class="structure-form">
 
     <?php $form = ActiveForm::begin(); ?>    
@@ -31,6 +33,9 @@ use andahrm\structure\models\PositionLevel;
     <?= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
+    
+    
+    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm/structure', 'Create') : Yii::t('andahrm/structure', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

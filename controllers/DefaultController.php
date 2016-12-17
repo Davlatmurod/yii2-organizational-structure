@@ -197,4 +197,10 @@ class DefaultController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+     public function actionGetPosition($section_id,$position_line_id)
+    {
+        
+    }
+    
 }

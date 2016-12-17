@@ -12,12 +12,10 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Struct
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('andahrm/structure', 'Update');
 ?>
-<div class="structure-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
-</div>
+

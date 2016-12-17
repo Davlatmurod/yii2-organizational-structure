@@ -18,56 +18,19 @@ $this->title = Yii::t('andahrm/structure', 'Organiaztional Structure');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-
 andahrm\structure\assets\JqueryOrg::register($this);
-// echo "<pre>";
-// print_r($treeArray);
-// echo "</pre>";
+
+
 ?>
-
-<div class="x_panel">
-
-        <div id="x_content">
-
-            <div id="mainOrg">
-              <?=Structure::getOrg()?>
-              
-              
-              
-<!--                <ul id="organisation">
-                <li>
-                  <adjunct>Alfred</adjunct>
-                  <em>Batman</em>
-                    <ul>
-                        <li>Batman Begins<br/>
-                            <ul>
-                                <li>Ra's Al Ghul</li>
-                                <li>Carmine Falconi</li>
-                            </ul>
-                        </li>
-                        <li>The Dark Knight<br/>
-                            <ul>
-                                <li>Joker</li>
-                                <li>Harvey Dent</li>
-                            </ul>
-                        </li>
-                        <li>The Dark Knight Rises<br/>
-                            <ul>
-                                <li>Bane</li>
-                                <li>Talia Al Ghul</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul> -->
-              
-              
-            </div>
-
-        </div>
-
-  
+<div id="content" style="margin-bottom:30px;">
+  <div class="card-box table-responsive">
+    <div id="mainOrg">
+      <?=Structure::getOrg()?>
+    </div>
+  </div>
 </div>
+
+
 <?php
 
 
@@ -77,7 +40,9 @@ $this->registerJs('
               container: $("#mainOrg"),
               interactive: true,
               fade: true,
-              speed: "slow"
+              speed: "slow",
+              stack    : true, 
+              depth    : 3
             });
     });
 ');
@@ -85,16 +50,22 @@ $this->registerJs('
 
 ?>
 
-<div class="page-index">
+<div class="x_panel hidden-print">
+  <div class="x_title">
+    <h2>จัดการองค์กร<small> </small></h2>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="x_content">
     <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <?= Html::button('<i class="fa fa-tree"></i> '.Yii::t('app','Create Root'), ['id' =>'create-root', 'class' => 'btn btn-github btn-flat']); ?>
-                <div class="pull-right">
-                <?= Html::button('<i class="fa fa-plus"></i> '.Yii::t('app','Create Child'), ['id' =>'create-sub', 'class' => 'btn btn-success btn-flat']); ?>
-                </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <?= Html::button('<i class="fa fa-tree"></i> '.Yii::t('andahrm/structure','Create Root'), ['id' =>'create-root', 'class' => 'btn btn-github btn-flat']); ?>
+            <div class="pull-right">
+              <?= Html::button('<i class="fa fa-plus"></i> '.Yii::t('andahrm/structure','Create Child'), ['id' =>'create-sub', 'class' => 'btn btn-success btn-flat']); ?>
             </div>
-            <?php
+        </div>
+        <?php
             echo FancytreeWidget::widget([
                 'id' => 'category',
                 'options' =>[
@@ -127,11 +98,13 @@ $this->registerJs('
                 ]
             ]);
             ?>
-        </div>
-        <div class="col-sm-8">
-            <div id="form-tree">Loading...</div>
-        </div>
+      </div>
+      <div class="col-sm-8">
+        <div id="form-tree">Loading...</div>
+      </div>
     </div>
+    <div class="clearfix"></div>
+  </div>
 </div>
 
 <?php
@@ -157,13 +130,12 @@ $js[] = "$(document).on('click', '#create-sub', function(){
 
 
 $this->registerJs(implode("\n", $js));
-?>
-<?php
+
 if(Yii::$app->request->get('id')) {
     $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".Yii::$app->request->get('id')."\");");
 }else{
     if(isset($treeArray[0])){
-        $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".$treeArray[0]['key']."\");");
+       $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".$treeArray[0]['key']."\");");
     }
 }
 
