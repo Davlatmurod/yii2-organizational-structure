@@ -55,12 +55,13 @@ class Position extends \yii\db\ActiveRecord
             [
                 'class' => 'mdm\autonumber\Behavior',
                 'attribute' => 'number', // required
-                'group' => $this->person_type_id.'-'.$this->section_id.'-'.$this->position_type_id, // optional
+                'group' => $this->person_type_id+$this->section_id+$this->position_line_id, // optional
                 'value' => '?' , // format auto number. '?' will be replaced with generated number
                 //'digit' => 4 // optional, default to null. 
             ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -78,6 +79,7 @@ class Position extends \yii\db\ActiveRecord
             [['person_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonType::className(), 'targetAttribute' => ['person_type_id' => 'id']],
             [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']],
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
+          ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_type_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
             [['code'],'safe'],
         ];
     }
@@ -103,7 +105,7 @@ class Position extends \yii\db\ActiveRecord
             'created_by' => Yii::t('andahrm/structure', 'สร้างโดย'),
             'updated_at' => Yii::t('andahrm/structure', 'ปรับปรุงเมื่อ'),
             'updated_by' => Yii::t('andahrm/structure', 'ปรับปรุงโดย'),
-            'code' => Yii::t('andahrm/structure', 'Code'),
+            'code' => Yii::t('andahrm/structure', 'Code Position'),
         ];
     }
 
@@ -162,10 +164,22 @@ class Position extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Section::className(), ['id' => 'section_id']);
     }
+  
+  /**
+    * @return \yii\db\ActiveQuery
+    */
+   public function getStructurePositions()
+   {
+       return $this->hasMany(StructurePosition::className(), ['position_id' => 'id']);
+   }
     
   
    public function getCode(){
-       return $this->personType->code.'-'.$this->section->code.'-'.$this->positionLine->code.'-'.sprintf("%03d",$this->number);
+     //return '1';
+       return $this->personType->code
+         .'-'.$this->section->code
+         .'-'.$this->positionLine->code
+         .'-'.sprintf("%03d",$this->number);
       //return $this->personType->code.'-'.$this->section->code.'-'.$this->positionType->code.'-'.str_pad($this->number, 4, '0', STR_PAD_LEFT);
     }
   
@@ -174,5 +188,9 @@ class Position extends \yii\db\ActiveRecord
     }
   
   
+  public function getStructurePosition($structure_id)
+   {
+       return StructurePosition::find()->where(['position_id'=>$this->id,'structure_id'=>$structure_id])->count();
+   }
   
 }

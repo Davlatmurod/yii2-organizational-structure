@@ -40,6 +40,10 @@ use mdm\admin\components\Helper;
                         [
                             'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
+                        ], 
+                        [
+                            'label' => Html::icon('dolla') . ' ' . Yii::t('andahrm/structure', 'Base Salaries'),
+                            'url' => ["/{$module}/base-salary"],
                         ],
                     ];
                     $menuItems = Helper::filter($menuItems);

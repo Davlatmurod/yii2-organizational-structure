@@ -10,6 +10,11 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
+use yii\data\ActiveDataProvider;
+
+use andahrm\structure\models\Position;
+use andahrm\structure\models\PositionSearch;
+use andahrm\structure\models\StructurePosition;
 
 /**
  * DefaultController implements the CRUD actions for Structure model.
@@ -85,6 +90,8 @@ class DefaultController extends Controller
         $treeArray = Structure::find()->dataFancytree();
 
         $post = Yii::$app->request->post();
+      
+        //StructurePosition
         if ($model->load($post)) {
             if (Yii::$app->request->isAjax){
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -96,10 +103,27 @@ class DefaultController extends Controller
                     'type' => 'success',
                     'msg' => Yii::t('andahrm/setting', 'Clear assets completed.')
                 ]);
-            }else{
+            }else{ //Child
                 $root = $this->findModel(intval($parent_id));
                 $model->appendTo($root);
             }
+          if($model->id){
+            StructurePosition::deleteAll(['structure_id'=>$model->id]);
+            
+            if(isset($post['selection'])){
+                    foreach($post['selection'] as $position_id){
+                      $modelStructurePosition = new StructurePosition();
+                      $modelStructurePosition->structure_id = $model->id;
+                      $modelStructurePosition->position_id = $position_id;
+                      if(!$modelStructurePosition->save(false)){
+                          print_r($modelStructurePosition->getErrors());
+                          exit();
+                      }
+                   }
+               }
+          }
+          
+          
             return $this->redirect(['index', 'id' => $model->id]);
         } else {
             if (Yii::$app->request->isAjax){
@@ -131,7 +155,31 @@ class DefaultController extends Controller
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ActiveForm::validate($model);
             }
-            $model->saveNode();
+            if($model->saveNode()){
+          
+               if($model->id){
+                    StructurePosition::deleteAll(['structure_id'=>$model->id]);
+
+                   if(isset($post['selection'])){
+                        foreach($post['selection'] as $position_id){
+                          $modelStructurePosition = new StructurePosition();
+                          $modelStructurePosition->structure_id = $model->id;
+                          $modelStructurePosition->position_id = $position_id;
+                          if(!$modelStructurePosition->save(false)){
+                              print_r($modelStructurePosition->getErrors());
+                              exit();
+                          }
+                       }
+                   }
+                }
+                
+              
+              Yii::$app->getSession()->setFlash('clear',[
+                    'type' => 'success',
+                    'msg' => Yii::t('andahrm/setting', 'Clear assets completed.')
+                ]);
+            }  
+          
             return $this->redirect(['index', 'id' => $model->id]);
         } else {
             if(Yii::$app->request->isAjax){
@@ -198,9 +246,39 @@ class DefaultController extends Controller
         }
     }
     
-     public function actionGetPosition($section_id,$position_line_id)
+     public function actionGetPosition($section_id,$position_line_id,$structure_id=null)
     {
-        
+      
+        $query = Position::find()
+          //->joinWith('structurePositions')
+          //->leftJoin('structure_position', 'structure_position.position_id = position.id')
+          //->select('structure_position.structure_id as structure_id')
+          ->where([
+          'section_id' => $section_id,
+          'position_line_id' => $position_line_id,
+        ]);
+      //$selected = StructurePosition::find()->select(['position_id'])->where(['structure_id'=>$id])->all();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            //'selected'=> $selected
+        ]);
+//       echo "<pre>";
+//       print_r($dataProvider);
+//       exit();
+      
+      if(Yii::$app->request->isAjax){
+        return $this->renderAjax('get-position', [
+            'dataProvider' => $dataProvider,
+        ]);
+      }else{
+         return $this->renderPartial('get-position', [
+            'dataProvider' => $dataProvider,
+        ]);
+      }
     }
     
 }

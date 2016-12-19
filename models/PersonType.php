@@ -93,7 +93,7 @@ class PersonType extends \yii\db\ActiveRecord
     }
   
     public function getTitleCode(){
-      return $this->title."(".$this->code.")";
+      return $this->title." (".$this->code.")";
     }
 
     public static function getList(){

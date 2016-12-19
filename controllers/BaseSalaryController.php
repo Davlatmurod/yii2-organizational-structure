@@ -3,16 +3,16 @@
 namespace andahrm\structure\controllers;
 
 use Yii;
-use andahrm\structure\models\Position;
-use andahrm\structure\models\PositionSearch;
+use andahrm\structure\models\BaseSalary;
+use andahrm\structure\models\BaseSalarySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PositionController implements the CRUD actions for Position model.
+ * BaseSalaryController implements the CRUD actions for BaseSalary model.
  */
-class PositionController extends Controller
+class BaseSalaryController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class PositionController extends Controller
     }
 
     /**
-     * Lists all Position models.
+     * Lists all BaseSalary models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PositionSearch();
+        $searchModel = new BaseSalarySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Displays a single Position model.
+     * Displays a single BaseSalary model.
      * @param integer $id
      * @return mixed
      */
@@ -57,19 +57,15 @@ class PositionController extends Controller
     }
 
     /**
-     * Creates a new Position model.
+     * Creates a new BaseSalary model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Position();
+        $model = new BaseSalary();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('saved',[
-                'type' => 'success',
-                'msg' => Yii::t('andahrm', 'Save operation completed.')
-            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -79,7 +75,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Updates an existing Position model.
+     * Updates an existing BaseSalary model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -89,10 +85,6 @@ class PositionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-          Yii::$app->getSession()->setFlash('saved',[
-                'type' => 'success',
-                'msg' => Yii::t('andahrm', 'Save operation completed.')
-            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -102,7 +94,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Deletes an existing Position model.
+     * Deletes an existing BaseSalary model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,15 +107,15 @@ class PositionController extends Controller
     }
 
     /**
-     * Finds the Position model based on its primary key value.
+     * Finds the BaseSalary model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Position the loaded model
+     * @return BaseSalary the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Position::findOne($id)) !== null) {
+        if (($model = BaseSalary::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

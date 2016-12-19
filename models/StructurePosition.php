@@ -3,6 +3,9 @@
 namespace andahrm\structure\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "structure_position".
@@ -26,14 +29,27 @@ class StructurePosition extends \yii\db\ActiveRecord
     {
         return 'structure_position';
     }
-
+  
+    public function behaviors()
+    {
+        return [ 
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ],
+        ];
+    }
+  
+  
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['structure_id', 'position_id', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'required'],
+            [['structure_id', 'position_id'], 'required'],
             [['structure_id', 'position_id', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'integer'],
             [['position_id'], 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
             [['structure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Structure::className(), 'targetAttribute' => ['structure_id' => 'id']],
