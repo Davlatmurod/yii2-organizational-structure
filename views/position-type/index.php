@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\export\ExportMenu;
+use andahrm\structure\models\PersonType;
 /* @var $this yii\web\View */
 /* @var $searchModel andahrm\structure\models\PositionTypeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,6 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $columns = [
     'id' => 'id',
+    'person_type_id' => [
+        'attribute'=>'person_type_id',
+        'filter'=>PersonType::getList(),      
+        'value'=>'personType.title',
+    ],
     'title' => 'title',
     'note' => 'note',
     'created_at' => 'created_at:datetime',
@@ -24,6 +30,7 @@ $columns = [
 
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
+    $columns['person_type_id'],
     $columns['title'],
     //$columns['note'],
     $columns['created_at'],

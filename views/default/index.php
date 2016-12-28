@@ -23,10 +23,12 @@ andahrm\structure\assets\JqueryOrg::register($this);
 
 ?>
 <div id="content" style="margin-bottom:30px;">
-  <div class="card-box table-responsive">
+  <div class="row">
+  <div class="col-xs-12 col-sm-12 col-ml-12 col-lg-12">
     <div id="mainOrg">
       <?=Structure::getOrg()?>
     </div>
+  </div>
   </div>
 </div>
 

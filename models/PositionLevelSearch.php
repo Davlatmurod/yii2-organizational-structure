@@ -12,13 +12,14 @@ use andahrm\structure\models\PositionLevel;
  */
 class PositionLevelSearch extends PositionLevel
 {
+   public $person_type_id;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'position_type_id','person_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'safe'],
         ];
     }
@@ -60,14 +61,21 @@ class PositionLevelSearch extends PositionLevel
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'note' => $this->note,
+            'position_type_id' => $this->position_type_id,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
+      if($this->person_type_id){
+        $query->joinWith('positionType');
+        $query->andFilterWhere([
+            'position_type.person_type_id' => $this->person_type_id
+          ]);
+      }
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+              ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }

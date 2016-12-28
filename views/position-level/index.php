@@ -4,6 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\export\ExportMenu;
+
+
+use andahrm\structure\models\PersonType;
+use andahrm\structure\models\PositionType;
+use andahrm\structure\models\PositionLevel;
 /* @var $this yii\web\View */
 /* @var $searchModel andahrm\structure\models\PositionLevelSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,6 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $columns = [
     'id' => 'id',
+    'person_type_id' => [
+        'attribute' => 'person_type_id',
+        'label' => Yii::t('andahrm/structure', 'ชื่อประเภทตำแหน่ง'),
+        'filter' => PersonType::getList(),
+        'value' => 'positionType.personType.title'
+    ],
+    'position_type_id' => [
+        'attribute' => 'position_type_id',
+        'filter' => PositionType::getList(),
+        'value' => 'positionType.title'
+    ],
     'title' => 'title',
     'note' => 'note',
     'created_at' => 'created_at:datetime',
@@ -24,6 +40,8 @@ $columns = [
 
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
+    $columns['person_type_id'],
+    $columns['position_type_id'],
     $columns['title'],
     //$columns['note'],
     $columns['created_at'],
@@ -77,16 +95,16 @@ $fullExportMenu = ExportMenu::widget([
             //'heading'=>'<h3 class="panel-title"><i class="fa fa-th"></i> '.Html::encode($this->title).'</h3>',
 //             'type'=>'primary',
             'before'=> '<div class="btn-group">'.
-                Html::a('<i class="glyphicon glyphicon-plus"></i> '.Yii::t('andahrm', 'Create'), ['create'], [
+                Html::a('<i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Create'), ['create'], [
                     'class' => 'btn btn-success btn-flat',
                     'data-pjax' => 0
                 ]) . ' '.
-                Html::a('<i class="glyphicon glyphicon-repeat"></i> '.Yii::t('andahrm', 'Reload'), '#!', [
+                Html::a('<i class="glyphicon glyphicon-repeat"></i> '.Yii::t('app', 'Reload'), '#!', [
                     'class' => 'btn btn-info btn-flat btn-reload',
                     'title' => 'Reload',
                     'id' => 'btn-reload-grid'
                 ]) . ' '.
-                Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('andahrm', 'Trash'), ['trash/index'], [
+                Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('app', 'Trash'), ['trash/index'], [
                     'class' => 'btn btn-warning btn-flat',
                     'data-pjax' => 0
                 ]) . ' '.

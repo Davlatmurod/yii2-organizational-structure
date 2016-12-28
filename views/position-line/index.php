@@ -30,9 +30,9 @@ $columns = [
 
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
-    $columns['code'],
-    $columns['title'],
     $columns['person_type_id'],
+    $columns['code'],
+    $columns['title'],   
     $columns['created_at'],
     $columns['created_by'],
     ['class' => '\kartik\grid\ActionColumn',]

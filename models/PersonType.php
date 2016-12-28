@@ -43,7 +43,7 @@ class PersonType extends \yii\db\ActiveRecord
             [['code'], 'string', 'max' => 45],
             [['title', 'note'], 'string', 'max' => 255],
             [['title'], 'unique'],
-            [['code'], 'unique'],
+            //[['code'], 'unique'],
         ];
     }
   

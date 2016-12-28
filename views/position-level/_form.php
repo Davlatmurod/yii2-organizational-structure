@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use andahrm\structure\models\PositionType;
 
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\PositionLevel */
@@ -12,6 +13,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="row">
+        <div class="col-sm-3">
+          <?= $form->field($model, 'position_type_id')->dropDownList(PositionType::getListGroup(),['prompt'=>Yii::t('app','Select')]) ?>
+        </div>
+      </div>
+  
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'note')->textArea() ?>

@@ -95,5 +95,9 @@ class PositionLine extends \yii\db\ActiveRecord
       return ArrayHelper::map(self::find()->all(),'id','titleCode');
     }
   
+    public static function getListGroup(){
+      return ArrayHelper::map(self::find()->all(),'id','titleCode','personType.title');
+    }
+  
   
 }

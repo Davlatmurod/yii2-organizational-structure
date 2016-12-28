@@ -48,8 +48,8 @@ class PositionType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['title'], 'string', 'max' => 255],
+            [['note', 'created_at', 'created_by', 'updated_at', 'updated_by','person_type_id'], 'integer'],
+            [['title','note'], 'string', 'max' => 255],
             [['title'], 'unique'],
         ];
     }
@@ -61,6 +61,7 @@ class PositionType extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'รหัส'),
+            'person_type_id' => Yii::t('andahrm/structure', 'ประเภทบุคลากร'),
             'title' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
             'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
             'created_at' => Yii::t('andahrm/structure', 'Created At'),
@@ -78,8 +79,20 @@ class PositionType extends \yii\db\ActiveRecord
         return $this->hasMany(Position::className(), ['position_type_id' => 'id']);
     }
   
+  /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonType()
+    {
+        return $this->hasOne(PersonType::className(), ['id' => 'person_type_id']);
+    }
+  
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','title');
+    }
+  
+    public static function getListGroup(){
+      return ArrayHelper::map(self::find()->all(),'id','title','personType.title');
     }
   
   

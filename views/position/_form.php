@@ -1,12 +1,16 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use andahrm\structure\models\PersonType;
 use andahrm\structure\models\Section;
 use andahrm\structure\models\PositionLine;
 use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
+use andahrm\structure\models\Position;
+
+use kartik\widgets\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\Position */
@@ -20,13 +24,24 @@ use andahrm\structure\models\PositionLevel;
 
     <div class="row">
       <div class="col-sm-2">
-        <?= $form->field($model, 'person_type_id')->dropDownList(PersonType::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+         <?= $form->field($model, 'person_type_id')->dropDownList(PersonType::getList(),[
+          'prompt'=>Yii::t('app','Select'),
+          'id'=>'ddl-person_type',
+        ]) ?>
       </div>
       <div class="col-sm-4">
         <?= $form->field($model, 'section_id')->dropDownList(Section::getList(),['prompt'=>Yii::t('app','Select')]) ?>
       </div>
-      <div class="col-sm-3">
-        <?= $form->field($model, 'position_line_id')->dropDownList(PositionLine::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+      <div class="col-sm-3">        
+        <?= $form->field($model, 'position_line_id')->widget(DepDrop::classname(), [
+            'options'=>['id'=>'ddl-position_line'],
+            'data'=> Position::getPositionLines($model->person_type_id),
+            'pluginOptions'=>[
+                'depends'=>['ddl-person_type'],
+                'placeholder'=>Yii::t('app','Select'),
+                'url'=>Url::to(['/structure/position/get-position-line'])
+            ]
+        ]); ?>
       </div>
       <div class="col-sm-3">
         <?= $form->field($model, 'number')->textInput() ?>

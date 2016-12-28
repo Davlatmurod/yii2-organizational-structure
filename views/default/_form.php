@@ -28,7 +28,7 @@ use yii\widgets\Pjax;
         <?= $form->field($model, 'section_id')->dropDownList(Section::getList(),['prompt'=>Yii::t('app','Select')]) ?>
       </div>
       <div class="col-sm-6">
-        <?= $form->field($model, 'position_line_id')->dropDownList(PositionLine::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+        <?= $form->field($model, 'position_line_id')->dropDownList(PositionLine::getListGroup(),['prompt'=>Yii::t('app','Select')]) ?>
       </div>
     </div>  
   

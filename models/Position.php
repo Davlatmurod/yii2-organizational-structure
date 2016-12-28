@@ -69,6 +69,7 @@ class Position extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
             [['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
             [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
@@ -192,5 +193,18 @@ class Position extends \yii\db\ActiveRecord
    {
        return StructurePosition::find()->where(['position_id'=>$this->id,'structure_id'=>$structure_id])->count();
    }
+  
+   public static function getPositionlines($person_type_id)
+    {
+        if($person_type_id){
+          return ArrayHelper::map(
+            PositionLine::find()->where([
+               'person_type_id'=>$person_type_id
+            ])->all()
+            ,'id','title');
+        }
+          return [];
+    }
+  
   
 }

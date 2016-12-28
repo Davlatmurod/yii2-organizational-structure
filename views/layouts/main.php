@@ -16,10 +16,14 @@ use mdm\admin\components\Helper;
                         [
                             'label' => '<i class="fa fa-sitemap"></i> ' . Yii::t('andahrm/structure', 'Organiaztional Structure'),
                             'url' => ["/{$module}/default"],
-                        ],
+                        ],                      
                         [
                             'label' => Html::icon('knight') . ' ' . Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
+                        ],                      
+                        [
+                            'label' => Html::icon('usd') . ' ' . Yii::t('andahrm/structure', 'Base Salaries'),
+                            'url' => ["/{$module}/base-salary"],
                         ],
                         [
                             'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Person Types'),
@@ -41,10 +45,6 @@ use mdm\admin\components\Helper;
                             'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
                         ], 
-                        [
-                            'label' => Html::icon('dolla') . ' ' . Yii::t('andahrm/structure', 'Base Salaries'),
-                            'url' => ["/{$module}/base-salary"],
-                        ],
                     ];
                     $menuItems = Helper::filter($menuItems);
                     

@@ -43,7 +43,8 @@ class BaseSalary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['person_type_id', 'step', 'position_type_id', 'position_level_id', 'salary'], 'required'],
+            //[['person_type_id', 'step', 'position_type_id', 'position_level_id', 'salary'], 'required'],
+            [['person_type_id', 'step', 'position_type_id', 'salary'], 'required'],
             [['person_type_id', 'position_type_id', 'position_level_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['step', 'salary'], 'number'],
             [['title', 'note'], 'string', 'max' => 255],
@@ -53,6 +54,7 @@ class BaseSalary extends \yii\db\ActiveRecord
         ];
     }
   
+ 
    function behaviors()
     {
         return [ 
@@ -112,16 +114,21 @@ class BaseSalary extends \yii\db\ActiveRecord
   
     public function getTitle()
     {
-        $str = $this->position_type_id?'ประเภท'.$this->positionType->title:'';
+        $str = $this->position_type_id?(($this->person_type_id==1)?'ประเภท':'').$this->positionType->title:'';
         $str .=$this->position_level_id?'ระดับ'.$this->positionLevel->title:'';
         return $str;
     }
   
     public function getPositionCode()
     {
-        $str = $this->position_type_id.'-'.$this->position_level_id;
-        return $str;
+        $str = [];
+        $str[] = $this->person_type_id;
+        $str[] = $this->position_type_id;
+        $str[] = $this->position_level_id;
+        $str = array_filter($str);
+        return implode('-',$str);
     }
+  public $step1;
   
    public static function getBaseSalaryByPersonType($person_type_id){
      $data = [];
@@ -129,73 +136,48 @@ class BaseSalary extends \yii\db\ActiveRecord
      $newStep = [];
      $newPostion = [];
      if($person_type_id){
+       
+       /**
+       ดึงของมูลทั้งหมด โดยใช้ step เป็น key หลักและให้ positionCode เป็น key รอง
+       */
      $data = self::find()
-       //->distinct('step')
+       ->select(['step','person_type_id','position_type_id','position_level_id',
+                 '(CAST(`salary` AS CHAR)+0) as salary',
+                 'id'])
        ->where(['person_type_id'=>$person_type_id])
-       //->groupBy('step')
        ->orderBy([
          'step'=>SORT_ASC,
          'position_type_id'=>SORT_ASC,
          'position_level_id'=>SORT_ASC,
        ])
        ->all();
+       $newData = ArrayHelper::index($data,'positionCode', 'step');
+       $step = [];
+       foreach(range(1,36,0.5) as $s){
+         $step[Yii::$app->formatter->asDecimal($s,1)] = [];
+       }
        
        
+       
+       $newData = ArrayHelper::merge($step,$newData);
+//        echo "<pre>";       
+//        print_r($newData);
+//        exit();
+       
+       /**
+       ดึงข้อมูลประเภทกับระดับออกมา
+       */
        $dataPosition = self::find()
-       //->distinct('step')
+       ->select(['step','person_type_id','position_type_id','position_level_id','salary'])
        ->where(['person_type_id'=>$person_type_id])
        ->groupBy(['position_type_id','position_level_id'])
        ->orderBy([
-         //'step'=>SORT_ASC,
          'position_type_id'=>SORT_ASC,
          'position_level_id'=>SORT_ASC,
        ])
        ->all();
        
        $newPostion = ArrayHelper::map($dataPosition,'positionCode','title');
-       //$newStep = ArrayHelper::map($data,'positionCode','title');
-       
-       $newData = ArrayHelper::index($data,'positionCode', 'step');
-//        $newData = ArrayHelper::index($data, null, [function ($element) {
-//             return $element['step'];
-//         }, 'positionCode']);
-//        echo "<pre>"; 
-//        print_r($newPostion);
-//        exit(); 
-       
-//        foreach($postion as $model){
-//          //$newStep[] = $model->step;
-//          $newPostion[$model->position_type_id.'-'.$model->position_level_id] = $model->title;
-//        }
-       
-       
-      //$newData = ArrayHelper::index($data, 'positionCode');
-       //$result = ArrayHelper::getColumn($newData, 'id');
-       /*
-       $newStep= ArrayHelper::index($data, 'step'); 
-       $newPostion = [];
-       $oldPositionCode = key($newData);
-       foreach($data as $model){
-         //$newStep[] = $model->step;
-         //$newPostion[$model->position_type_id.'-'.$model->position_level_id] = $model->title;
-       }
-       /*
-       $newData = [];
-       //$newData[$data[0]->step][$data[0]->position_type_id][$data[0]->position_level_id] = $data[0];
-       
-      
-       $oldStep = $data[0]['step'];
-       $oldPositionTypeId = $data[0]['position_type_id'].'-'.$data[0]['position_level_id'];
-       foreach($data as $model){
-         $positionTypeId =$model->position_type_id.'-'.$model->position_level_id;
-         if($oldPositionTypeId!=$positionTypeId){            
-           $oldPositionTypeId = $positionTypeId;
-         }
-         $newData[$positionTypeId] = $model;
-         
-       }
-       
-       */
      }
      
      return [
@@ -205,6 +187,29 @@ class BaseSalary extends \yii\db\ActiveRecord
    }
   
   
+  public static function getPositionTypes($person_type_id)
+    {
+        if($person_type_id){
+          return ArrayHelper::map(
+            PositionType::find()->where([
+               'person_type_id'=>$person_type_id
+            ])->all()
+            ,'id','title');
+        }
+          return [];
+    }
+  
+  public static function getPositionLevels($position_type_id)
+    {
+        if($position_type_id){
+          return ArrayHelper::map(
+            PositionLevel::find()->where([
+               'position_type_id'=>$position_type_id
+            ])->all()
+            ,'id','title');
+        }
+          return [];
+    }
   
   
 }

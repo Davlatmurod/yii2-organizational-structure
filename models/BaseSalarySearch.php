@@ -20,7 +20,7 @@ class BaseSalarySearch extends BaseSalary
         return [
             [['id', 'person_type_id', 'position_type_id', 'position_level_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['step', 'salary'], 'number'],
-            [['title', 'note'], 'safe'],
+            [['note'], 'safe'],
         ];
     }
 
@@ -72,8 +72,7 @@ class BaseSalarySearch extends BaseSalary
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'note', $this->note]);
+        $query->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }

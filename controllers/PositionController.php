@@ -8,6 +8,9 @@ use andahrm\structure\models\PositionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+use andahrm\structure\models\PositionLine;
 
 /**
  * PositionController implements the CRUD actions for Position model.
@@ -129,4 +132,33 @@ class PositionController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+  
+   protected function MapData($datas,$fieldId,$fieldName){
+     $obj = [];
+     foreach ($datas as $key => $value) {
+         array_push($obj, ['id'=>$value->{$fieldId},'name'=>$value->{$fieldName}]);
+     }
+     return $obj;
+    }
+  
+    public function actionGetPositionLine() {
+     $out = [];
+      $post = Yii::$app->request->post();
+     if ($post['depdrop_parents']) {
+         $parents = $post['depdrop_parents'];
+         if ($parents != null) {
+             $person_type_id = $parents[0];
+             $out = $this->getPositionLine($person_type_id);
+             echo Json::encode(['output'=>$out, 'selected'=>'']);
+             return;
+         }
+         }
+         echo Json::encode(['output'=>'', 'selected'=>'']);
+     }
+
+      protected function getPositionLine($id){
+         $datas = PositionLine::find()->where(['person_type_id'=>$id])->all();
+         return $this->MapData($datas,'id','titleCode');
+     }
+  
 }

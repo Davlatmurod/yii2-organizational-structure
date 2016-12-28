@@ -18,7 +18,7 @@ class PositionTypeSearch extends PositionType
     public function rules()
     {
         return [
-            [['id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id','person_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'safe'],
         ];
     }
@@ -59,15 +59,16 @@ class PositionTypeSearch extends PositionType
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'note' => $this->note,
+            'id' => $this->id,            
+            'person_type_id' => $this->person_type_id,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+              ->andFilterWhere(['note', 'title', $this->note]);
 
         return $dataProvider;
     }

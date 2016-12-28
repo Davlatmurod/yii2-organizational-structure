@@ -25,7 +25,8 @@
         "wbraganca/yii2-nested-set-behavior": "*",
         "wbraganca/yii2-fancytree-widget": "*",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "mdmsoft/yii2-autonumber": "~1.0"
+        "mdmsoft/yii2-autonumber": "~1.0",
+        "kartik-v/yii2-widgets": "*"
     },
     "autoload": {
         "psr-4": {
