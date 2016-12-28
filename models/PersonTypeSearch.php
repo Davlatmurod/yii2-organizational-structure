@@ -18,7 +18,7 @@ class PersonTypeSearch extends PersonType
     public function rules()
     {
         return [
-            [['id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'step_max', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code', 'title', 'note'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class PersonTypeSearch extends PersonType
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'step_max' => $this->step_max,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,

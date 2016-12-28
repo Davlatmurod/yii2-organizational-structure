@@ -128,7 +128,6 @@ class BaseSalary extends \yii\db\ActiveRecord
         $str = array_filter($str);
         return implode('-',$str);
     }
-  public $step1;
   
    public static function getBaseSalaryByPersonType($person_type_id){
      $data = [];
@@ -136,6 +135,8 @@ class BaseSalary extends \yii\db\ActiveRecord
      $newStep = [];
      $newPostion = [];
      if($person_type_id){
+       
+       $modelPersonType = PersonType::find($person_type_id)->select('step_max')->one();
        
        /**
        ดึงของมูลทั้งหมด โดยใช้ step เป็น key หลักและให้ positionCode เป็น key รอง
@@ -153,7 +154,7 @@ class BaseSalary extends \yii\db\ActiveRecord
        ->all();
        $newData = ArrayHelper::index($data,'positionCode', 'step');
        $step = [];
-       foreach(range(1,36,0.5) as $s){
+       foreach(range(1,$modelPersonType->step_max,0.5) as $s){
          $step[Yii::$app->formatter->asDecimal($s,1)] = [];
        }
        

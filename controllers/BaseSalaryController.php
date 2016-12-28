@@ -247,10 +247,11 @@ class BaseSalaryController extends Controller
                     'type' => 'success',
                     'msg' => Yii::t('andahrm', 'Save operation completed.')
             ]);
-            //return $this->redirect(['view', 'id' => $model->id]);
+            return ['success'=>1];
+          //return $this->render('gov-list',['key'=>$model->person_type_id]);
         } 
-        print_r($model->getErrors());
-        //return $model->getErrors();
+        //print_r($model->getErrors());
+        return $model->getErrors();
     }
   
 }

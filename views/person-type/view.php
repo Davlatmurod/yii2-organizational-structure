@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'code',
             'title',
+            'step_max',
             'note',
             'created_at',
             'created_by',

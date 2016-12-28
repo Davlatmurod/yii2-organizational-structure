@@ -16,6 +16,7 @@ $columns = [
     'id' => 'id',
     'code' => 'code',
     'title' => 'title',
+    'step_max' => 'step_max',
     'created_at' => 'created_at:datetime',
     'created_by' => 'created_by',
     'updated_at' => 'updated_at',
@@ -26,6 +27,7 @@ $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
     $columns['code'],
     $columns['title'],
+    $columns['step_max'],
     $columns['created_at'],
     $columns['created_by'],
     ['class' => '\kartik\grid\ActionColumn',]

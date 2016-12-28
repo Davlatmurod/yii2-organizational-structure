@@ -13,7 +13,24 @@ use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('andahrm/structure', 'Base Salaries');
 $this->params['breadcrumbs'][] = $this->title;
+$action = $this->context->action->id;
 ?>
+<?php 
+                          
+           \yii\widgets\Pjax::begin([
+                'id' => 'pjax_alert'
+            ]);
+            foreach (Yii::$app->session->getAllFlashes() as $message) :
+                echo \kuakling\lobibox\Notification::widget([
+                    'type' => (isset($message['type'])) ? $message['type'] : 'default',
+                    'title' => (isset($message['title'])) ? $message['title'] : ucfirst($message['type']),
+                    'msg' => (isset($message['msg'])) ? $message['msg'] : '',
+                ]);
+            endforeach;
+            \yii\widgets\Pjax::end();
+            ?>
+
+
  <p>อัตราเงินเดือน</p>
           
           <?php //echo "<pre>"; print_r(BaseSalary::getBaseSalaryByPersonType($key));exit(); ?>
@@ -24,8 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
           
            <?php 
            Pjax::begin([
-        //'id' => 'translates'
-    ]);
+              'id' => 'pjax_salary'
+          ]);
           
 //           $form = ActiveForm::begin([
 //                 'method' => 'get',
@@ -34,12 +51,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //                 'enableClientValidation' => false,
 //     ]); 
           ?>
-          <table class="table table-bordered" id="tb_salary">
+          <table class="table table-bordered table-condensed" id="tb_salary">
             <thead>
               <tr>
                 <th class="text-center">ขั้น</th>
                 <?php foreach($positionCode as $key=>$title):?>
-                <th class="text-center"><?=$title?></th>
+                <th class="text-center" style="max-width:80px;"><?=$title?></th>
                 <?php endforeach;?>
               </tr>
             </thead>
@@ -48,11 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
             
            <?php foreach($data as $step=>$val):?>
             <tr>
-                 <td class="text-center"><?=$step?></td>                 
+                 <td class="text-center" style="padding:5px;"><?=$step+0?></td>                 
                    <?php foreach($positionCode as $key=>$title):
                    $model = (isset($val[$key]))?$val[$key]:new BaseSalary();
               ?>
-                    <td class="text-center">
+                    <td class="text-center" style="padding:2px;">
                         <?php /*if(isset($val[$key])):
                       $model = $val[$key];
                       ?>
@@ -68,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                           'data-id'=>$model->id?$model->id:'',
                           'data-key'=>$key,
                           'data-step'=>$step,
-                          'style'=>'width:50px;'
+                          'style'=>'width:100%;margin:0px;'
                       ])?>
                       <?php else:?>
                       <?=$model->salary?>
@@ -105,7 +122,8 @@ $js[]= "
                 id: $(this).data('id'),
                 step: $(this).data('step'),
                 key: $(this).data('key'),
-                val: $(this).val() 
+                val: $(this).val(),
+                action: '{$action}'
             };                  
             updateSalary(data);
         }
@@ -119,11 +137,17 @@ $js[]= "
         $.post(
           urlSalary, 
           data, 
-          $.proxy(function (data) {
-                    
-                }, this), 'json');
+          function (data) {
+             console.log(data);
+            $.pjax.reload({container:'#pjax_alert'});
+          }, 'json');
     }
 ";
+// $js[] = "
+// $('#pjax_salary').on('pjax:end', function() {
+//         $.pjax.reload({container:'#pjax_alert'});  //Reload GridView
+//     }); 
+// ";
 
 $this->registerJs(implode("\n",$js));
 

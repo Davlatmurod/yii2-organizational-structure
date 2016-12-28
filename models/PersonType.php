@@ -8,20 +8,23 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 
 /**
- * This is the model class for table "person_type".
- *
- * @property integer $id
- * @property string $code
- * @property string $title
- * @property string $note
- * @property integer $created_at
- * @property integer $created_by
- * @property integer $updated_at
- * @property integer $updated_by
- *
- * @property Position[] $positions
- * @property PositionLine[] $positionLines
- */
+* This is the model class for table "person_type".
+ 
+* @property integer $id
+* @property string $code
+* @property string $title
+* @property integer $step_max 
+* @property string $note
+* @property integer $created_at
+* @property integer $created_by
+* @property integer $updated_at
+* @property integer $updated_by
+*
+* @property BaseSalary[] $baseSalaries 
+* @property Position[] $positions
+* @property PositionLine[] $positionLines
+* @property PositionType[] $positionTypes 
+*/
 class PersonType extends \yii\db\ActiveRecord
 {
     /**
@@ -38,8 +41,8 @@ class PersonType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'title'], 'required'],
-            [['created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['code', 'title', 'step_max'], 'required'],
+            [['step_max', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code'], 'string', 'max' => 45],
             [['title', 'note'], 'string', 'max' => 255],
             [['title'], 'unique'],
@@ -68,6 +71,7 @@ class PersonType extends \yii\db\ActiveRecord
             'id' => Yii::t('andahrm/structure', 'ID'),
             'code' => Yii::t('andahrm/structure', 'รหัส'),
             'title' => Yii::t('andahrm/structure', 'ชื่อประเภทตำแหน่ง'),
+            'step_max' => Yii::t('andahrm/structure', 'ขั้นสูงสุด'), 
             'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
             'created_at' => Yii::t('andahrm/structure', 'Created At'),
             'created_by' => Yii::t('andahrm/structure', 'Created By'),
@@ -91,6 +95,22 @@ class PersonType extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PositionLine::className(), ['person_type_id' => 'id']);
     }
+  
+    /** 
+    * @return \yii\db\ActiveQuery 
+    */ 
+   public function getBaseSalaries() 
+   { 
+       return $this->hasMany(BaseSalary::className(), ['person_type_id' => 'id']); 
+   }
+  
+  /**
+    * @return \yii\db\ActiveQuery
+    */
+   public function getPositionTypes()
+   {
+       return $this->hasMany(PositionType::className(), ['person_type_id' => 'id']);
+   }
   
     public function getTitleCode(){
       return $this->title." (".$this->code.")";
