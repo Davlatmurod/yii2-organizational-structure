@@ -52,6 +52,8 @@ $this->registerJs('
 
 ?>
 
+
+<?php if(Yii::$app->user->can('manager-structure')):?>
 <div class="x_panel hidden-print">
   <div class="x_title">
     <h2>จัดการองค์กร<small> </small></h2>
@@ -140,6 +142,8 @@ if(Yii::$app->request->get('id')) {
        $this->registerJs("$(\"#fancyree_category\").fancytree(\"getTree\").activateKey(\"".$treeArray[0]['key']."\");");
     }
 }
+
+endif;
 
 
 
