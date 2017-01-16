@@ -79,7 +79,7 @@ $action = $this->context->action->id;
                         );?>
                         <?php else:?> - <?php endif;*/ ?>
                       <?php //$form->field($model, 'salary')->textInput(['maxlength' => true])->label(false) ?>
-                      <?php if(Yii::$app->user->can('manager-salary')): ?>
+                      <?php if(Yii::$app->user->can('manage-salary')): ?>
                       <?= Html::textInput("salary",$model->salary,[
                           'class'=>'salary',
                           'data-id'=>$model->id?$model->id:'',

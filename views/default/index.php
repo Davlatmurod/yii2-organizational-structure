@@ -53,7 +53,7 @@ $this->registerJs('
 ?>
 
 
-<?php if(Yii::$app->user->can('manager-structure')):?>
+<?php if(Yii::$app->user->can('manage-structure')):?>
 <div class="x_panel hidden-print">
   <div class="x_title">
     <h2>จัดการองค์กร<small> </small></h2>

@@ -45,12 +45,16 @@ use mdm\admin\components\Helper;
                             'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
                         ], 
+                        [
+                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Fiscal Years'),
+                            'url' => ["/{$module}/fiscal-year"],
+                        ], 
                     ];
                     $menuItems = Helper::filter($menuItems);
                     
                     //$nav = new Navigate();
                     echo Menu::widget([
-                        'options' => ['class' => 'nav nav-tabs'],
+                        'options' => ['class' => 'nav nav-tabs bar_tabs'],
                         'encodeLabels' => false,
                         //'activateParents' => true,
                         //'linkTemplate' =>'<a href="{url}">{icon} {label} {badge}</a>',
