@@ -41,6 +41,17 @@ class FiscalYear extends \yii\db\ActiveRecord
             [['created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
         ];
     }
+    function behaviors()
+    {
+        return [ 
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ],           
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -64,7 +75,7 @@ class FiscalYear extends \yii\db\ActiveRecord
     }
     
     public static function getList(){
-      return ArrayHelper::map(self::find()->all(),'year','yearTh')->orderBy(['year'=>SORT_DESC]);
+      return ArrayHelper::map(self::find()->orderBy(['year'=>SORT_DESC])->all(),'year','yearTh');
     }    
   
     public static function getListSelected(){
@@ -80,6 +91,17 @@ class FiscalYear extends \yii\db\ActiveRecord
       $date_start =  $start;
       $date_end=  date('Y', strtotime("+1 year"));
       return array_combine(range($date_end,$date_start),range($date_end+543,$date_start+543));
+    }
+  
+    public static function currentYear(){
+      $toDay = date('Y-m-d');
+      $model = self::find()
+        ->where(['<=','DATE(date_start)',$toDay])
+        ->andWhere(['>=','DATE(date_end)',$toDay])
+        ->one();
+      //echo $model->year;
+      //exit();
+      return $model?$model->yearTh:null;
     }
   
   
