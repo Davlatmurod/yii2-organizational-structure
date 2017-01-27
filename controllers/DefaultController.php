@@ -16,6 +16,8 @@ use andahrm\structure\models\Position;
 use andahrm\structure\models\PositionSearch;
 use andahrm\structure\models\StructurePosition;
 
+use yii\helpers\Json;
+
 /**
  * DefaultController implements the CRUD actions for Structure model.
  */
@@ -279,6 +281,15 @@ class DefaultController extends Controller
             'dataProvider' => $dataProvider,
         ]);
       }
+    }
+    
+    
+    public function actionOrg(){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+        return Structure::getOrgJson();
+        
+        
     }
     
 }

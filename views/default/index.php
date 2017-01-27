@@ -18,7 +18,8 @@ $this->title = Yii::t('andahrm/structure', 'Organiaztional Structure');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-andahrm\structure\assets\JqueryOrg::register($this);
+//andahrm\structure\assets\JqueryOrg::register($this);
+firdows\orgchart\OrgChartAsset::register($this);
 
 
 ?>

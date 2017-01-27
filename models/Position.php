@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use andahrm\person\models\Person;
+use andahrm\positionSalary\models\PersonPositionSalary;
 /**
  * This is the model class for table "position".
  *
@@ -113,9 +115,9 @@ class Position extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPersonPostions()
+    public function getPersonPositionSalaries()
     {
-        return $this->hasMany(PersonPostion::className(), ['position_id' => 'id']);
+        return $this->hasMany(PersonPositionSalary::className(), ['position_id' => 'id']);
     }
 
     /**
@@ -123,7 +125,7 @@ class Position extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(Person::className(), ['user_id' => 'user_id'])->viaTable('person_postion', ['position_id' => 'id']);
+        return $this->hasMany(Person::className(), ['user_id' => 'user_id'])->viaTable('person_position_salary', ['position_id' => 'id']);
     }
 
     /**
@@ -206,5 +208,10 @@ class Position extends \yii\db\ActiveRecord
           return [];
     }
       
+      
+      public function getUserLast()
+    {
+        return $this->users[0];
+    }
   
 }

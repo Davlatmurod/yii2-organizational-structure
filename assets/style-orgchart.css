@@ -1,0 +1,87 @@
+.orgchart{
+    background: #fff;
+}
+.orgchart .node {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    padding: 3px;
+    border: 2px dashed transparent;
+    text-align: center;
+    width: 130px;
+}
+
+.orgchart .node .title{
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    height: 35px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: #7195b9;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+}
+
+.orgchart .node .content {
+    /*width: 100%;*/
+    height: 50px;
+    /*font-size: 11px;*/
+    /*line-height: 18px;*/
+    border: 1px solid #2a3f54;
+    /*border-radius: 0 0 4px 4px;*/
+    text-align: left;
+    background-color: #fff;
+    
+    /*color: #333;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
+}
+
+.orgchart .first-level {
+    width: 200px;
+    
+}
+.orgchart .first-level .title {
+    background-color: #2a3f54;
+    
+}
+
+.orgchart tr.lines td.leftLine, .orgchart tr.lines td.topLine, .orgchart tr.lines td.rightLine {
+    border-color: #2a3f54;
+    border-radius: 0px;
+}
+
+.orgchart tr.lines .downLine {
+    background-color: #2a3f54;
+    margin: 0px auto;
+    height: 20px;
+    width: 2px;
+    float: none;
+}
+
+
+.orgchart .verticalNodes>td::before {
+    content: '';
+    border: 1px solid #2a3f54;
+}
+
+.orgchart .verticalNodes ul>li::before, .orgchart .verticalNodes ul>li::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    border-color: #2a3f54;
+    border-style: solid;
+    border-width: 0 0 2px 2px;
+}
+
+.orgchart .node .toggleBtn {
+    position: absolute;
+    left: 5px;
+    bottom: -2px;
+    color: #1ABB9C;
+}

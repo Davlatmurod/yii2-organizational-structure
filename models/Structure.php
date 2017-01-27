@@ -96,12 +96,28 @@ class Structure extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
         ];
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStructurePosition()
+    {
+        return $this->hasOne(StructurePosition::className(), ['structure_id'=>'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPosition()
+    {
+        return $this->structurePosition?$this->structurePosition->position:null;
+    }
   
    public static function getOrg($id=null){
      $model = self::find()->dataFancytree();
      $org = $model[0];
      
-     $str = '<ul id="organisation">';
+     $str = '<ul id="organisation" style="display:none;">';
      $str .='<li>'.$org['title'];
      $str .= self::getOrgSub($org['children'],$model);
      $str .= '</ul>';
@@ -142,6 +158,40 @@ class Structure extends \yii\db\ActiveRecord
    public function getStructurePositions()
    {
        return $this->hasMany(StructurePosition::className(), ['structure_id' => 'id']);
+   }
+  
+  public static function getOrgJson($id=null){
+     $model = self::findOne(['level'=>1]);
+     $str = [
+            'name'=>$model->title,
+            'title'=>$model->position->users?$model->position->users[0]->fullname.'<br/>'.$model->position->title:'ว่าง',
+            'children'=>self::getOrgSubJson($model->children()->all()),
+            'className' => 'first-level',
+            ];
+     return $str;
+   }
+   
+   public static function getOrgSubJson($parent){ 
+       if($parent){
+             $str = [];
+             foreach($parent as $model){
+                 
+                 $user=[];
+                    if($model->position->users)
+                     foreach($model->position->users as $u){
+                            $user[] = '<i class="fa fa-user"></i> '.$u->fullname;
+                     }
+                $str[] = [
+                    'name'=>$model->title,
+                    'title'=>$user?implode("</br>",$user):'ว่าง',
+                    'children'=>self::getOrgSubJson($model->children()->all()),
+                    'className' => 'text-left',
+                    ];
+             }
+             return $str;
+       }
+       return null;
+     
    }
   
   
