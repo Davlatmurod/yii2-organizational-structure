@@ -62,13 +62,16 @@ class Structure extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['root', 'lft', 'rgt', 'level', 'section_id', 'position_line_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['root', 'lft', 'rgt', 'level', 'section_id', 'position_line_id','person_type_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','previous'], 'integer'],
             [['section_id', 'position_line_id', 'title'], 'required'],
             [['note'], 'string'],
             [['title'], 'string', 'max' => 255],
         ];
     }
-  
+
+    public $person_type_id;
+    public $previous;
+    
   public static function find()
     {
         return new NestedSetQuery(get_called_class());
@@ -94,6 +97,7 @@ class Structure extends \yii\db\ActiveRecord
             'created_by' => Yii::t('andahrm/structure', 'Created By'),
             'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
             'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'previous' => Yii::t('andahrm/position-salary', 'ข้อมูลย้อนหลัง(ปี)'),
         ];
     }
     
@@ -164,7 +168,11 @@ class Structure extends \yii\db\ActiveRecord
      $model = self::findOne(['level'=>1]);
      $str = [
             'name'=>$model->title,
-            'title'=>$model->position->users?$model->position->users[0]->fullname.'<br/>'.$model->position->title:'ว่าง',
+            'title'=>$model->position->users?$model->position->users[0]
+            ->getInfoMedia('#',[
+                'wrapper' => true,
+                'wrapperTag' => 'div'
+                ]):'ว่าง',
             'children'=>self::getOrgSubJson($model->children()->all()),
             'className' => 'first-level',
             ];
@@ -179,13 +187,16 @@ class Structure extends \yii\db\ActiveRecord
                  $user=[];
                     if($model->position->users)
                      foreach($model->position->users as $u){
-                            $user[] = '<i class="fa fa-user"></i> '.$u->fullname;
+                            $user[] = $u->getInfoMedia('#',[
+                'wrapper' => true,
+                'wrapperTag' => 'div'
+                ]);
                      }
                 $str[] = [
                     'name'=>$model->title,
-                    'title'=>$user?implode("</br>",$user):'ว่าง',
+                    'title'=>$user?implode("<hr/>",$user):'ว่าง',
                     'children'=>self::getOrgSubJson($model->children()->all()),
-                    'className' => 'text-left',
+                   'className' => 'child-level',
                     ];
              }
              return $str;

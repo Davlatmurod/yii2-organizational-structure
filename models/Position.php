@@ -73,7 +73,7 @@ class Position extends \yii\db\ActiveRecord
         return [
             //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
             [['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
-            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],
             [['person_type_id', 'section_id', 'position_type_id', 'number'], 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_type_id', 'number'], 'message' => 'The combination of รหัสประเภทบุคคล, รหัสกอง, ลำดับ and ประเภทตำแหน่ง has already been taken.'],
@@ -84,7 +84,22 @@ class Position extends \yii\db\ActiveRecord
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
           ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_type_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
             [['code'],'safe'],
+            [['status'], 'default', 'value' => 1],
         ];
+    }
+    
+    public function scenarios(){
+      $scenarios = parent::scenarios();
+      
+      $scenarios['insert'] = ['title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      
+      $scenarios['update'] = ['title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      
+      $scenarios['update-status'] = ['status','updated_at', 'updated_by'];
+      
+      $scenarios['search'] = ['section_id'];
+      
+      return $scenarios;
     }
 
     /**
@@ -103,6 +118,7 @@ class Position extends \yii\db\ActiveRecord
             'position_level_id' => Yii::t('andahrm/structure', 'ระดับตำแหน่ง'),
             'min_salary' => Yii::t('andahrm/structure', 'เงินเดือนตำ่สุด'),
             'max_salary' => Yii::t('andahrm/structure', 'เงินเดือนสูงสุด'),
+            'status' => Yii::t('andahrm/structure', 'สถานะ'),
             'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
             'created_at' => Yii::t('andahrm/structure', 'สร้างเมื่อ'),
             'created_by' => Yii::t('andahrm/structure', 'สร้างโดย'),
@@ -111,7 +127,52 @@ class Position extends \yii\db\ActiveRecord
             'code' => Yii::t('andahrm/structure', 'Code Position'),
         ];
     }
+    
+    
 
+
+    const STASUS_CLOSE=0;
+    const STASUS_FREE=1;
+    const STASUS_USED=2;
+    
+    public static function itemsAlias($key) {
+        $items = [
+            'status' => [
+                self::STASUS_CLOSE => Yii::t('andahrm/structure', 'ปิด'),
+                self::STASUS_FREE => Yii::t('andahrm/structure', 'ว่าง'),
+                self::STASUS_USED => Yii::t('andahrm/structure', 'ใช้งาน'),
+            ],
+        ];
+        return ArrayHelper::getValue($items, $key, []);
+    }
+    
+    
+    public function getStatusLabel() {
+        $status = ArrayHelper::getValue($this->getItemStatus(), $this->status);
+        $status = ($this->status === NULL) ? ArrayHelper::getValue($this->getItemStatus(), 0) : $status;
+        switch ($this->status) {
+            case 0 :
+            case NULL :
+                $str = '<span class="label label-danger">' . $status . '</span>';
+                break;
+            case 1 :
+                $str = '<span class="label label-warning">' . $status . '</span>';                
+                break;
+            case 2 :
+                $str = '<span class="label label-success">' . $status . '</span>';
+                break;
+            default :
+                $str = $status;
+                break;
+        }
+
+        return $str;
+    }
+    
+    public static function getItemStatus() {
+          return self::itemsAlias('status');
+     }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -151,6 +212,11 @@ class Position extends \yii\db\ActiveRecord
     {
         return $this->hasOne(PersonType::className(), ['id' => 'person_type_id']);
     }
+    
+    public function getPersonTypeTitle()
+    {
+        return $this->personType->title;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -185,9 +251,33 @@ class Position extends \yii\db\ActiveRecord
          .'-'.sprintf("%03d",$this->number);
       //return $this->personType->code.'-'.$this->section->code.'-'.$this->positionType->code.'-'.str_pad($this->number, 4, '0', STR_PAD_LEFT);
     }
+    
+    public function getCodeTitle(){
+     //return '1';
+       return $this->code." ".$this->title;
+    }
   
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','code');
+    }
+    
+    public static function getListTitle(){
+      return ArrayHelper::map(self::find()->all(),'id','codeTitle');
+    }
+    
+    public static function getListProp()
+    {
+        $res = [];
+        foreach(self::find()->all() as $item) {
+            $res[$item->id] = [
+                'type' => $item->personType->title,
+                'section' => $item->section->title,
+                'positionLine' => $item->positionLine->title,
+                'code' => $item->code,
+                'title' => $item->title,
+            ];
+        }
+        return $res;
     }
   
   
@@ -196,22 +286,26 @@ class Position extends \yii\db\ActiveRecord
        return StructurePosition::find()->where(['position_id'=>$this->id,'structure_id'=>$structure_id])->count();
    }
   
-   public static function getPositionlines($person_type_id)
-    {
-        if($person_type_id){
-          return ArrayHelper::map(
-            PositionLine::find()->where([
-               'person_type_id'=>$person_type_id
-            ])->all()
-            ,'id','title');
-        }
-          return [];
-    }
+//   public static function getPositionlines($person_type_id)
+//     {
+//         if($person_type_id){
+//           return ArrayHelper::map(
+//             PositionLine::find()->where([
+//               'person_type_id'=>$person_type_id
+//             ])->all()
+//             ,'id','title');
+//         }
+//           return [];
+//     }
       
       
       public function getUserLast()
     {
         return $this->users[0];
+    }
+    
+    public static function getListByPersonType($person_type_id){
+      return ArrayHelper::map(self::find()->where(['person_type_id'=>$person_type_id])->all(),'id','title');
     }
   
 }

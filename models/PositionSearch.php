@@ -18,7 +18,7 @@ class PositionSearch extends Position
     public function rules()
     {
         return [
-            [['id', 'person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title', 'note'], 'safe'],
         ];
     }
@@ -68,6 +68,7 @@ class PositionSearch extends Position
             'position_level_id' => $this->position_level_id,
             'min_salary' => $this->min_salary,
             'max_salary' => $this->max_salary,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,

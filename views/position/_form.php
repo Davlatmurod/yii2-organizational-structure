@@ -10,6 +10,7 @@ use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
 use andahrm\structure\models\Position;
 
+use kartik\widgets\Select;
 use kartik\widgets\DepDrop;
 
 /* @var $this yii\web\View */
@@ -35,7 +36,8 @@ use kartik\widgets\DepDrop;
       <div class="col-sm-3">        
         <?= $form->field($model, 'position_line_id')->widget(DepDrop::classname(), [
             'options'=>['id'=>'ddl-position_line'],
-            'data'=> Position::getPositionLines($model->person_type_id),
+            'data'=> PositionLine::getPositionLines($model->person_type_id),
+            'type'=>DepDrop::TYPE_SELECT2,
             'pluginOptions'=>[
                 'depends'=>['ddl-person_type'],
                 'placeholder'=>Yii::t('app','Select'),

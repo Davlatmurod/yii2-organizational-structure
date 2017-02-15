@@ -17,14 +17,16 @@ use andahrm\structure\models\PersonType;
                     $menuItems = [];
       
        $menuItems[] =  [
-                            'label' => '<i class="fa fa-sitemap"></i> ' . Yii::t('andahrm/structure', 'ทั้งหมด'),
+                            'label' => Yii::t('andahrm/structure', 'ทั้งหมด'),
                             'url' => ["/{$module}/base-salary/index"],
+                            'icon' => 'fa fa-home'
                         ];
       
       foreach(PersonType::getList() as $key => $type){
         $menuItems[] =  [
-                            'label' => '<i class="fa fa-user"></i> ' . Yii::t('andahrm/structure', $type),
+                            'label' => Yii::t('andahrm/structure', $type),
                             'url' => ["/{$module}/base-salary/person-type{$key}"],
+                            'icon' => 'fa fa-user'
                         ];
       }
                        
@@ -32,6 +34,7 @@ use andahrm\structure\models\PersonType;
                     //$nav = new Navigate();
                     echo Menu::widget([
                         'options' => ['class' => 'nav nav-tabs'],
+                        //'options' => ['class' => 'nav nav-pills nav-stacked'],
                         'encodeLabels' => false,
                         //'activateParents' => true,
                         //'linkTemplate' =>'<a href="{url}">{icon} {label} {badge}</a>',

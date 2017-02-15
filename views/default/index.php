@@ -18,8 +18,8 @@ $this->title = Yii::t('andahrm/structure', 'Organiaztional Structure');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-//andahrm\structure\assets\JqueryOrg::register($this);
 firdows\orgchart\OrgChartAsset::register($this);
+andahrm\structure\assets\MyChartAsset::register($this);
 
 
 ?>
@@ -27,7 +27,6 @@ firdows\orgchart\OrgChartAsset::register($this);
   <div class="row">
   <div class="col-xs-12 col-sm-12 col-ml-12 col-lg-12">
     <div id="mainOrg">
-      <?=Structure::getOrg()?>
     </div>
   </div>
   </div>
@@ -36,21 +35,22 @@ firdows\orgchart\OrgChartAsset::register($this);
 
 <?php
 
-
-$this->registerJs('
-    $(function() {
-            $("#organisation").orgChart({
-              container: $("#mainOrg"),
-              interactive: true,
-              fade: true,
-              speed: "slow",
-              stack    : true, 
-              depth    : 3
-            });
-    });
-');
-
-
+$this->registerJs("
+var urlOrg = '".Url::to(['/structure/default/org'])."';
+");
+$this->registerJs("
+  $('#mainOrg').orgchart({
+        'data' : urlOrg,
+        'nodeContent': 'title',
+        'exportButton': true,
+        'exportFilename': 'MyOrgChart',
+        'depth': 4,
+        'verticalDepth': 4,
+        'pan': true,
+        //'zoom': true,
+        //'draggable': true
+      });
+");
 ?>
 
 

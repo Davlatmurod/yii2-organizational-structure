@@ -66,7 +66,7 @@ class PositionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Position();
+        $model = new Position(['scenario'=>'insert']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('saved',[
@@ -90,6 +90,7 @@ class PositionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'update';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
           Yii::$app->getSession()->setFlash('saved',[
@@ -112,8 +113,9 @@ class PositionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->status = Position::STASUS_CLOSE;
+        $model->save();
         return $this->redirect(['index']);
     }
 

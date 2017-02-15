@@ -51,8 +51,8 @@ class PositionLevel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['position_type_id', 'title'], 'required'],
-           [['position_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+           [['person_type_id', 'position_type_id', 'title'], 'required'],
+           [['person_type_id','position_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
            [['title'], 'string', 'max' => 50],
            [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']], 
         ];
@@ -65,6 +65,7 @@ class PositionLevel extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'รหัส'),
+            'person_type_id' => Yii::t('andahrm/structure', 'ประเภทบุคลล'),
             'position_type_id' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
             'title' => Yii::t('andahrm/structure', 'ระดับตำแหน่ง'),
             'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
@@ -101,6 +102,10 @@ class PositionLevel extends \yii\db\ActiveRecord
     
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','title');
+    }
+    
+    public static function getListByPersonType($person_type_id){
+      return ArrayHelper::map(self::find()->where(['person_type_id'=>$person_type_id])->all(),'id','title');
     }
   
   

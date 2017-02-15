@@ -69,10 +69,10 @@ class PersonType extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
-            'code' => Yii::t('andahrm/structure', 'รหัส'),
-            'title' => Yii::t('andahrm/structure', 'ชื่อประเภทตำแหน่ง'),
-            'step_max' => Yii::t('andahrm/structure', 'ขั้นสูงสุด'), 
-            'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
+            'code' => Yii::t('andahrm/structure', 'Code'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
+            'step_max' => Yii::t('andahrm/structure', 'Step Max'), 
+            'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm/structure', 'Created At'),
             'created_by' => Yii::t('andahrm/structure', 'Created By'),
             'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
@@ -118,6 +118,12 @@ class PersonType extends \yii\db\ActiveRecord
 
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','titleCode');
+    }
+    
+    # For Insignia
+    public static function getForInsignia(){
+      $model = self::find()->where(['id'=>[8,9,1,2,3,4]])->all();
+      return ArrayHelper::map($model,'id','title');
     }
   
   

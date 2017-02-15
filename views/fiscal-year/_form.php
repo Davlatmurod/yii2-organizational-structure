@@ -17,15 +17,25 @@ use andahrm\structure\models\FiscalYear;
     <?php $form = ActiveForm::begin(); ?>
 
   <div class="row">
+    <?php if($model->isNewRecord):?>
     <div class="col-sm-4">
-      <?php if($model->isNewRecord):?>
       <?= $form->field($model, 'year')->dropDownList(FiscalYear::getYearAll(),[
-      'options'=>FiscalYear::getListSelected()
+      'options'=>FiscalYear::getListSelected(),
+      'prompt' => Yii::t('app','Select')
     ]) ?>
-      <?php else:?>
-      <?=Html::tag('h2',$model->yearTh)?>
-      <?php endif;?>
     </div>
+    <div class="col-sm-2">
+      <?= $form->field($model, 'phase')->dropDownList([1=>1,2=>2],[
+      //'options'=>FiscalYear::getListSelected(),
+      'prompt' => Yii::t('app','Select')
+    ]) ?>
+    </div>
+    
+    
+    <?php else:?>
+      <?=Html::tag('h2',$model->yearThphase)?>
+      <?php endif;?>
+    
   </div>
   
   

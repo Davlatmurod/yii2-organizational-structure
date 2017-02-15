@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use andahrm\structure\models\FiscalYear;
 
 /**
- * FiscalYearSearch represents the model behind the search form about `andahrm\structure\models\FiscalYear`.
+ * FiscalYearSearch represents the model behind the search form of `andahrm\structure\models\FiscalYear`.
  */
 class FiscalYearSearch extends FiscalYear
 {
@@ -19,7 +19,7 @@ class FiscalYearSearch extends FiscalYear
     {
         return [
             [['year', 'date_start', 'date_end', 'note'], 'safe'],
-            [['created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['phase', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
         ];
     }
 
@@ -44,10 +44,18 @@ class FiscalYearSearch extends FiscalYear
         $query = FiscalYear::find();
 
         // add conditions that should always apply here
+       
+        
+        
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
+        $dataProvider->sort->defaultOrder = [
+            'year' => SORT_DESC,
+            'phase' => SORT_ASC,
+            ];
 
         $this->load($params);
 
@@ -60,6 +68,7 @@ class FiscalYearSearch extends FiscalYear
         // grid filtering conditions
         $query->andFilterWhere([
             'year' => $this->year,
+            'phase' => $this->phase,
             'date_start' => $this->date_start,
             'date_end' => $this->date_end,
             'created_at' => $this->created_at,

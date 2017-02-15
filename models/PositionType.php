@@ -50,7 +50,7 @@ class PositionType extends \yii\db\ActiveRecord
         return [
             [['note', 'created_at', 'created_by', 'updated_at', 'updated_by','person_type_id'], 'integer'],
             [['title','note'], 'string', 'max' => 255],
-            [['title'], 'unique'],
+            //[['title'], 'unique'],
         ];
     }
 
@@ -94,6 +94,6 @@ class PositionType extends \yii\db\ActiveRecord
     public static function getListGroup(){
       return ArrayHelper::map(self::find()->all(),'id','title','personType.title');
     }
-  
+    
   
 }

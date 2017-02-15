@@ -66,6 +66,8 @@ class BaseSalary extends \yii\db\ActiveRecord
             ],
         ];
     }
+    
+    public $diff;
 
     /**
      * @inheritdoc
@@ -136,7 +138,7 @@ class BaseSalary extends \yii\db\ActiveRecord
      $newPostion = [];
      if($person_type_id){
        
-       $modelPersonType = PersonType::find($person_type_id)->select('step_max')->one();
+       $modelPersonType = PersonType::find()->where(['id'=>$person_type_id])->select('step_max')->one();
        
        /**
        ดึงของมูลทั้งหมด โดยใช้ step เป็น key หลักและให้ positionCode เป็น key รอง

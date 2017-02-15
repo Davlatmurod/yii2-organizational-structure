@@ -1,6 +1,7 @@
 .orgchart{
     background: #fff;
 }
+
 .orgchart .node {
     display: inline-block;
     position: relative;
@@ -8,7 +9,7 @@
     padding: 3px;
     border: 2px dashed transparent;
     text-align: center;
-    width: 130px;
+    width: 200px;
 }
 
 .orgchart .node .title{
@@ -44,7 +45,10 @@
 
 .orgchart .first-level {
     width: 200px;
-    
+}
+
+.orgchart .child-level {
+    width: 200px;
 }
 .orgchart .first-level .title {
     background-color: #2a3f54;
@@ -85,3 +89,49 @@
     bottom: -2px;
     color: #1ABB9C;
 }
+
+/*.orgchart .node .media .profile_thumb {*/
+/*    border: 1px solid;*/
+/*    width: 25px;*/
+/*    height: 25px;*/
+/*    margin: 5px 10px 5px 0;*/
+/*    border-radius: 50%;*/
+/*    padding: 9px 12px;*/
+/*}*/
+
+.orgchart .node  hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 0;
+    border-top: 1px solid #888;
+}
+
+.orgchart .node .content {
+  height: auto;
+  padding: 5px;
+}
+
+.orgchart .node .media{
+    margin-top:5px;
+}
+.orgchart .node .content .title {
+  background: transparent;
+  color: #2a3f54;
+  padding: 0;
+  font-size: 13px;
+}
+
+
+.orgchart .node .media-body .position{
+  overflow: hidden;
+  width: 110px;
+}
+
+.orgchart .node .media .profile_thumb{
+    border: 1px solid;
+    width: 45px;
+    height: 45px;
+    margin: 3px 5px 3px 0;
+    border-radius: 50%;
+}
+

@@ -10,6 +10,7 @@ use andahrm\structure\models\Section;
 use andahrm\structure\models\PositionLine;
 use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
+use andahrm\structure\models\Position;
 /* @var $this yii\web\View */
 /* @var $searchModel andahrm\structure\models\PositionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -38,6 +39,12 @@ $columns = [
         'filter' => PositionLevel::getList(),
         'value' => 'positionLevel.title'
     ],
+    'status' => [
+        'attribute' => 'status',
+        'filter' => Position::getItemStatus(),
+        'format' => 'html',
+        'value' => 'statusLabel'
+    ],
     'note' => 'note',
     'created_at' => 'created_at:datetime',
     'created_by' => 'created_by',
@@ -52,6 +59,7 @@ $gridColumns = [
     $columns['position_line_id'],
     $columns['position_type_id'],
     $columns['position_level_id'],
+    $columns['status'],
     $columns['created_at'],
     $columns['created_by'],
     ['class' => '\kartik\grid\ActionColumn',]

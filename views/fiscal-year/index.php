@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'year',
+            'phase',
             'date_start',
             'date_end',
             'note:ntext',

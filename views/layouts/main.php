@@ -14,40 +14,49 @@ use mdm\admin\components\Helper;
       <?php
                     $menuItems = [
                         [
-                            'label' => '<i class="fa fa-sitemap"></i> ' . Yii::t('andahrm/structure', 'Organiaztional Structure'),
+                            'label' => Yii::t('andahrm/structure', 'Organiaztional Structure'),
                             'url' => ["/{$module}/default"],
+                            'icon' => 'fa fa-sitemap'
                         ],                      
                         [
-                            'label' => Html::icon('knight') . ' ' . Yii::t('andahrm/structure', 'Positions'),
+                            'label' => Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
+                            'icon' => 'fa fa-sitemap'
                         ],                      
                         [
-                            'label' => Html::icon('usd') . ' ' . Yii::t('andahrm/structure', 'Base Salaries'),
+                            'label' => Yii::t('andahrm/structure', 'Base Salaries'),
                             'url' => ["/{$module}/base-salary"],
+                            'icon' => 'fa fa-sitemap'
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Person Types'),
+                            'label' => Yii::t('andahrm/structure', 'Person Types'),
                             'url' => ["/{$module}/person-type"],
+                            'icon' => 'fa fa-sitemap'
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Sections'),
+                            'label' => Yii::t('andahrm/structure', 'Sections'),
                             'url' => ["/{$module}/section"],
+                            'icon' => 'fa fa-sitemap'
                         ],                      
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Lines'),
+                            'label' => Yii::t('andahrm/structure', 'Position Lines'),
                             'url' => ["/{$module}/position-line"],
+                            'icon' => 'fa fa-sitemap'
                         ],
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Types'),
+                            'label' => Yii::t('andahrm/structure', 'Position Types'),
                             'url' => ["/{$module}/position-type"],
+                            'icon' => 'fa fa-sitemap'
                         ], 
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Position Levels'),
+                            'label' => Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
+                            'icon' => 'fa fa-sitemap'
                         ], 
                         [
-                            'label' => Html::icon('inbox') . ' ' . Yii::t('andahrm/structure', 'Fiscal Years'),
+                            'label' => Yii::t('andahrm/structure', 'Fiscal Years'),
                             'url' => ["/{$module}/fiscal-year"],
+                            'icon' => 'fa fa-sitemap'
                         ], 
                     ];
                     $menuItems = Helper::filter($menuItems);
