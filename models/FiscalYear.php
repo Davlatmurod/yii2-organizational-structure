@@ -3,10 +3,12 @@
 namespace andahrm\structure\models;
 
 use Yii;
-
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use kuakling\datepicker\behaviors\DateBuddhistBehavior;
+use andahrm\setting\models\Helper;
 /**
  * This is the model class for table "fiscal_year".
  *
@@ -19,7 +21,7 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $updated_at
  * @property integer $updated_by
  */
-class FiscalYear extends \yii\db\ActiveRecord
+class FiscalYear extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -51,7 +53,15 @@ class FiscalYear extends \yii\db\ActiveRecord
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
-            ],           
+            ],
+            'date_start' => [
+                'class' => DateBuddhistBehavior::className(),
+                'dateAttribute' => 'date_start',
+            ],
+            'date_end' => [
+                'class' => DateBuddhistBehavior::className(),
+                'dateAttribute' => 'date_end',
+            ],
         ];
     }
 
@@ -62,15 +72,15 @@ class FiscalYear extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'year' => Yii::t('structure', 'ประจำปี'),
-            'phase' => Yii::t('structure', 'ภาค'),
-            'date_start' => Yii::t('structure', 'เริ่มวันที่'),
-            'date_end' => Yii::t('structure', 'สิ้นสุดวันที่'),
-            'note' => Yii::t('structure', 'หมายเหตุ'),
-            'created_at' => Yii::t('structure', 'Created At'),
-            'created_by' => Yii::t('structure', 'Created By'),
-            'updated_at' => Yii::t('structure', 'Updated At'),
-            'updated_by' => Yii::t('structure', 'Updated By'),
+            'year' => Yii::t('andahrm/structure', 'Year'),
+            'phase' => Yii::t('andahrm/structure', 'Phase'),
+            'date_start' => Yii::t('andahrm/structure', 'Date Start'),
+            'date_end' => Yii::t('andahrm/structure', 'Date End'),
+            'note' => Yii::t('andahrm/structure', 'Note'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
   
@@ -84,6 +94,8 @@ class FiscalYear extends \yii\db\ActiveRecord
     
     public static function getList(){
       return ArrayHelper::map(self::find()->orderBy(['year'=>SORT_DESC])->all(),'year','yearTh');
+    // พี่เปลี่ยนเป็นปีไทยก่อนนะ มีปัญหาอะไรค่อยว่ากัน
+    // return ArrayHelper::map(self::find()->orderBy(['year'=>SORT_DESC])->all(),'yearTh','yearTh');
     }    
   
   

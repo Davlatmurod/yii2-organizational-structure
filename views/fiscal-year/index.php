@@ -24,10 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'year',
+            [
+                'attribute' => 'year',
+                'value' => 'yearTh',
+            ],
             'phase',
-            'date_start',
-            'date_end',
+            'date_start:date',
+            'date_end:date',
             'note:ntext',
             'created_at',
             // 'created_by',

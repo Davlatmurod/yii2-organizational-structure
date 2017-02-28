@@ -17,7 +17,7 @@ use andahrm\structure\models\PersonType;
                     $menuItems = [];
       
        $menuItems[] =  [
-                            'label' => Yii::t('andahrm/structure', 'ทั้งหมด'),
+                            'label' => Yii::t('andahrm/structure', 'All'),
                             'url' => ["/{$module}/base-salary/index"],
                             'icon' => 'fa fa-home'
                         ];

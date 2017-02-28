@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
+use kuakling\datepicker\DatePicker;
 
 use andahrm\structure\models\FiscalYear;
 /* @var $this yii\web\View */
@@ -39,7 +39,7 @@ use andahrm\structure\models\FiscalYear;
   </div>
   
   
-  <div class="row">
+  <?php /*<div class="row">
     <div class="col-sm-12">
       <?php
       $layout3 = <<< HTML
@@ -80,8 +80,29 @@ HTML;
       
   ?>
     </div>
-  </div>
-   
+  </div>*/ ?>
+   <div class="row">
+        <?= $form->field($model, 'date_start', [
+            'options' => [
+                'class' => 'form-group col-sm-6' 
+            ]  
+        ])->widget(DatePicker::className());
+        ?>
+        <?= $form->field($model, 'date_end', [
+            'options' => [
+                'class' => 'form-group col-sm-6' 
+            ]  
+        ])->widget(DatePicker::className());
+        ?>
+<?php
+$inputStartId = Html::getInputId($model, 'date_start');
+$inputEndId = Html::getInputId($model, 'date_end');
+$js[] = <<< JS
+$("#{$inputStartId}").datepicker().on('changeDate', function(e) { $("#{$inputEndId}").datepicker('setStartDate', $(this).val()); });
+$("#{$inputEndId}").datepicker().on('changeDate', function(e) { $("#{$inputStartId}").datepicker('setEndDate', $(this).val()); });
+JS;
+?>
+    </div>
 
    
 
@@ -91,9 +112,14 @@ HTML;
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm/structure', 'Create') : Yii::t('andahrm/structure', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm', 'Create') : Yii::t('andahrm', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$js = array_filter($js);
+$this->registerJs(implode("\n", $js));
+?>

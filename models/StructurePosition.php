@@ -62,12 +62,12 @@ class StructurePosition extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'structure_id' => Yii::t('andahrm/structure', 'โครงสร้าง'),
-            'position_id' => Yii::t('andahrm/structure', 'ตำแหน่ง'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
+            'structure_id' => Yii::t('andahrm/structure', 'Structure'),
+            'position_id' => Yii::t('andahrm/structure', 'Position'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
         ];
     }
 

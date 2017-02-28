@@ -109,21 +109,21 @@ class Position extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
-            'person_type_id' => Yii::t('andahrm/structure', 'รหัสประเภทบุคคล'),
-            'section_id' => Yii::t('andahrm/structure', 'รหัสกอง'),
-            'position_line_id' => Yii::t('andahrm/structure', 'ตำแหน่งในสายงาน'),
-            'number' => Yii::t('andahrm/structure', 'ลำดับ'),
-            'title' => Yii::t('andahrm/structure', 'ชื่อตำแหน่งในงานบริหาร'),
-            'position_type_id' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
-            'position_level_id' => Yii::t('andahrm/structure', 'ระดับตำแหน่ง'),
-            'min_salary' => Yii::t('andahrm/structure', 'เงินเดือนตำ่สุด'),
-            'max_salary' => Yii::t('andahrm/structure', 'เงินเดือนสูงสุด'),
-            'status' => Yii::t('andahrm/structure', 'สถานะ'),
-            'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
-            'created_at' => Yii::t('andahrm/structure', 'สร้างเมื่อ'),
-            'created_by' => Yii::t('andahrm/structure', 'สร้างโดย'),
-            'updated_at' => Yii::t('andahrm/structure', 'ปรับปรุงเมื่อ'),
-            'updated_by' => Yii::t('andahrm/structure', 'ปรับปรุงโดย'),
+            'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
+            'section_id' => Yii::t('andahrm/structure', 'Section'),
+            'position_line_id' => Yii::t('andahrm/structure', 'Position Line'),
+            'number' => Yii::t('andahrm/structure', 'Number'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
+            'position_type_id' => Yii::t('andahrm/structure', 'Position Type'),
+            'position_level_id' => Yii::t('andahrm/structure', 'Position Level'),
+            'min_salary' => Yii::t('andahrm/structure', 'Min Salary'),
+            'max_salary' => Yii::t('andahrm/structure', 'Max Salary'),
+            'status' => Yii::t('andahrm/structure', 'Status'),
+            'note' => Yii::t('andahrm/structure', 'Note'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
             'code' => Yii::t('andahrm/structure', 'Code Position'),
         ];
     }
@@ -138,9 +138,9 @@ class Position extends \yii\db\ActiveRecord
     public static function itemsAlias($key) {
         $items = [
             'status' => [
-                self::STASUS_CLOSE => Yii::t('andahrm/structure', 'ปิด'),
-                self::STASUS_FREE => Yii::t('andahrm/structure', 'ว่าง'),
-                self::STASUS_USED => Yii::t('andahrm/structure', 'ใช้งาน'),
+                self::STASUS_CLOSE => Yii::t('andahrm/structure', 'Close'),
+                self::STASUS_FREE => Yii::t('andahrm/structure', 'Free'),
+                self::STASUS_USED => Yii::t('andahrm/structure', 'Used'),
             ],
         ];
         return ArrayHelper::getValue($items, $key, []);

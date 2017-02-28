@@ -73,10 +73,10 @@ class PersonType extends \yii\db\ActiveRecord
             'title' => Yii::t('andahrm/structure', 'Title'),
             'step_max' => Yii::t('andahrm/structure', 'Step Max'), 
             'note' => Yii::t('andahrm/structure', 'Note'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
 

@@ -38,8 +38,8 @@ class PersonPostion extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => Yii::t('app', 'User ID'),
-            'position_id' => Yii::t('app', 'Position ID'),
+            'user_id' => Yii::t('andahrm/person', 'Person'),
+            'position_id' => Yii::t('andahrm/structure', 'Position'),
         ];
     }
 }

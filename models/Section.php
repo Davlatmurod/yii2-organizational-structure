@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use andahrm\leave\models\LeaveRelatedSection; #mad
 
 /**
  * This is the model class for table "section".
@@ -67,15 +68,15 @@ class Section extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('andahrm/structure', 'รหัสกอง'),
-            'code' => Yii::t('andahrm/structure', 'รหัสกอง'),
-            'title' => Yii::t('andahrm/structure', 'ชื่อกอง'),
+            'id' => Yii::t('andahrm/structure', 'ID'),
+            'code' => Yii::t('andahrm/structure', 'Code'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
 
@@ -95,5 +96,10 @@ class Section extends \yii\db\ActiveRecord
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','titleCode');
     }
+    
+     public function getLeaveRelatedSection() 
+   { 
+       return $this->hasOne(LeaveRelatedSection::className(), ['section_id' => 'id']); 
+   }
   
 }

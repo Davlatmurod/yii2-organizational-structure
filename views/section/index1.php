@@ -10,7 +10,7 @@ use wbraganca\fancytree\FancytreeWidget;
 /* @var $searchModel andahrm\structure\models\SectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sections');
+$this->title = Yii::t('andahrm/structure', 'Sections');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="section-index">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Section'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('andahrm', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); /*?>    
   <?= GridView::widget([

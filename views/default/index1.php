@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel andahrm\structure\models\PositionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Positions');
+$this->title = Yii::t('andahrm/structure', 'Positions');
 $this->params['breadcrumbs'][] = $this->title;
 
 

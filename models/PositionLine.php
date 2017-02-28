@@ -64,14 +64,14 @@ class PositionLine extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('andahrm/structure', 'รหัส'),
-            'code' => Yii::t('andahrm/structure', 'รหัสสายงาน'),
-            'title' => Yii::t('andahrm/structure', 'ชื่อสายงาน'),
-            'person_type_id' => Yii::t('andahrm/structure', 'ประเภทบุคลากร'),
-            'created_at' => Yii::t('andahrm/structure', 'สร้างเมื่อ'),
-            'created_by' => Yii::t('andahrm/structure', 'สร้างโดย'),
-            'updated_at' => Yii::t('andahrm/structure', 'ปรับปรุงเมื่อ'),
-            'updated_by' => Yii::t('andahrm/structure', 'ปรับปรุงโดย'),
+            'id' => Yii::t('andahrm/structure', 'ID'),
+            'code' => Yii::t('andahrm/structure', 'Code'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
+            'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
 

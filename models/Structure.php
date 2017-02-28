@@ -83,21 +83,22 @@ class Structure extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('andahrm/structure', 'รหัสกอง'),
+            'id' => Yii::t('andahrm/structure', 'ID'),
             'root' => Yii::t('andahrm/structure', 'Root'),
             'lft' => Yii::t('andahrm/structure', 'Lft'),
             'rgt' => Yii::t('andahrm/structure', 'Rgt'),
             'level' => Yii::t('andahrm/structure', 'Level'),
-            'section_id' => Yii::t('andahrm/structure', 'รหัสกอง'),
-            'position_line_id' => Yii::t('andahrm/structure', 'ตำแหน่งในสายงาน'),
-            'title' => Yii::t('andahrm/structure', 'ชื่อกอง'),
+            'section_id' => Yii::t('andahrm/structure', 'Section'),
+            'position_line_id' => Yii::t('andahrm/structure', 'Position Line'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
-            'previous' => Yii::t('andahrm/position-salary', 'ข้อมูลย้อนหลัง(ปี)'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
+            'previous' => Yii::t('andahrm/structure', 'Previous'),
+            'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
         ];
     }
     
@@ -185,13 +186,14 @@ class Structure extends \yii\db\ActiveRecord
              foreach($parent as $model){
                  
                  $user=[];
-                    if($model->position->users)
+                    if(isset($model->position->users)){
                      foreach($model->position->users as $u){
                             $user[] = $u->getInfoMedia('#',[
-                'wrapper' => true,
-                'wrapperTag' => 'div'
-                ]);
-                     }
+                            'wrapper' => true,
+                            'wrapperTag' => 'div'
+                            ]);
+                        }
+                    }
                 $str[] = [
                     'name'=>$model->title,
                     'title'=>$user?implode("<hr/>",$user):'ว่าง',

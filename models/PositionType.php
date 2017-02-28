@@ -60,14 +60,14 @@ class PositionType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('andahrm/structure', 'รหัส'),
-            'person_type_id' => Yii::t('andahrm/structure', 'ประเภทบุคลากร'),
-            'title' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
-            'note' => Yii::t('andahrm/structure', 'หมายเหตุ'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'id' => Yii::t('andahrm/structure', 'ID'),
+            'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
+            'note' => Yii::t('andahrm/structure', 'Note'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
 

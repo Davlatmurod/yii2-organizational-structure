@@ -76,17 +76,17 @@ class BaseSalary extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
-            'person_type_id' => Yii::t('andahrm/structure', 'ประเภทบุคลากร'),
-            'step' => Yii::t('andahrm/structure', 'ขั้น'),
-            'position_type_id' => Yii::t('andahrm/structure', 'ประเภทตำแหน่ง'),
-            'position_level_id' => Yii::t('andahrm/structure', 'ระดับ'),
-            'title' => Yii::t('andahrm/structure', 'ประเภท/ระดับ'),
-            'salary' => Yii::t('andahrm/structure', 'อัตราเงินเดือน'),
+            'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
+            'step' => Yii::t('andahrm/structure', 'Step'),
+            'position_type_id' => Yii::t('andahrm/structure', 'Position Type'),
+            'position_level_id' => Yii::t('andahrm/structure', 'Position Level'),
+            'title' => Yii::t('andahrm/structure', 'Title'),
+            'salary' => Yii::t('andahrm/structure', 'Salary'),
             'note' => Yii::t('andahrm/structure', 'Note'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
 

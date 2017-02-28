@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use andahrm\structure\models\FiscalYear;
+use andahrm\setting\models\Helper;
 
 /**
  * FiscalYearSearch represents the model behind the search form of `andahrm\structure\models\FiscalYear`.
@@ -67,10 +68,10 @@ class FiscalYearSearch extends FiscalYear
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'year' => $this->year,
+            'year' => $this->year ? (intval($this->year) - Helper::YEAR_TH_ADD) : null,
             'phase' => $this->phase,
-            'date_start' => $this->date_start,
-            'date_end' => $this->date_end,
+            // 'date_start' => $this->date_start ? Helper::dateUi2Db($this->date_start) : null,
+            // 'date_end' => $this->date_end,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
@@ -78,6 +79,8 @@ class FiscalYearSearch extends FiscalYear
         ]);
 
         $query->andFilterWhere(['like', 'note', $this->note]);
+        $query->andFilterWhere(['=', 'DATE(date_start)', $this->date_start ? Helper::dateUi2Db($this->date_start) : null]);
+        $query->andFilterWhere(['=', 'DATE(date_end)', $this->date_end ? Helper::dateUi2Db($this->date_end) : null]);
 
         return $dataProvider;
     }

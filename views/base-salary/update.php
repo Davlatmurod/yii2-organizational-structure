@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\BaseSalary */
 
-$this->title = Yii::t('andahrm/structure', 'Update {modelClass}: ', [
+$this->title = Yii::t('andahrm', 'Update {modelClass}: ', [
     'modelClass' => 'Base Salary',
 ]) . $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Base Salaries'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('andahrm/structure', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('andahrm', 'Update');
 ?>
 <div class="base-salary-update">
 
