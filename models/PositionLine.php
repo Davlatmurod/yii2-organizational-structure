@@ -100,15 +100,20 @@ class PositionLine extends \yii\db\ActiveRecord
     }
   
   
-    public static function getListByPersonType($person_type_id){
-      return ArrayHelper::map(self::find()->where(['person_type_id'=>$person_type_id])->all(),'id','titleCode');
+    public static function getListByPersonType($person_type_id,$section_id=null){
+        $model = self::find()
+        ->joinWith('position')
+        ->andFilterWhere(['position_line.person_type_id'=>$person_type_id])
+        ->andFilterWhere(['position.section_id'=>$section_id])
+        ->all();
+      return ArrayHelper::map($model,'id','titleCode');
     }
     
     public static function getPositionlines($person_type_id)
     {
         if($person_type_id){
           return ArrayHelper::map(
-            PositionLine::find()->where([
+            self::find()->where([
                'person_type_id'=>$person_type_id
             ])->all()
             ,'id','titleCode');

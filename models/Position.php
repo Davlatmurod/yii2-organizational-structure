@@ -256,6 +256,10 @@ class Position extends \yii\db\ActiveRecord
      //return '1';
        return $this->code." ".$this->title;
     }
+    
+    public function getTitleCode(){
+        return $this->title."<br/><small>".$this->code."</small>";
+    }
   
     public static function getList(){
       return ArrayHelper::map(self::find()->all(),'id','code');
