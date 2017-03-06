@@ -150,5 +150,14 @@ class FiscalYear extends ActiveRecord
         return Yii::$app->formatter->asDate($this->date_end);
     }
     
+    public static function getDateBetween($year)
+    {
+        $model = self::find()
+        ->select("MIN(`date_start`) as date_start, MAX(`date_end`) as date_end")
+        ->where(['year' => $year])->orderBy('phase')->one();
+        
+        return $model;
+    }
+    
   
 }
