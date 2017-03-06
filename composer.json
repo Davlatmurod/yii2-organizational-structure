@@ -24,6 +24,7 @@
   "require": {                
         "wbraganca/yii2-nested-set-behavior": "*",
         "wbraganca/yii2-fancytree-widget": "*",
+        "firdows/yii2-orgchart": "dev-master",
         "mdmsoft/yii2-autonumber": "~1.0",
         "kartik-v/yii2-widgets": "*",
         "bower-asset/jquery-orgchart": "@dev"
@@ -31,12 +32,6 @@
     "autoload": {
         "psr-4": {
             "andahrm\\structure\\": ""
-        }
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
         }
     }
 }
