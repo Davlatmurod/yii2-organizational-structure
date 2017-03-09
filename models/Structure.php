@@ -167,9 +167,13 @@ class Structure extends \yii\db\ActiveRecord
   
   public static function getOrgJson($id=null){
      $model = self::findOne(['level'=>1]);
+     
+     
+     //print_r($model->position);
+     //exit();
      $str = [
             'name'=>$model->title,
-            'title'=>$model->position->users?$model->position->users[0]
+            'title'=>($model->position && $model->position->users)?$model->position->users[0]
             ->getInfoMedia('#',[
                 'wrapper' => true,
                 'wrapperTag' => 'div'
@@ -186,7 +190,7 @@ class Structure extends \yii\db\ActiveRecord
              foreach($parent as $model){
                  
                  $user=[];
-                    if(isset($model->position->users)){
+                    if(isset($model->position) && isset($model->position->users)){
                      foreach($model->position->users as $u){
                             $user[] = $u->getInfoMedia('#',[
                             'wrapper' => true,
