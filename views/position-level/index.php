@@ -28,9 +28,11 @@ $columns = [
     'position_type_id' => [
         'attribute' => 'position_type_id',
         'filter' => PositionType::getList(),
-        'value' => 'positionType.title'
+        'contentOptions'=>['colspan'=>2],
+        'value' => 'titleTypeLevel'
     ],
     'title' => 'title',
+    'level' => 'level',
     'note' => 'note',
     'created_at' => 'created_at:datetime',
     'created_by' => 'created_by',
@@ -41,9 +43,9 @@ $columns = [
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
     $columns['person_type_id'],
+    $columns['level'],
     $columns['position_type_id'],
     $columns['title'],
-    //$columns['note'],
     $columns['created_at'],
     $columns['created_by'],
     ['class' => '\kartik\grid\ActionColumn',]

@@ -51,8 +51,8 @@ class PositionLevel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['person_type_id', 'position_type_id', 'title'], 'required'],
-           [['person_type_id','position_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+           [['person_type_id', 'position_type_id', 'title','level'], 'required'],
+           [['person_type_id','position_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by','level'], 'integer'],
            [['title'], 'string', 'max' => 50],
            [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']], 
         ];
@@ -67,7 +67,9 @@ class PositionLevel extends \yii\db\ActiveRecord
             'id' => Yii::t('andahrm/structure', 'ID'),
             'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
             'position_type_id' => Yii::t('andahrm/structure', 'Position Type'),
-            'title' => Yii::t('andahrm/structure', 'Title'),
+            'title' => Yii::t('andahrm/structure', 'Title Level'),
+            'titleTypeLevel' => Yii::t('andahrm/structure', 'Title Type Level'),
+            'level' => Yii::t('andahrm/structure', 'Level No'),
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
             'created_by' => Yii::t('andahrm', 'Created By'),
@@ -83,6 +85,10 @@ class PositionLevel extends \yii\db\ActiveRecord
    { 
        return $this->hasMany(BaseSalary::className(), ['position_level_id' => 'id']); 
    } 
+   
+   public function getPersonType(){
+      return $this->hasOne(PersonType::className(), ['id' => 'person_type_id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -107,6 +113,15 @@ class PositionLevel extends \yii\db\ActiveRecord
     public static function getListByPersonType($person_type_id){
       return ArrayHelper::map(self::find()->where(['person_type_id'=>$person_type_id])->all(),'id','title');
     }
+    
+    public function getTitleTypeLevel()
+   {
+       return Yii::t('andahrm/structure', 'Title{type}Level{level}',[
+           'type'=>$this->positionType->title,
+           'level'=>$this->title
+           ]);
+            
+   }
   
   
 }

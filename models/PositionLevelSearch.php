@@ -19,8 +19,8 @@ class PositionLevelSearch extends PositionLevel
     public function rules()
     {
         return [
-            [['id', 'position_type_id','person_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['title'], 'safe'],
+            [['id', 'position_type_id','person_type_id','level' , 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['title','note'], 'safe'],
         ];
     }
 
