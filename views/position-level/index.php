@@ -32,7 +32,7 @@ $columns = [
         'value' => 'titleTypeLevel'
     ],
     'title' => 'title',
-    'level' => 'level',
+   // 'level' => 'level',
     'note' => 'note',
     'created_at' => 'created_at:datetime',
     'created_by' => 'created_by',
@@ -43,7 +43,7 @@ $columns = [
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
     $columns['person_type_id'],
-    $columns['level'],
+    //$columns['level'],
     $columns['position_type_id'],
     $columns['title'],
     $columns['created_at'],

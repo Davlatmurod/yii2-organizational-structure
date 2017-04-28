@@ -51,7 +51,7 @@ class PositionLevel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['person_type_id', 'position_type_id', 'title','level'], 'required'],
+           [['person_type_id', 'position_type_id', 'title'], 'required'],
            [['person_type_id','position_type_id', 'note', 'created_at', 'created_by', 'updated_at', 'updated_by','level'], 'integer'],
            [['title'], 'string', 'max' => 50],
            [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']], 
