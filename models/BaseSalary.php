@@ -156,7 +156,8 @@ class BaseSalary extends \yii\db\ActiveRecord
        ->all();
        $newData = ArrayHelper::index($data,'positionCode', 'step');
        $step = [];
-       foreach(range(1,$modelPersonType->step_max,0.5) as $s){
+       //foreach(range(1,$modelPersonType->step_max,0.5) as $s){
+       foreach(range($modelPersonType->step_max,1,0.5) as $s){
          $step[Yii::$app->formatter->asDecimal($s,1)] = [];
        }
        
