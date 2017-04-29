@@ -22,22 +22,23 @@ use mdm\admin\components\Helper;
                             'label' => Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
                             'icon' => 'fa fa-sitemap'
-                        ],                      
-                        [
-                            'label' => Yii::t('andahrm/structure', 'Base Salaries'),
-                            'url' => ["/{$module}/base-salary"],
-                            'icon' => 'fa fa-sitemap'
                         ],
                         [
-                            'label' => Yii::t('andahrm/structure', 'Person Types'),
-                            'url' => ["/{$module}/person-type"],
+                            'label' => Yii::t('andahrm/structure', 'Fiscal Years'),
+                            'url' => ["/{$module}/fiscal-year"],
                             'icon' => 'fa fa-sitemap'
-                        ],
+                        ], 
+                        
                         [
                             'label' => Yii::t('andahrm/structure', 'Sections'),
                             'url' => ["/{$module}/section"],
                             'icon' => 'fa fa-sitemap'
-                        ],                      
+                        ],  
+                        [
+                            'label' => Yii::t('andahrm/structure', 'Person Types'),
+                            'url' => ["/{$module}/person-type"],
+                            'icon' => 'fa fa-sitemap'
+                        ],                 
                         [
                             'label' => Yii::t('andahrm/structure', 'Position Lines'),
                             'url' => ["/{$module}/position-line"],
@@ -48,16 +49,20 @@ use mdm\admin\components\Helper;
                             'url' => ["/{$module}/position-type"],
                             'icon' => 'fa fa-sitemap'
                         ], 
-                        [
+                         [
                             'label' => Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
                             'icon' => 'fa fa-sitemap'
                         ], 
+                        
                         [
-                            'label' => Yii::t('andahrm/structure', 'Fiscal Years'),
-                            'url' => ["/{$module}/fiscal-year"],
+                            'label' => Yii::t('andahrm/structure', 'Base Salaries'),
+                            'url' => ["/{$module}/base-salary"],
                             'icon' => 'fa fa-sitemap'
-                        ], 
+                        ],   
+                        
+                       
+                        
                     ];
                     $menuItems = Helper::filter($menuItems);
                     

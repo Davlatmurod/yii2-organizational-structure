@@ -50,6 +50,21 @@
 .orgchart .child-level {
     width: 200px;
 }
+
+.orgchart .child-level-2:first-child {
+    width: 400px;
+}
+
+.orgchart .child-level-2:first-child .media.event{
+    width: 47.5%;
+    display: inline-block;
+    border-right:1px solid #000;
+    margin-right:2%;
+}
+.orgchart .child-level-2:first-child .media.event:last-child{
+    border:none;
+    margin-right:0px;
+}
 .orgchart .first-level .title {
     background-color: #2a3f54;
     

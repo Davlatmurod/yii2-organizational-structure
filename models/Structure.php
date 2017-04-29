@@ -167,7 +167,7 @@ class Structure extends \yii\db\ActiveRecord
   
   public static function getOrgJson($id=null){
      $model = self::findOne(['level'=>1]);
-     
+     $num = 1;
      
      //print_r($model->position);
      //exit();
@@ -178,15 +178,16 @@ class Structure extends \yii\db\ActiveRecord
                 'wrapper' => true,
                 'wrapperTag' => 'div'
                 ]):'ว่าง',
-            'children'=>self::getOrgSubJson($model->children()->all()),
+            'children'=>self::getOrgSubJson($model->children()->all(),$num),
             'className' => 'first-level',
             ];
      return $str;
    }
    
-   public static function getOrgSubJson($parent){ 
+   public static function getOrgSubJson($parent,$num){ 
        if($parent){
              $str = [];
+             $num+=1;
              foreach($parent as $model){
                  
                  $user=[];
@@ -200,9 +201,9 @@ class Structure extends \yii\db\ActiveRecord
                     }
                 $str[] = [
                     'name'=>$model->title,
-                    'title'=>$user?implode("<hr/>",$user):'ว่าง',
-                    'children'=>self::getOrgSubJson($model->children()->all()),
-                   'className' => 'child-level',
+                    'title'=>$user?implode("",$user):'ว่าง',
+                    'children'=>self::getOrgSubJson($model->children()->all(),$num),
+                    'className' => 'child-level-'.$num,
                     ];
              }
              return $str;
