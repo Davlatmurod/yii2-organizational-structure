@@ -23,7 +23,8 @@ $columns = [
         'attribute' => 'person_type_id',
         'label' => Yii::t('andahrm/structure', 'Person Type'),
         'filter' => PersonType::getList(),
-        'value' => 'positionType.personType.title'
+        'value' => 'positionType.personType.title',
+        'group' => true,
     ],
     'position_type_id' => [
         'attribute' => 'position_type_id',

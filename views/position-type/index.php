@@ -19,6 +19,7 @@ $columns = [
         'attribute'=>'person_type_id',
         'filter'=>PersonType::getList(),      
         'value'=>'personType.title',
+        'group' => true,
     ],
     'title' => 'title',
     'note' => 'note',

@@ -39,6 +39,10 @@ class PositionLevelController extends Controller
     {
         $searchModel = new PositionLevelSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+         $dataProvider->sort->defaultOrder = [
+            'person_type_id'=>SORT_ASC,
+            ];
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

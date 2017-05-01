@@ -15,13 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $columns = [
     'id' => 'id',
-    'code' => 'code',
-    'title' => 'title',
     'person_type_id' => [
         'attribute'=>'person_type_id',
         'filter' => PersonType::getList(),
-        'value' => 'personType.title'
+        'value' => 'personType.title',
+        'group' => true,
     ],
+    'code' => 'code',
+    'title' => 'title',
     'created_at' => 'created_at:datetime',
     'created_by' => 'created_by',
     'updated_at' => 'updated_at',

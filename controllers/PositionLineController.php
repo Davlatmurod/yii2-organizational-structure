@@ -37,6 +37,10 @@ class PositionLineController extends Controller
     {
         $searchModel = new PositionLineSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->sort->defaultOrder = [
+            'person_type_id'=>SORT_ASC,
+        ];
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

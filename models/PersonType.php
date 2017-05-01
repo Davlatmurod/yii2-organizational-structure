@@ -119,9 +119,16 @@ class PersonType extends \yii\db\ActiveRecord
     }
 
     public static function getList($group = true){
+      $modelParent = self::find()->where(['=','parent_id','0'])->select(['id'])->orderBy(['sort'=>SORT_ASC])->asArray()->all();
+      $modelParent = ArrayHelper::getColumn($modelParent,'id');
+      $sortField = implode(',', $modelParent);
+      $model = self::find()->where(['parent_id'=>$modelParent])
+      ->orderBy([new \yii\db\Expression('FIELD (parent_id, ' . $sortField . ')')])
+      ->all();
+
       if($group)
-      return ArrayHelper::map(self::find()->where(['!=','parent_id','0'])->all(),'id','titleCode','parent.title');
-      return ArrayHelper::map(self::find()->where(['!=','parent_id','0'])->all(),'id','titleCode');
+      return ArrayHelper::map($model,'id','titleCode','parent.title');
+      return ArrayHelper::map($model,'id','titleCode');
     }
     
     public static function getParentList(){
@@ -135,8 +142,7 @@ class PersonType extends \yii\db\ActiveRecord
       return ArrayHelper::map($model,'id','title');
     }
     
-    public function getParent() 
-   { 
+    public function getParent(){ 
        return $this->hasOne(self::className(), ['id' => 'parent_id']); 
    }
   
