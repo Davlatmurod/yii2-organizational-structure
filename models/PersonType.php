@@ -41,11 +41,11 @@ class PersonType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'title', 'step_max'], 'required'],
-            [['step_max', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['code', 'title', 'step_max','parent_id'], 'required'],
+            [['step_max', 'created_at', 'created_by', 'updated_at', 'updated_by','parent_id','sort'], 'integer'],
             [['code'], 'string', 'max' => 45],
             [['title', 'note'], 'string', 'max' => 255],
-            [['title'], 'unique'],
+            //[['title'], 'unique'],
             //[['code'], 'unique'],
         ];
     }
@@ -69,6 +69,8 @@ class PersonType extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
+            'parent_id' => Yii::t('andahrm/structure', 'Parent ID'),
+            'sort' => Yii::t('andahrm/structure', 'Sort'),
             'code' => Yii::t('andahrm/structure', 'Code'),
             'title' => Yii::t('andahrm/structure', 'Title'),
             'step_max' => Yii::t('andahrm/structure', 'Step Max'), 
@@ -116,8 +118,15 @@ class PersonType extends \yii\db\ActiveRecord
       return $this->title." (".$this->code.")";
     }
 
-    public static function getList(){
-      return ArrayHelper::map(self::find()->all(),'id','titleCode');
+    public static function getList($group = true){
+      if($group)
+      return ArrayHelper::map(self::find()->where(['!=','parent_id','0'])->all(),'id','titleCode','parent.title');
+      return ArrayHelper::map(self::find()->where(['!=','parent_id','0'])->all(),'id','titleCode');
+    }
+    
+    public static function getParentList(){
+      $model =  ArrayHelper::map(self::find()->where(['parent_id'=>'0'])->all(),'id','title');
+      return ArrayHelper::merge([0=>Yii::t('andahrm/structure','Root')],$model);
     }
     
     # For Insignia
@@ -125,6 +134,12 @@ class PersonType extends \yii\db\ActiveRecord
       $model = self::find()->where(['id'=>[8,9,1,2,3,4]])->all();
       return ArrayHelper::map($model,'id','title');
     }
+    
+    public function getParent() 
+   { 
+       return $this->hasOne(self::className(), ['id' => 'parent_id']); 
+   }
+  
   
   
 }

@@ -21,13 +21,13 @@ use andahrm\structure\models\PersonType;
                             'url' => ["/{$module}/base-salary/index"],
                             'icon' => 'fa fa-home'
                         ];
-      
-      foreach(PersonType::getList() as $key => $type){
+     
+      foreach(PersonType::getList(false) as $key => $type){
         $menuItems[] =  [
-                            'label' => Yii::t('andahrm/structure', $type),
-                            'url' => ["/{$module}/base-salary/person-type{$key}"],
-                            'icon' => 'fa fa-user'
-                        ];
+            'label' => Yii::t('andahrm/structure', $type),
+            'url' => ["/{$module}/base-salary/person-type{$key}"],
+            'icon' => 'fa fa-user'
+        ];
       }
                        
                     

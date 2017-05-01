@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use andahrm\structure\models\PersonType;
 
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\PersonType */
@@ -15,6 +16,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'parent_id')->dropDownList(PersonType::getParentList()) ?>
+    
+    <?= $form->field($model, 'sort')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'step_max')->textInput() ?>
 

@@ -14,7 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $columns = [
     'id' => 'id',
-    'code' => 'code',
+    'code' => ['attribute'=>'code','group'=>true],
+    'parent' => [
+        'attribute'=>'parent',
+    'value'=>'parent.title',
+    'group'=>true,
+    ],
     'title' => 'title',
     'step_max' => 'step_max',
     'created_at' => 'created_at:datetime',
@@ -25,6 +30,7 @@ $columns = [
 
 $gridColumns = [
    ['class' => '\kartik\grid\SerialColumn'],
+    $columns['parent'],
     $columns['code'],
     $columns['title'],
     $columns['step_max'],

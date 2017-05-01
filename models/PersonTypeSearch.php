@@ -70,6 +70,8 @@ class PersonTypeSearch extends PersonType
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'note', $this->note]);
+            
+        $query->andFilterWhere(['!=', 'parent_id', '0']);
 
         return $dataProvider;
     }

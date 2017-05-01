@@ -214,6 +214,11 @@ class BaseSalary extends \yii\db\ActiveRecord
         }
           return [];
     }
-  
-  
+    
+   public $conv = [
+       4=>7,
+       3=>6,
+       2=>5,
+       1=>2
+       ];
 }

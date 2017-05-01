@@ -38,21 +38,22 @@ class BaseSalaryController extends Controller
   
   public function actions() {       
     $actions = [];
-    $actions['person-type1'] =  [
-                'class' => 'andahrm\structure\controllers\actions\GovListAction',
-                'key' => 1
-        ];
+    // $actions['person-type1'] =  [
+    //             'class' => 'andahrm\structure\controllers\actions\GovListAction',
+    //             'key' => 1
+    //     ];
     
-     foreach(PersonType::getList() as $key => $type){
-       if($key==1) continue;
+    
+     foreach(PersonType::getList(false) as $key => $type){
+       //if($key==1) continue;
         $actions['person-type'.$key] =   [
                 'class' => 'andahrm\structure\controllers\actions\GovListAction',
                 'key' =>$key
         ];
       }
     
-//     print_r($actions);
-//     exit();
+    // print_r($actions);
+    // exit();
     
     
         return $actions;
