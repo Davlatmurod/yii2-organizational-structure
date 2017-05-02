@@ -81,6 +81,12 @@ class PersonType extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
+    
+    const PERSON_GOV = 1;
+    const PERSON_SERVENT = 4;
+    const PERSON_EMPLOYEE = 8;
+    const PERSON_TRANSFER = 8;
+    const PERSON_HEADER = 13;
 
     /**
      * @return \yii\db\ActiveQuery
@@ -131,9 +137,11 @@ class PersonType extends \yii\db\ActiveRecord
       return ArrayHelper::map($model,'id','titleCode');
     }
     
-    public static function getParentList(){
-      $model =  ArrayHelper::map(self::find()->where(['parent_id'=>'0'])->all(),'id','title');
+    public static function getParentList($root = true){
+      $model =  ArrayHelper::map(self::find()->where(['parent_id'=>'0'])->orderBy(['sort'=>SORT_ASC])->all(),'id','title');
+      if($root)
       return ArrayHelper::merge([0=>Yii::t('andahrm/structure','Root')],$model);
+      return $model;
     }
     
     # For Insignia
