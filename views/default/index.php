@@ -18,6 +18,7 @@ $this->title = Yii::t('andahrm/structure', 'Organiaztional Structure');
 $this->params['breadcrumbs'][] = $this->title;
 
 
+//firdows\orgchart\Html2CanvasAsset::register($this);
 firdows\orgchart\OrgChartAsset::register($this);
 andahrm\structure\assets\MyChartAsset::register($this);
 
@@ -47,7 +48,7 @@ $this->registerJs("
         'depth': 4,
         'verticalDepth': 4,
         'pan': true,
-        //'zoom': true,
+        'zoom': true,
         //'draggable': true
       });
 ");
@@ -145,7 +146,6 @@ if(Yii::$app->request->get('id')) {
 }
 
 endif;
-
 
 
 

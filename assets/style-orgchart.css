@@ -51,17 +51,17 @@
     width: 200px;
 }
 
-.orgchart .child-level-2:first-child {
+.orgchart .child-level-2.index-1 {
     width: 400px;
 }
 
-.orgchart .child-level-2:first-child .media.event{
+.orgchart .child-level-2.index-1 .media.event{
     width: 47.5%;
     display: inline-block;
     border-right:1px solid #000;
     margin-right:2%;
 }
-.orgchart .child-level-2:first-child .media.event:last-child{
+.orgchart .child-level-2.index-1 .media.event:last-child{
     border:none;
     margin-right:0px;
 }

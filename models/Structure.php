@@ -188,6 +188,7 @@ class Structure extends \yii\db\ActiveRecord
        if($parent){
              $str = [];
              $num+=1;
+             $index = 1;
              foreach($parent as $model){
                  
                  $user=[];
@@ -203,9 +204,11 @@ class Structure extends \yii\db\ActiveRecord
                     'name'=>$model->title,
                     'title'=>$user?implode("",$user):'ว่าง',
                     'children'=>self::getOrgSubJson($model->children()->all(),$num),
-                    'className' => 'child-level-'.$num,
+                    'className' => 'child-level-'.$num.' index-'.($index++),
                     ];
+                 
              }
+             
              return $str;
        }
        return null;

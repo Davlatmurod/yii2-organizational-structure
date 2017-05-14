@@ -124,13 +124,17 @@ class PersonType extends \yii\db\ActiveRecord
       return $this->title." (".$this->code.")";
     }
 
-    public static function getList($group = true){
-      $modelParent = self::find()->where(['=','parent_id','0'])->select(['id'])->orderBy(['sort'=>SORT_ASC])->asArray()->all();
+    public static function getList($group = true,$parint_id=null){
+      $modelParent = self::find()->where(['=','parent_id','0'])
+                    ->select(['id'])
+                    ->orderBy(['sort'=>SORT_ASC])
+                    ->asArray()->all();
       $modelParent = ArrayHelper::getColumn($modelParent,'id');
       $sortField = implode(',', $modelParent);
       $model = self::find()->where(['parent_id'=>$modelParent])
-      ->orderBy([new \yii\db\Expression('FIELD (parent_id, ' . $sortField . ')')])
-      ->all();
+          ->andFilterWhere(['parent_id'=>$parint_id])
+          ->orderBy([new \yii\db\Expression('FIELD (parent_id, ' . $sortField . ')')])
+          ->all();
 
       if($group)
       return ArrayHelper::map($model,'id','titleCode','parent.title');
