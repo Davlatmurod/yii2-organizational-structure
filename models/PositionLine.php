@@ -54,7 +54,7 @@ class PositionLine extends \yii\db\ActiveRecord
             [['person_type_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code'], 'string', 'max' => 10],
             [['title'], 'string', 'max' => 255],
-            [['code'], 'unique'],
+            [['person_type_id', 'code'], 'unique', 'targetAttribute' => ['person_type_id', 'code'], 'message' => 'The combination of Person Type ID and Code has already been taken.'],
         ];
     }
 

@@ -72,7 +72,7 @@ class Position extends \yii\db\ActiveRecord
     {
         return [
             //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
-            [['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
+            [['person_type_id', 'section_id', 'position_line_id', 'title' ], 'required'],
             [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],

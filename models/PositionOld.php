@@ -64,4 +64,9 @@ class PositionOld extends \yii\db\ActiveRecord
     public static function getList(){
         return ArrayHelper::map(self::find()->all(),'id','code');
     }
+    
+    public function getCodeTitle(){
+     //return '1';
+       return $this->code." ".$this->title;
+    }
 }
