@@ -323,10 +323,18 @@ class Position extends \yii\db\ActiveRecord
     }
     
     public function getExists(){
-        if(self::find()->where(['person_type_id'=>$this->person_type_id, 'section_id'=>$this->section_id,'number'=>$this->number])->andFilterWhere(['position_line_id'=>$this->position_line_id])->exists()){
+        if(self::find()->where(['person_type_id'=>$this->person_type_id, 'section_id'=>$this->section_id,'number'=>(int)$this->number])->andFilterWhere(['position_line_id'=>$this->position_line_id])->exists()){
             return true;
         }
         return;
     } 
+    
+     public function getCreatedBy(){      
+        return  $this->hasOne(Person::className(), ['user_id' => 'created_by']);
+    }
+  
+    public function getUpdatedBy(){      
+        return  $this->hasOne(Person::className(), ['user_id' => 'updated_by']);
+    }
   
 }

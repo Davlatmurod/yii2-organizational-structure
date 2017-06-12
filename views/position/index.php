@@ -57,7 +57,10 @@ $columns = [
     ],
     'note' => 'note',
     'created_at' => 'created_at:datetime',
-    'created_by' => 'created_by',
+    'created_by' => [
+        'attribute' => 'created_by',
+        'value' => 'createdBy.fullname'
+    ],
     'updated_at' => 'updated_at',
     'updated_by' => 'updated_by',
 ];
