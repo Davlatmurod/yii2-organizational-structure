@@ -42,15 +42,25 @@ use kartik\widgets\DepDrop;
                 'depends'=>['ddl-person_type'],
                 'placeholder'=>Yii::t('app','Select'),
                 'url'=>Url::to(['/structure/position/get-position-line'])
-            ]
+            ],
+            'pluginEvents' => [
+              //'change' => "function(event, id, value, count) { alert(value); }",
+              ]
         ]); ?>
       </div>
       <div class="col-sm-3">
-        <?= $form->field($model, 'number')->textInput() ?>
+        <?= $form->field($model, 'number' ,['enableAjaxValidation' => true])->textInput() ?>
       </div>
     </div>
 
-
+<?php if(!$model->isNewRecord):?>
+<div class="row">
+      <div class="col-sm-12">
+        <?=Html::activeLabel($model,'code');?>
+        <?=$model->code?>
+      </div>
+</div>
+<?php endif;?>
 
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
@@ -65,14 +75,14 @@ use kartik\widgets\DepDrop;
       </div>
 
 
-      <div class="row">
-        <div class="col-sm-6">
-          <?= $form->field($model, 'min_salary')->textInput() ?>
-        </div>
-        <div class="col-sm-6">
-          <?= $form->field($model, 'max_salary')->textInput() ?>
-        </div>
-      </div>
+      <!--<div class="row">-->
+      <!--  <div class="col-sm-6">-->
+      <!--    <?= $form->field($model, 'min_salary')->textInput() ?>-->
+      <!--  </div>-->
+      <!--  <div class="col-sm-6">-->
+      <!--    <?= $form->field($model, 'max_salary')->textInput() ?>-->
+      <!--  </div>-->
+      <!--</div>-->
     
     
       <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
@@ -86,3 +96,22 @@ use kartik\widgets\DepDrop;
         <?php ActiveForm::end(); ?>
 
   </div>
+  
+<?php
+ $position_line_id =  Html::getInputId($model, 'position_line_id');
+ $title =  Html::getInputId($model, 'title');
+  
+$js[] = <<< JS
+  $("#ddl-position_line").on('change',function(){
+     if($(this).val()){
+       var label = $(".select2-selection__rendered").text();
+       label = label.slice(0,label.indexOf("("));
+       $("#{$title}").val(label);
+     }
+  });
+  
+JS;
+  
+  
+  $this->registerJs(implode("\n", $js));
+  ?>

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
+use kartik\widgets\Select2;
 use kartik\export\ExportMenu;
 
 use andahrm\structure\models\PersonType;
@@ -23,6 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
 $columns = [
     'id' => 'id',
     'code' => 'code',
+    'code' => [
+        'attribute' => 'code',
+        // 'filter' => Select2::widget([
+        //     'name' => 'code',
+        //     'data' => Position::getList(),
+        //     ]),
+        'contentOptions' => ['style'=>"white-space:nowrap;"],
+        'value' => 'code'
+    ],
     'title' => 'title',
     'position_line_id' => [
         'attribute' => 'position_line_id',

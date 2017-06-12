@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use andahrm\structure\models\PositionLine;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 /**
  * PositionController implements the CRUD actions for Position model.
@@ -74,17 +76,32 @@ class PositionController extends Controller
     {
         $model = new Position(['scenario'=>'insert']);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())){
+            //echo $model->person_type_id.'-'.$model->section_id.'-'.$model->position_line_id.'-'.$model->number;
+            if (Yii::$app->request->isAjax) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $valid = ActiveForm::validate($model);
+        if($model->getExists())
+        $valid['position-number'] = [Yii::t('andahrm/structure', 'This sequence already exists.')];
+        return $valid; 
+        Yii::$app->end();
+
+    }
+            
+            //print_r(Yii::$app->request->post());
+            //exit();
+            if($model->save()) {
             Yii::$app->getSession()->setFlash('saved',[
                 'type' => 'success',
                 'msg' => Yii::t('andahrm', 'Save operation completed.')
             ]);
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+            }
+        } 
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+        
     }
 
     /**

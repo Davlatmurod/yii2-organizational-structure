@@ -29,15 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             [
               'attribute'=>'position_line_id',
-              'value' => $model->positionLine->title,
+              'value' => $model->positionLine?$model->positionLine->title:null,
             ],
             [
               'attribute'=>'position_type_id',
-              'value' => $model->positionType->title,
+              'value' => $model->positionType?$model->positionType->title:null,
             ],
             [
               'attribute'=>'position_level_id',
-              'value' => $model->positionLevel->title,
+              'value' => $model->positionLevel?$model->positionLevel->title:null,
             ],
             'min_salary',
             'max_salary',

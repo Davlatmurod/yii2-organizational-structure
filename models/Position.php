@@ -57,7 +57,7 @@ class Position extends \yii\db\ActiveRecord
             [
                 'class' => 'mdm\autonumber\Behavior',
                 'attribute' => 'number', // required
-                'group' => $this->person_type_id+$this->section_id+$this->position_line_id, // optional
+                'group' => $this->person_type_id.'-'.$this->section_id.($this->position_line_id?'-'.$this->position_line_id:''), // optional
                 'value' => '?' , // format auto number. '?' will be replaced with generated number
                 //'digit' => 4 // optional, default to null. 
             ],
@@ -72,17 +72,17 @@ class Position extends \yii\db\ActiveRecord
     {
         return [
             //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
-            [['person_type_id', 'section_id', 'position_line_id', 'title' ], 'required'],
+            [['person_type_id', 'section_id', 'title' ], 'required'],
             [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],
-            [['person_type_id', 'section_id', 'position_type_id', 'number'], 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_type_id', 'number'], 'message' => 'The combination of รหัสประเภทบุคคล, รหัสกอง, ลำดับ and ประเภทตำแหน่ง has already been taken.'],
+           //[[ 'number'], 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_line_id', 'number'], 'message' => 'The combination of Person Type ID, Section ID, Position Line ID and Number has already been taken.'],
             [['position_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionLevel::className(), 'targetAttribute' => ['position_level_id' => 'id']],
             [['position_line_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionLine::className(), 'targetAttribute' => ['position_line_id' => 'id']],
             [['person_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonType::className(), 'targetAttribute' => ['person_type_id' => 'id']],
             [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']],
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
-          ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_type_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
+            ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_line_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
             [['code'],'safe'],
             [['status'], 'default', 'value' => 1],
         ];
@@ -125,6 +125,16 @@ class Position extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('andahrm', 'Updated At'),
             'updated_by' => Yii::t('andahrm', 'Updated By'),
             'code' => Yii::t('andahrm/structure', 'Code Position'),
+        ];
+    }
+     
+     /**
+     * @inheritdoc
+     */
+    public function attributeHints()
+    {
+        return [
+            'number' => Yii::t('andahrm/structure', '001 type 1 or empty'),
         ];
     }
     
@@ -247,7 +257,7 @@ class Position extends \yii\db\ActiveRecord
      //return '1';
        return $this->personType->code
          .'-'.$this->section->code
-         .'-'.$this->positionLine->code
+         .($this->positionLine?'-'.$this->positionLine->code:'')
          .'-'.sprintf("%03d",$this->number);
       //return $this->personType->code.'-'.$this->section->code.'-'.$this->positionType->code.'-'.str_pad($this->number, 4, '0', STR_PAD_LEFT);
     }
@@ -311,5 +321,12 @@ class Position extends \yii\db\ActiveRecord
     public static function getListByPersonType($person_type_id){
       return ArrayHelper::map(self::find()->where(['person_type_id'=>$person_type_id])->all(),'id','title');
     }
+    
+    public function getExists(){
+        if(self::find()->where(['person_type_id'=>$this->person_type_id, 'section_id'=>$this->section_id,'number'=>$this->number])->andFilterWhere(['position_line_id'=>$this->position_line_id])->exists()){
+            return true;
+        }
+        return;
+    } 
   
 }

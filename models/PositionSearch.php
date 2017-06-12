@@ -19,9 +19,11 @@ class PositionSearch extends Position
     {
         return [
             [['id', 'person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['title', 'note'], 'safe'],
+            [['title', 'note' , 'code'], 'safe'],
         ];
     }
+    
+    public $code;
 
     /**
      * @inheritdoc
@@ -63,7 +65,7 @@ class PositionSearch extends Position
             'person_type_id' => $this->person_type_id,
             'section_id' => $this->section_id,
             'position_line_id' => $this->position_line_id,
-            'number' => $this->number,
+            //'number' => $this->number,
             'position_type_id' => $this->position_type_id,
             'position_level_id' => $this->position_level_id,
             'min_salary' => $this->min_salary,
@@ -74,6 +76,32 @@ class PositionSearch extends Position
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
+        
+        if($this->code){
+            $code = explode('-',$this->code);
+            if($code[0]=='46'){
+            $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
+            $sectionCode = isset($code[2])?$code[2]:null;
+            $positionLineCode = isset($code[3])?$code[3]:null;
+            $number = isset($code[4])?$code[4]*1:null;
+            }else{
+            $personTypeCode = $code[0];
+            $sectionCode = isset($code[1])?$code[1]:null;
+            $positionLineCode = isset($code[2])?$code[2]:null;
+            $number = isset($code[3])?$code[3]*1:null;
+            }
+            
+           $query->joinWith("personType");
+           $query->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
+           
+           $query->joinWith("section");
+           $query->andFilterWhere(['like', 'section.code', $sectionCode]);
+           
+           $query->joinWith("positionLine");
+           $query->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
+           
+           $query->andFilterWhere(['like', 'number', $number]);
+        }
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'note', $this->note]);
