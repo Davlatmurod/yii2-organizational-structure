@@ -73,6 +73,7 @@ class PersonType extends \yii\db\ActiveRecord
             'sort' => Yii::t('andahrm/structure', 'Sort'),
             'code' => Yii::t('andahrm/structure', 'Code'),
             'title' => Yii::t('andahrm/structure', 'Title'),
+            'type_gov' => Yii::t('andahrm/structure', 'Goverment Type'),
             'step_max' => Yii::t('andahrm/structure', 'Step Max'), 
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
