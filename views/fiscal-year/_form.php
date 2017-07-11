@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kuakling\datepicker\DatePicker;
+use andahrm\datepicker\DatePicker;
 
 use andahrm\structure\models\FiscalYear;
 /* @var $this yii\web\View */
