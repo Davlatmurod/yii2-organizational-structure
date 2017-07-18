@@ -29,6 +29,7 @@ $columns = [
     'position_type_id' => [
         'attribute' => 'position_type_id',
         'filter' => PositionType::getList(),
+        //'headerOptions'=>['colspan'=>2],
         'contentOptions'=>['colspan'=>2],
         'value' => 'titleTypeLevel'
     ],

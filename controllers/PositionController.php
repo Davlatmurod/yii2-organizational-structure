@@ -185,5 +185,56 @@ class PositionController extends Controller
          $datas = PositionLine::find()->where(['person_type_id'=>$id])->all();
          return $this->MapData($datas,'id','titleCode');
      }
+     
+     public $code;
+     public function actionPositionList($q = null, $id = null){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
+        $out = ['results'=>['id'=>'','text'=>'']];
+        if(!is_null($q)){
+            // $query = new \yii\db\Query();
+            // $query->select('id, prefix_name as text')
+            //         ->from('base_prefix')
+            //         ->where("prefix_name LIKE '%".$q."%'")
+            //         ->limit(20);
+            // $command = $query->createCommand();
+            // $data = $command->queryAll();
+            
+          
+            $this->code = $q;
+            $model = Position::find();
+            //$model->select(['position.id','position.code as text']);
+            if($this->code){
+                $code = explode('-',$this->code);
+                if($code[0]=='46'){
+                    $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
+                    $sectionCode = isset($code[2])?$code[2]:null;
+                    $positionLineCode = isset($code[3])?$code[3]:null;
+                    $number = isset($code[4])?$code[4]*1:null;
+                    }else{
+                    $personTypeCode = $code[0];
+                    $sectionCode = isset($code[1])?$code[1]:null;
+                    $positionLineCode = isset($code[2])?$code[2]:null;
+                    $number = isset($code[3])?$code[3]*1:null;
+                }
+                
+               $model->joinWith("personType");
+               $model->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
+               
+               $model->joinWith("section");
+               $model->andFilterWhere(['like', 'section.code', $sectionCode]);
+               
+               $model->joinWith("positionLine");
+               $model->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
+               
+               $model->andFilterWhere(['like', 'number', $number]);
+               //$model->asArray()->all();
+        }
+        
+            $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
+                return ['id'=>$model->id,'text'=>$model->code];
+            });
+        }
+        return $out;
+    }
   
 }
