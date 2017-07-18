@@ -151,7 +151,8 @@ class PersonType extends \yii\db\ActiveRecord
     
     # For Insignia
     public static function getForInsignia(){
-      $model = self::find()->where(['id'=>[8,9,1,2,3,4]])->all();
+      //$model = self::find()->where(['id'=>[8,9,1,2,3,4]])->all();
+      $model = self::find()->where(['id'=>[2,3,5,6,7,14]])->all();
       return ArrayHelper::map($model,'id','title');
     }
     
