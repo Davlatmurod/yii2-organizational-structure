@@ -7,6 +7,7 @@ use mdm\admin\components\Helper;
 
  $this->beginContent('@app/views/layouts/main.php'); 
  $module = $this->context->module->id;
+ $controller = $this->context->id;
 ?>
 <div class="row hidden-print">
     <div class="col-md-12"> 
@@ -21,7 +22,8 @@ use mdm\admin\components\Helper;
                         [
                             'label' => Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-sitemap',
+                            'active'=>($controller=="position"||$controller=="position-old")?"active":""
                         ],
                         [
                             'label' => Yii::t('andahrm/structure', 'Fiscal Years'),

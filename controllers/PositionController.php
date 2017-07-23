@@ -38,6 +38,11 @@ class PositionController extends Controller
      * Lists all Position models.
      * @return mixed
      */
+    public function actions()
+    {
+        $this->layout = 'position';
+    }
+     
     public function actionIndex()
     {
         $searchModel = new PositionSearch();

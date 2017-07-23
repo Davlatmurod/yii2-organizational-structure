@@ -11,8 +11,6 @@ $this->title = Yii::t('andahrm/position-salary', 'Position Olds');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="position-old-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -25,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'code',
             'title',
             'status',

@@ -28,6 +28,12 @@ class PositionOldController extends Controller
             ],
         ];
     }
+    
+    
+    public function actions()
+    {
+        $this->layout = 'position';
+    }
 
     /**
      * Lists all PositionOld models.
