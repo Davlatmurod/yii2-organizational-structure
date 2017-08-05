@@ -8,6 +8,7 @@ use andahrm\structure\models\PositionOldSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * PositionOldController implements the CRUD actions for PositionOld model.
@@ -127,4 +128,17 @@ class PositionOldController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function actionPositionList($q = null, $id = null){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
+        $out = ['results'=>['id'=>'','text'=>'']];
+        if(!is_null($q)){
+            $model = PositionOld::find()->where(['like','code',$q]);
+            $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
+                return ['id'=>$model->id,'text'=>$model->code];
+            });
+        }
+        return $out;
+    }
+    
 }
