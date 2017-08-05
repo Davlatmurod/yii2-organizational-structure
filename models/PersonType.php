@@ -72,7 +72,7 @@ class PersonType extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('andahrm/structure', 'Parent ID'),
             'sort' => Yii::t('andahrm/structure', 'Sort'),
             'code' => Yii::t('andahrm/structure', 'Code'),
-            'title' => Yii::t('andahrm/structure', 'Title'),
+            'title' => Yii::t('andahrm/structure', 'Title Position Type'),
             'type_gov' => Yii::t('andahrm/structure', 'Goverment Type'),
             'step_max' => Yii::t('andahrm/structure', 'Step Max'), 
             'note' => Yii::t('andahrm/structure', 'Note'),
