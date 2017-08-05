@@ -23,7 +23,7 @@ use andahrm\structure\models\PersonType;
                     ];
                     
     $menuItems[] =  [
-                        'label' => Yii::t('andahrm/structure', 'Position Ols'),
+                        'label' => Yii::t('andahrm/position-salary', 'Position Olds'),
                         'url' => ["/{$module}/position-old"],
                         'icon' => 'fa fa-home'
                     ];
@@ -51,10 +51,10 @@ use andahrm\structure\models\PersonType;
     <div class="col-md-12">
       
         <div class="x_panel tile" style="border-top: none;">
-            <div class="x_title">
-                <h2><?= $this->title; ?></h2>
-                <div class="clearfix"></div>
-            </div>
+            <!--<div class="x_title">-->
+            <!--    <h2><?= $this->title; ?></h2>-->
+            <!--    <div class="clearfix"></div>-->
+            <!--</div>-->
             <div class="x_content">
                 <?php echo $content; ?>
                 <div class="clearfix"></div>

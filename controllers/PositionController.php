@@ -241,5 +241,26 @@ class PositionController extends Controller
         }
         return $out;
     }
+    
+    public function actionGetTitle($q=null) {
+        $data = Position::find()
+            ->select('title')->distinct()
+            ->where('title LIKE "%' . $q .'%"')
+            ->orderBy('title')->all();
+            
+        $data1 = PersonPositionSalary::find()
+            ->select('title')->distinct()
+            ->where('title LIKE "%' . $q .'%"')
+            ->orderBy('title')->all();
+            
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['value' => $d->title];
+        }
+        foreach ($data1 as $d) {
+            $out[] = ['value' => $d->title];
+        }
+        echo Json::encode($out);
+     }
   
 }
