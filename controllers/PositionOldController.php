@@ -133,7 +133,7 @@ class PositionOldController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
         $out = ['results'=>['id'=>'','text'=>'']];
         if(!is_null($q)){
-            $model = PositionOld::find()->where(['like','code',$q]);
+            $model = PositionOld::find()->where(['like','code',$q])->orderBy('code');
             $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
                 return ['id'=>$model->id,'text'=>$model->code];
             });

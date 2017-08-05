@@ -4,6 +4,9 @@ namespace andahrm\structure\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use andahrm\positionSalary\models\PersonPositionSalaryOld;
 
 /**
  * This is the model class for table "position_old".
@@ -27,6 +30,19 @@ class PositionOld extends \yii\db\ActiveRecord
     {
         return 'position_old';
     }
+    
+    function behaviors()
+    {
+        return [ 
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ]
+        ];
+    }
+    
 
     /**
      * @inheritdoc
