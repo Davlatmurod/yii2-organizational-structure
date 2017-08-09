@@ -67,10 +67,37 @@ use kartik\widgets\DepDrop;
 
       <div class="row">
         <div class="col-sm-6">
-          <?= $form->field($model, 'position_type_id')->dropDownList(PositionType::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+          <?= $form->field($model, 'position_type_id')->widget(DepDrop::classname(), [
+            'options'=>['id'=>'ddl-position_type'],
+            'data'=> PositionType::getPositionTypes($model->person_type_id),
+            'type'=>DepDrop::TYPE_SELECT2,
+            'pluginOptions'=>[
+                'depends'=>['ddl-person_type'],
+                'placeholder'=>Yii::t('app','Select'),
+                'url'=>Url::to(['/structure/position/get-position-type'])
+            ],
+            'pluginEvents' => [
+              //'change' => "function(event, id, value, count) { alert(value); }",
+              ]
+        ]); 
+          
+          //->dropDownList(PositionType::getList(),['prompt'=>Yii::t('app','Select')])
+          ?>
         </div>
         <div class="col-sm-6">
-          <?= $form->field($model, 'position_level_id')->dropDownList(PositionLevel::getList(),['prompt'=>Yii::t('app','Select')]) ?>
+          <?= $form->field($model, 'position_level_id')->widget(DepDrop::classname(), [
+            'options'=>['id'=>'ddl-position_level'],
+            'data'=> PositionLevel::getPositionLevels($model->person_type_id,$model->position_type_id),
+            'type'=>DepDrop::TYPE_SELECT2,
+            'pluginOptions'=>[
+                'depends'=>['ddl-position_type'],
+                'placeholder'=>Yii::t('app','Select'),
+                'url'=>Url::to(['/structure/position/get-position-level'])
+            ],
+            'pluginEvents' => [
+              //'change' => "function(event, id, value, count) { alert(value); }",
+              ]
+        ]);  ?>
         </div>
       </div>
 

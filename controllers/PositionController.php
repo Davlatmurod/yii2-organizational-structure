@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use andahrm\structure\models\PositionLine;
+use andahrm\structure\models\PositionType;
+use andahrm\structure\models\PositionLevel;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -189,6 +191,48 @@ class PositionController extends Controller
       protected function getPositionLine($id){
          $datas = PositionLine::find()->where(['person_type_id'=>$id])->all();
          return $this->MapData($datas,'id','titleCode');
+     }
+     
+     public function actionGetPositionType() {
+     $out = [];
+      $post = Yii::$app->request->post();
+     if ($post['depdrop_parents']) {
+         $parents = $post['depdrop_parents'];
+         if ($parents != null) {
+             $person_type_id = $parents[0];
+             $out = $this->getPositionType($person_type_id);
+             echo Json::encode(['output'=>$out, 'selected'=>'']);
+             return;
+         }
+         }
+         echo Json::encode(['output'=>'', 'selected'=>'']);
+     }
+
+      protected function getPositionType($id){
+         $datas = PositionType::find()->where(['person_type_id'=>$id])->all();
+         return $this->MapData($datas,'id','title');
+     }
+     
+     public function actionGetPositionLevel() {
+     $out = [];
+      $post = Yii::$app->request->post();
+     if ($post['depdrop_parents']) {
+         $parents = $post['depdrop_parents'];
+         if ($parents != null) {
+             $positon_type_id = $parents[0];
+             $out = $this->getPositionLevel($positon_type_id);
+             echo Json::encode(['output'=>$out, 'selected'=>'']);
+             return;
+         }
+         }
+         echo Json::encode(['output'=>'', 'selected'=>'']);
+     }
+
+      protected function getPositionLevel($position_type_id=null){
+         $datas = PositionLevel::find()
+         ->where(['position_type_id'=>$position_type_id])
+         ->all();
+         return $this->MapData($datas,'id','title');
      }
      
      public $code;

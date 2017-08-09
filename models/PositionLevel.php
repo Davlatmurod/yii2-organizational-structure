@@ -122,6 +122,18 @@ class PositionLevel extends \yii\db\ActiveRecord
            ]);
             
    }
+   
+   public static function getPositionLevels($person_type_id,$position_type_id=null)
+    {
+        if($person_type_id){
+          return ArrayHelper::map(
+            self::find()->where([
+               'person_type_id'=>$person_type_id
+            ])->andFilterWhere(['position_type_id'=>$position_type_id])->all()
+            ,'id','title');
+        }
+          return [];
+    }
   
   
 }

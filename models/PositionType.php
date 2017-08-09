@@ -95,5 +95,16 @@ class PositionType extends \yii\db\ActiveRecord
       return ArrayHelper::map(self::find()->all(),'id','title','personType.title');
     }
     
+    public static function getPositionTypes($person_type_id)
+    {
+        if($person_type_id){
+          return ArrayHelper::map(
+            self::find()->where([
+               'person_type_id'=>$person_type_id
+            ])->all()
+            ,'id','title');
+        }
+          return [];
+    }
   
 }
