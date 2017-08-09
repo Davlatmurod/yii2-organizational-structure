@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * PositionOldController implements the CRUD actions for PositionOld model.
@@ -72,13 +73,26 @@ class PositionOldController extends Controller
     {
         $model = new PositionOld();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())){
+            
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $valid = ActiveForm::validate($model);
+                if($model->getExists())
+                $valid['position-number'] = [Yii::t('andahrm/structure', 'This sequence already exists.')];
+                return $valid; 
+                Yii::$app->end();
+            }
+            
+            
+            if($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } 
+        }
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+        
     }
 
     /**
@@ -129,16 +143,27 @@ class PositionOldController extends Controller
         }
     }
     
-    public function actionPositionList($q = null, $id = null){
+    // public function actionPositionList($q = null, $id = null){
+    //     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
+    //     $out = ['results'=>['id'=>'','text'=>'']];
+    //     if(!is_null($q)){
+    //         $model = PositionOld::find()->where(['like','code',$q])->orderBy('code');
+    //         $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
+    //             return ['id'=>$model->id,'text'=>$model->code];
+    //         });
+    //     }
+    //     return $out;
+    // }
+    
+     public function actionPositionList($q = null, $id = null){
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
-        $out = ['results'=>['id'=>'','text'=>'']];
-        if(!is_null($q)){
-            $model = PositionOld::find()->where(['like','code',$q])->orderBy('code');
-            $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
-                return ['id'=>$model->id,'text'=>$model->code];
-            });
+        //$out = ['results'=>['id'=>'','text'=>'']];
+        $data = PositionOld::find()->andFilterWhere(['like','code',$q])->all();
+        $out = [];
+        foreach ($data as $model) {
+            $out[] = ['value' => $model->code];
         }
-        return $out;
+        echo Json::encode($out);
     }
     
 }

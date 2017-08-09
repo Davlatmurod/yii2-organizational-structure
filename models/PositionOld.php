@@ -85,4 +85,11 @@ class PositionOld extends \yii\db\ActiveRecord
      //return '1';
        return $this->code." ".$this->title;
     }
+    
+    public function getExists(){
+        if(self::find()->where(['code'=>$this->code])->exists()){
+            return true;
+        }
+        return;
+    } 
 }

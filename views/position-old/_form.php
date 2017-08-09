@@ -12,13 +12,18 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+    <div class="raw">
+    
+    <?= $form->field($model, 'code',['options' => ['class' => 'form-group col-xs-3 col-sm-3','enableAjaxValidation' => true]])->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'title',['options' => ['class' => 'form-group col-xs-6 col-sm-6']])->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'status',['options' => ['class' => 'form-group col-xs-3 col-sm-3']])->textInput() ?>
+    </div>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
+    <div class="raw">
+        <?= $form->field($model, 'note',['options' => ['class' => 'form-group col-sm-12']])->textArea() ?>
+     </div>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('andahrm/position-salary', 'Save'), ['class' => 'btn btn-success']) ?>
