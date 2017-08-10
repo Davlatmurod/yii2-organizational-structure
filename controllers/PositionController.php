@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use andahrm\structure\models\PositionLine;
 use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
+use andahrm\positionSalary\models\PersonPositionSalary;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -47,6 +48,12 @@ class PositionController extends Controller
      
     public function actionIndex()
     {
+        // $models = Position::find()->all();
+        // foreach($models as $model){
+        //     $model->code = $model->generatCode;
+        //     $model->save(false);
+        // }
+        
         $searchModel = new PositionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort->defaultOrder = [

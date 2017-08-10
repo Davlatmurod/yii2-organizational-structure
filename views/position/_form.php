@@ -21,7 +21,7 @@ use kartik\widgets\DepDrop;
   <div class="position-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+   
 
     <div class="row">
       <div class="col-sm-2">
@@ -53,14 +53,17 @@ use kartik\widgets\DepDrop;
       </div>
     </div>
 
-<?php if(!$model->isNewRecord):?>
+
+   <?= $form->field($model, 'code')->textInput(['value'=>$model->generatCode]) ?>
+   
+<?php /*if(!$model->isNewRecord):?>
 <div class="row">
       <div class="col-sm-12">
         <?=Html::activeLabel($model,'code');?>
         <?=$model->code?>
       </div>
 </div>
-<?php endif;?>
+<?php endif; */?>
 
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

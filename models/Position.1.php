@@ -76,7 +76,6 @@ class Position extends \yii\db\ActiveRecord
             [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],
-            [['code'], 'string', 'max' => 20],
            //[[ 'number'], 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_line_id', 'number'], 'message' => 'The combination of Person Type ID, Section ID, Position Line ID and Number has already been taken.'],
             [['position_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionLevel::className(), 'targetAttribute' => ['position_level_id' => 'id']],
             [['position_line_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionLine::className(), 'targetAttribute' => ['position_line_id' => 'id']],
@@ -92,9 +91,9 @@ class Position extends \yii\db\ActiveRecord
     public function scenarios(){
       $scenarios = parent::scenarios();
       
-      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['insert'] = ['title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
       
-      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['update'] = ['title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
       
       $scenarios['update-status'] = ['status','updated_at', 'updated_by'];
       
@@ -254,7 +253,7 @@ class Position extends \yii\db\ActiveRecord
    }
     
   
-   public function getGeneratCode(){
+   public function getCode(){
      //return '1';
        return $this->personType->code
          .'-'.$this->section->code
