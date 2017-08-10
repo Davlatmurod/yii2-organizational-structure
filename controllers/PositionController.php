@@ -46,13 +46,15 @@ class PositionController extends Controller
         $this->layout = 'position';
     }
      
-    public function actionIndex()
+    public function actionIndex($code=null)
     {
-        // $models = Position::find()->all();
-        // foreach($models as $model){
-        //     $model->code = $model->generatCode;
-        //     $model->save(false);
-        // }
+        if($code){
+        $models = Position::find()->all();
+        foreach($models as $model){
+            $model->code = $model->generatCode;
+            $model->save(false);
+        }
+        }
         
         $searchModel = new PositionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
