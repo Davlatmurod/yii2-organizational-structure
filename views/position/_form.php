@@ -54,7 +54,7 @@ use kartik\widgets\DepDrop;
     </div>
 
 
-   <?= $form->field($model, 'code')->textInput(['value'=>$model->generatCode]) ?>
+   <?= $form->field($model, 'code',['enableAjaxValidation' => true ])->textInput() ?>
    
 <?php /*if(!$model->isNewRecord):?>
 <div class="row">

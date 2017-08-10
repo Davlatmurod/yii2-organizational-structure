@@ -85,6 +85,7 @@ class Position extends \yii\db\ActiveRecord
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
             ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_line_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
             [['code'],'safe'],
+            [['code'],'unique'],
             [['status'], 'default', 'value' => 1],
         ];
     }
