@@ -19,15 +19,12 @@ use kartik\widgets\DepDrop;
 ?>
 
   <div class="position-form">
-<?php
-  //$formOptions['options'] = ['enctype' => 'multipart/form-data'];
-  if($formAction !== null)  $formOptions['action'] = $formAction;
-  ?>
-    <?php $form = ActiveForm::begin($formOptions); ?>
+
+    <?php $form = ActiveForm::begin(); ?>
    
 
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-2">
          <?= $form->field($model, 'person_type_id')->dropDownList(PersonType::getList(),[
           'prompt'=>Yii::t('app','Select'),
           'id'=>'ddl-person_type',
@@ -36,7 +33,7 @@ use kartik\widgets\DepDrop;
       <div class="col-sm-4">
         <?= $form->field($model, 'section_id')->dropDownList(Section::getList(),['prompt'=>Yii::t('app','Select')]) ?>
       </div>
-      <div class="col-sm-4">        
+      <div class="col-sm-3">        
         <?= $form->field($model, 'position_line_id')->widget(DepDrop::classname(), [
             'options'=>['id'=>'ddl-position_line'],
             'data'=> PositionLine::getPositionLines($model->person_type_id),
@@ -51,12 +48,13 @@ use kartik\widgets\DepDrop;
               ]
         ]); ?>
       </div>
-      
+      <div class="col-sm-3">
+        <?= $form->field($model, 'number' ,['enableAjaxValidation' => true])->textInput() ?>
+      </div>
     </div>
 
-<div class="row">
-      <div class="col-sm-6">
-   <?= $form->field($model, 'code')->textInput() ?>
+
+   <?= $form->field($model, 'code',['enableAjaxValidation' => true ])->textInput() ?>
    
 <?php /*if(!$model->isNewRecord):?>
 <div class="row">
@@ -67,14 +65,8 @@ use kartik\widgets\DepDrop;
 </div>
 <?php endif; */?>
 
-      </div>
-      <div class="col-sm-6"> 
-          <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-      </div>
-</div>
 
-
-
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
       <div class="row">
         <div class="col-sm-6">
@@ -152,38 +144,4 @@ JS;
   
   
   $this->registerJs(implode("\n", $js));
-  
-  
   ?>
-<?php
-///Surakit
-if($formAction !== null) {
-$js[] = <<< JS
-$(document).on('submit', '#{$form->id}', function(e){
-  e.preventDefault();
-  var form = $(this);
-  var formData = new FormData(form[0]);
-  // alert(form.serialize());
-  
-  $.ajax({
-    url: form.attr('action'),
-    type : 'POST',
-    data: formData,
-    contentType:false,
-    cache: false,
-    processData:false,
-    dataType: "json",
-    success: function(data) {
-      if(data.success){
-        callbackPosition(data.result);
-      }else{
-        alert('Fail');
-      }
-    }
-  });
-});
-JS;
-
-$this->registerJs(implode("\n", $js));
-}
-?>

@@ -119,6 +119,39 @@ class PositionController extends Controller
         ]);
         
     }
+    
+    public function actionCreateAjax($formAction = null)
+    {
+        $model = new Position(['scenario'=>'insert']);
+
+        if(Yii::$app->request->isPost){
+             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            
+           
+            $success = false;
+            $result=null;
+            
+            //echo $model->person_type_id.'-'.$model->section_id.'-'.$model->position_line_id.'-'.$model->number;
+            $success = false;
+            $result=null;
+            if ($model->load(Yii::$app->request->post())){
+                if($model->save()) {
+                    $success = true;
+                    $result = $model->attributes;
+                }else{
+                    $result = $model->getErrors();
+                }
+            }
+            return ['success' => $success, 'result' => $result];
+        }
+            
+        return $this->renderPartial('_form', [
+            'model' => $model,
+            'formAction' => $formAction
+        ]);
+        
+    
+    }
 
     /**
      * Updates an existing Position model.
@@ -262,29 +295,30 @@ class PositionController extends Controller
             $model = Position::find();
             //$model->select(['position.id','position.code as text']);
             if($this->code){
-                $code = explode('-',$this->code);
-                if($code[0]=='46'){
-                    $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
-                    $sectionCode = isset($code[2])?$code[2]:null;
-                    $positionLineCode = isset($code[3])?$code[3]:null;
-                    $number = isset($code[4])?$code[4]*1:null;
-                    }else{
-                    $personTypeCode = $code[0];
-                    $sectionCode = isset($code[1])?$code[1]:null;
-                    $positionLineCode = isset($code[2])?$code[2]:null;
-                    $number = isset($code[3])?$code[3]*1:null;
-                }
+            //     $code = explode('-',$this->code);
+            //     if($code[0]=='46'){
+            //         $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
+            //         $sectionCode = isset($code[2])?$code[2]:null;
+            //         $positionLineCode = isset($code[3])?$code[3]:null;
+            //         $number = isset($code[4])?$code[4]*1:null;
+            //         }else{
+            //         $personTypeCode = $code[0];
+            //         $sectionCode = isset($code[1])?$code[1]:null;
+            //         $positionLineCode = isset($code[2])?$code[2]:null;
+            //         $number = isset($code[3])?$code[3]*1:null;
+            //     }
                 
-               $model->joinWith("personType");
-               $model->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
+            //   $model->joinWith("personType");
+            //   $model->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
                
-               $model->joinWith("section");
-               $model->andFilterWhere(['like', 'section.code', $sectionCode]);
+            //   $model->joinWith("section");
+            //   $model->andFilterWhere(['like', 'section.code', $sectionCode]);
                
-               $model->joinWith("positionLine");
-               $model->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
+            //   $model->joinWith("positionLine");
+            //   $model->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
                
-               $model->andFilterWhere(['like', 'number', $number]);
+               //$model->andFilterWhere(['like', 'number', $number]);
+               $model->andFilterWhere(['like', 'code', $this->code]);
                //$model->asArray()->all();
         }
         
