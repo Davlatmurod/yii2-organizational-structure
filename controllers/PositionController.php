@@ -134,8 +134,15 @@ class PositionController extends Controller
             //echo $model->person_type_id.'-'.$model->section_id.'-'.$model->position_line_id.'-'.$model->number;
             $success = false;
             $result=null;
-            if ($model->load(Yii::$app->request->post())){
-                if($model->save()) {
+            $post = Yii::$app->request->post();
+            
+            if (Yii::$app->request->isAjax && $model->load($post)) {
+                return ActiveForm::validate($model); 
+            }
+                
+            if ($model->load($post)){
+                
+                if($post('save') && $model->save()) {
                     $success = true;
                     $result = $model->attributes;
                 }else{

@@ -56,7 +56,7 @@ use kartik\widgets\DepDrop;
 
 <div class="row">
       <div class="col-sm-6">
-   <?= $form->field($model, 'code')->textInput() ?>
+   <?= $form->field($model, 'code', ['enableAjaxValidation' => true])->textInput() ?>
    
 <?php /*if(!$model->isNewRecord):?>
 <div class="row">
@@ -128,7 +128,7 @@ use kartik\widgets\DepDrop;
 
 
         <div class="form-group">
-          <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm', 'Create') : Yii::t('andahrm', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm', 'Create') : Yii::t('andahrm', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','name'=>'save']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
@@ -136,6 +136,11 @@ use kartik\widgets\DepDrop;
   </div>
   
 <?php
+#########################################################################################################################
+#########################################################################################################################
+#########################################################################################################################
+
+
  $position_line_id =  Html::getInputId($model, 'position_line_id');
  $title =  Html::getInputId($model, 'title');
   
@@ -158,6 +163,7 @@ JS;
 <?php
 ///Surakit
 if($formAction !== null) {
+  $eer = Yii::t('app','Select');
 $js[] = <<< JS
 $(document).on('submit', '#{$form->id}', function(e){
   e.preventDefault();
@@ -178,6 +184,7 @@ $(document).on('submit', '#{$form->id}', function(e){
         callbackPosition(data.result);
       }else{
         alert('Fail');
+        alert(data.result);
       }
     }
   });
