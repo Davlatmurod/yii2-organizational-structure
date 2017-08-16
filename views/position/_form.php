@@ -128,7 +128,7 @@ use kartik\widgets\DepDrop;
 
 
         <div class="form-group">
-          <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm', 'Create') : Yii::t('andahrm', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','name'=>'save']) ?>
+          <?= Html::submitButton($model->isNewRecord ? Yii::t('andahrm', 'Create') : Yii::t('andahrm', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','name'=>'save','value'=>1]) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
@@ -181,10 +181,10 @@ $(document).on('submit', '#{$form->id}', function(e){
     dataType: "json",
     success: function(data) {
       if(data.success){
-        callbackPosition(data.result);
+        callbackPosition(data.result,"#{$form->id}");
       }else{
         alert('Fail');
-        alert(data.result);
+        alert(data);
       }
     }
   });
