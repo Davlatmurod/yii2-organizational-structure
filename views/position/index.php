@@ -61,8 +61,11 @@ $columns = [
         'attribute' => 'created_by',
         'value' => 'createdBy.fullname'
     ],
-    'updated_at' => 'updated_at',
-    'updated_by' => 'updated_by',
+    'updated_at' => 'updated_at:datetime',
+    'updated_by' => [
+        'attribute' => 'updated_by',
+        'value' => 'updatedBy.fullname'
+    ],
 ];
 
 $gridColumns = [

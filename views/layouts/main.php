@@ -22,45 +22,45 @@ use mdm\admin\components\Helper;
                         [
                             'label' => Yii::t('andahrm/structure', 'Positions'),
                             'url' => ["/{$module}/position"],
-                            'icon' => 'fa fa-sitemap',
+                            'icon' => 'fa fa-id-badge',
                             'active'=>($controller=="position"||$controller=="position-old")?"active":""
                         ],
                         [
                             'label' => Yii::t('andahrm/structure', 'Fiscal Years'),
                             'url' => ["/{$module}/fiscal-year"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-calendar'
                         ], 
                         
                         [
                             'label' => Yii::t('andahrm/structure', 'Sections'),
                             'url' => ["/{$module}/section"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-group'
                         ],  
                         [
                             'label' => Yii::t('andahrm/structure', 'Person Types'),
                             'url' => ["/{$module}/person-type"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-vcard'
                         ],                 
                         [
                             'label' => Yii::t('andahrm/structure', 'Position Lines'),
                             'url' => ["/{$module}/position-line"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-pagelines'
                         ],
                         [
                             'label' => Yii::t('andahrm/structure', 'Position Types'),
                             'url' => ["/{$module}/position-type"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-user-circle'
                         ], 
                          [
                             'label' => Yii::t('andahrm/structure', 'Position Levels'),
                             'url' => ["/{$module}/position-level"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-level-up '
                         ], 
                         
                         [
                             'label' => Yii::t('andahrm/structure', 'Base Salaries'),
                             'url' => ["/{$module}/base-salary"],
-                            'icon' => 'fa fa-sitemap'
+                            'icon' => 'fa fa-money'
                         ],   
                         
                        
