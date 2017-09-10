@@ -117,8 +117,8 @@ class PositionOldController extends Controller
                     $result = $model->attributes;
                 }else{
                     $result = $model->getErrors();
-                    print_r($post);
-            exit();
+                    //print_r($result);
+                    //exit();
                 }
                 return ['success' => $success, 'result' => $result];
             }
