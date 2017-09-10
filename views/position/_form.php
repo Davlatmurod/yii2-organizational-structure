@@ -20,6 +20,7 @@ use kartik\widgets\DepDrop;
 
   <div class="position-form">
 <?php
+  $formOptions=[];
   //$formOptions['options'] = ['enctype' => 'multipart/form-data'];
   if($formAction !== null)  $formOptions['action'] = $formAction;
   ?>

@@ -94,6 +94,45 @@ class PositionOldController extends Controller
             ]);
         
     }
+    
+     public function actionCreateAjax($formAction = null)
+    {
+        $model = new PositionOld();
+
+        if(Yii::$app->request->isPost){
+             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            
+           
+            $success = false;
+            $result=null;
+            
+            $request = Yii::$app->request;
+            $post = Yii::$app->request->post();
+            
+            if (Yii::$app->request->isAjax && $model->load($post) && $request->post('ajax')) {
+                return ActiveForm::validate($model); 
+            }elseif($request->post('save') && $model->load($post)){
+                if($model->save()) {
+                    $success = true;
+                    $result = $model->attributes;
+                }else{
+                    $result = $model->getErrors();
+                    print_r($post);
+            exit();
+                }
+                return ['success' => $success, 'result' => $result];
+            }
+            
+        }else{
+            
+        return $this->renderPartial('_form', [
+            'model' => $model,
+            'formAction' => $formAction
+        ]);
+        }
+        
+    
+    }
 
     /**
      * Updates an existing PositionOld model.
@@ -155,15 +194,30 @@ class PositionOldController extends Controller
     //     return $out;
     // }
     
-     public function actionPositionList($q = null, $id = null){
+    //  public function actionPositionList($q = null, $id = null){
+    //     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
+    //     //$out = ['results'=>['id'=>'','text'=>'']];
+    //     $data = PositionOld::find()->andFilterWhere(['like','code',$q])->all();
+    //     $out = [];
+    //     foreach ($data as $model) {
+    //         $out[] = ['value' => $model->codeTitle];
+    //     }
+    //     echo Json::encode($out);
+    // }
+    
+    public function actionPositionList($q = null, $id = null){
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
-        //$out = ['results'=>['id'=>'','text'=>'']];
-        $data = PositionOld::find()->andFilterWhere(['like','code',$q])->all();
-        $out = [];
-        foreach ($data as $model) {
-            $out[] = ['value' => $model->code];
+        $out = ['results'=>['id'=>'','text'=>'']];
+        if(!is_null($q)){
+            //$this->code = $q;
+            $model = PositionOld::find();
+            $model->andFilterWhere(['like', 'code',  $q]);
+            $model->orFilterWhere(['like', 'title',  $q]);
+            $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
+                return ['id'=>$model->id,'text'=>$model->codeTitle];
+            });
         }
-        echo Json::encode($out);
+        return $out;
     }
     
 }

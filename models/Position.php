@@ -338,5 +338,11 @@ class Position extends \yii\db\ActiveRecord
     public function getUpdatedBy(){      
         return  $this->hasOne(Person::className(), ['user_id' => 'updated_by']);
     }
+    
+    public $count;
+    
+    public function getTitleLevel(){
+        return $this->title.($this->position_level_id?' '.$this->positionLevel->title:'');
+    }
   
 }

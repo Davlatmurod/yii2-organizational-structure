@@ -286,48 +286,12 @@ class PositionController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON; //กำหนดการแสดงผลข้อมูลแบบ json
         $out = ['results'=>['id'=>'','text'=>'']];
         if(!is_null($q)){
-            // $query = new \yii\db\Query();
-            // $query->select('id, prefix_name as text')
-            //         ->from('base_prefix')
-            //         ->where("prefix_name LIKE '%".$q."%'")
-            //         ->limit(20);
-            // $command = $query->createCommand();
-            // $data = $command->queryAll();
-            
-          
-            $this->code = $q;
+            //$this->code = $q;
             $model = Position::find();
-            //$model->select(['position.id','position.code as text']);
-            if($this->code){
-            //     $code = explode('-',$this->code);
-            //     if($code[0]=='46'){
-            //         $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
-            //         $sectionCode = isset($code[2])?$code[2]:null;
-            //         $positionLineCode = isset($code[3])?$code[3]:null;
-            //         $number = isset($code[4])?$code[4]*1:null;
-            //         }else{
-            //         $personTypeCode = $code[0];
-            //         $sectionCode = isset($code[1])?$code[1]:null;
-            //         $positionLineCode = isset($code[2])?$code[2]:null;
-            //         $number = isset($code[3])?$code[3]*1:null;
-            //     }
-                
-            //   $model->joinWith("personType");
-            //   $model->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
-               
-            //   $model->joinWith("section");
-            //   $model->andFilterWhere(['like', 'section.code', $sectionCode]);
-               
-            //   $model->joinWith("positionLine");
-            //   $model->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
-               
-               //$model->andFilterWhere(['like', 'number', $number]);
-               $model->andFilterWhere(['like', 'code', $this->code]);
-               //$model->asArray()->all();
-        }
-        
+            $model->andFilterWhere(['like', 'code',  $q]);
+            $model->orFilterWhere(['like', 'title',  $q]);
             $out['results'] = ArrayHelper::getColumn($model->all(),function($model){
-                return ['id'=>$model->id,'text'=>$model->code];
+                return ['id'=>$model->id,'text'=>$model->codeTitle];
             });
         }
         return $out;
