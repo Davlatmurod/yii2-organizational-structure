@@ -95,14 +95,14 @@ class PositionController extends Controller
         if ($model->load(Yii::$app->request->post())){
             //echo $model->person_type_id.'-'.$model->section_id.'-'.$model->position_line_id.'-'.$model->number;
             if (Yii::$app->request->isAjax) {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $valid = ActiveForm::validate($model);
-        if($model->getExists())
-        $valid['position-number'] = [Yii::t('andahrm/structure', 'This sequence already exists.')];
-        return $valid; 
-        Yii::$app->end();
-
-    }
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $valid = ActiveForm::validate($model);
+                if($model->getExists())
+                $valid['position-number'] = [Yii::t('andahrm/structure', 'This sequence already exists.')];
+                return $valid; 
+                Yii::$app->end();
+        
+            }
             
             //print_r(Yii::$app->request->post());
             //exit();
@@ -168,17 +168,30 @@ class PositionController extends Controller
         $model = $this->findModel($id);
         $model->scenario = 'update';
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-          Yii::$app->getSession()->setFlash('saved',[
-                'type' => 'success',
-                'msg' => Yii::t('andahrm', 'Save operation completed.')
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())){
+            //print_r(Yii::$app->request->post());
+            
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $valid = ActiveForm::validate($model);
+                return $valid; 
+            }
+            
+            if($model->save()) {
+              Yii::$app->getSession()->setFlash('saved',[
+                    'type' => 'success',
+                    'msg' => Yii::t('andahrm', 'Save operation completed.')
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                print_r($model->getErrors());
+                exit();
+            }
+        }
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+        
     }
 
     /**

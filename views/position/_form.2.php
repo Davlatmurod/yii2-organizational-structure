@@ -9,7 +9,6 @@ use andahrm\structure\models\PositionLine;
 use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
 use andahrm\structure\models\Position;
-use andahrm\structure\models\FiscalYear;
 
 use kartik\widgets\Select;
 use kartik\widgets\DepDrop;
@@ -113,7 +112,7 @@ use kartik\widgets\DepDrop;
         ]);  ?>
         </div>
         <div class="col-sm-2">
-          <?= $form->field($model, 'rate_date')->dropDownList(FiscalYear::getList()) ?>
+          <?= $form->field($model, 'rate_date')->textInput(['maxlength' => true]) ?>
         </div>
       </div>
 

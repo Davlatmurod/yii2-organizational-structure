@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute'=>'position_level_id',
               'value' => $model->positionLevel?$model->positionLevel->title:null,
             ],
+            'rate_date',
             'min_salary',
             'max_salary',
             'note',

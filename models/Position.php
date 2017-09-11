@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 use andahrm\person\models\Person;
 use andahrm\positionSalary\models\PersonPositionSalary;
 /**
@@ -61,6 +63,19 @@ class Position extends \yii\db\ActiveRecord
                 'value' => '?' , // format auto number. '?' will be replaced with generated number
                 //'digit' => 4 // optional, default to null. 
             ],
+            // [
+            //     'class' => AttributeBehavior::className(),
+            //     'attributes' => [
+            //         ActiveRecord::EVENT_BEFORE_INSERT => 'rate_date',
+            //         ActiveRecord::EVENT_BEFORE_UPDATE => 'rate_date',
+            //     ],
+            //     'value' => function ($event) {
+            //          $this->rate_date = $this->rate_date?$this->rate_date-543:null;
+            //         //  echo $this->rate_date;
+            //         //  exit();
+            //          return $this->rate_date;
+            //     },
+            // ],
         ];
     }
 
@@ -73,7 +88,7 @@ class Position extends \yii\db\ActiveRecord
         return [
             //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
             [['person_type_id', 'section_id', 'title','code' ], 'required'],
-            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by', 'rate_date'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],
             [['code'], 'string', 'max' => 20],
@@ -93,9 +108,9 @@ class Position extends \yii\db\ActiveRecord
     public function scenarios(){
       $scenarios = parent::scenarios();
       
-      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by'];
       
-      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by'];
       
       $scenarios['update-status'] = ['status','updated_at', 'updated_by'];
       
@@ -120,6 +135,7 @@ class Position extends \yii\db\ActiveRecord
             'position_level_id' => Yii::t('andahrm/structure', 'Position Level'),
             'min_salary' => Yii::t('andahrm/structure', 'Min Salary'),
             'max_salary' => Yii::t('andahrm/structure', 'Max Salary'),
+            'rate_date' => Yii::t('andahrm/structure', 'Rate Date'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
