@@ -70,10 +70,10 @@ class PositionOld extends \yii\db\ActiveRecord
             'title' => Yii::t('andahrm/structure', 'Title'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
-            'created_at' => Yii::t('andahrm/structure', 'Created At'),
-            'created_by' => Yii::t('andahrm/structure', 'Created By'),
-            'updated_at' => Yii::t('andahrm/structure', 'Updated At'),
-            'updated_by' => Yii::t('andahrm/structure', 'Updated By'),
+            'created_at' => Yii::t('andahrm', 'Created At'),
+            'created_by' => Yii::t('andahrm', 'Created By'),
+            'updated_at' => Yii::t('andahrm', 'Updated At'),
+            'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
     
