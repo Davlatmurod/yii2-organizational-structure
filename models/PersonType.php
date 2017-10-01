@@ -96,6 +96,11 @@ class PersonType extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Position::className(), ['person_type_id' => 'id']);
     }
+    
+    public function getPositionSalary()
+    {
+        return $this->hasMany(Position::className(), ['person_type_id' => 'id'])->with('personPositionSalaries');
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -159,6 +164,8 @@ class PersonType extends \yii\db\ActiveRecord
     public function getParent(){ 
        return $this->hasOne(self::className(), ['id' => 'parent_id']); 
    }
+   
+   public $count = 0;
   
   
   
