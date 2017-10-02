@@ -16,6 +16,7 @@ use andahrm\structure\models\PositionLevel;
 use andahrm\positionSalary\models\PersonPositionSalary;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use yii\data\ActiveDataProvider;
 
 /**
  * PositionController implements the CRUD actions for Position model.
@@ -78,8 +79,24 @@ class PositionController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getPersonPositionSalaries(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                     'adjust_date' => SORT_DESC,
+                    // 'title' => SORT_ASC, 
+                ]
+            ],
+        ]);
+        
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'dataProvider'=> $dataProvider
         ]);
     }
 

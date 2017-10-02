@@ -164,9 +164,5 @@ class PersonType extends \yii\db\ActiveRecord
     public function getParent(){ 
        return $this->hasOne(self::className(), ['id' => 'parent_id']); 
    }
-   
-   public $count = 0;
-  
-  
   
 }
