@@ -99,7 +99,7 @@ class Position extends \yii\db\ActiveRecord
             [['position_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PositionType::className(), 'targetAttribute' => ['position_type_id' => 'id']],
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
             ['number', 'unique', 'targetAttribute' => ['person_type_id', 'section_id', 'position_line_id', 'number'] ,'message'=>'ลำดับนี้มีอยู่แล้ว'],
-            [['code'],'safe'],
+            [['code','open_date','close_date'],'safe'],
             [['code'],'unique'],
             [['status'], 'default', 'value' => 1],
         ];
@@ -108,11 +108,11 @@ class Position extends \yii\db\ActiveRecord
     public function scenarios(){
       $scenarios = parent::scenarios();
       
-      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
       
-      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by'];
+      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
       
-      $scenarios['update-status'] = ['status','updated_at', 'updated_by'];
+      $scenarios['update-status'] = ['status','updated_at', 'updated_by','open_date', 'close_date'];
       
       $scenarios['search'] = ['section_id'];
       
@@ -136,6 +136,8 @@ class Position extends \yii\db\ActiveRecord
             'min_salary' => Yii::t('andahrm/structure', 'Min Salary'),
             'max_salary' => Yii::t('andahrm/structure', 'Max Salary'),
             'rate_date' => Yii::t('andahrm/structure', 'Rate Date'),
+            'open_date' => Yii::t('andahrm/structure', 'Open Date'),
+            'close_date' => Yii::t('andahrm/structure', 'Close Date'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
