@@ -210,6 +210,14 @@ class Position extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PersonPositionSalary::className(), ['position_id' => 'id']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonPositionSalary()
+    {
+        return $this->hasOne(PersonPositionSalary::className(), ['position_id' => 'id'])->orderBy(['adjust_date'=>SORT_DESC]);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -361,6 +369,20 @@ class Position extends \yii\db\ActiveRecord
     
     public function getTitleLevel(){
         return $this->title.($this->position_level_id?' '.$this->positionLevel->title:'');
+    }
+    
+    
+    public function getCloseDateBtn(){
+        
+        if($this->close_date){
+            return Yii::$app->formatter->asDate($this->close_date);
+        }else{
+            $btn = \yii\helpers\Html::a(Yii::t('andahrm/structure','Close'),['#'],['class'=>'btn btn-warning']);
+            return $btn;
+        }
+        
+        
+        
     }
   
 }

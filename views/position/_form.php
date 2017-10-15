@@ -10,6 +10,7 @@ use andahrm\structure\models\PositionType;
 use andahrm\structure\models\PositionLevel;
 use andahrm\structure\models\Position;
 use andahrm\structure\models\FiscalYear;
+use andahrm\datepicker\DatePicker;
 
 use kartik\widgets\Select;
 use kartik\widgets\DepDrop;
@@ -97,7 +98,7 @@ use kartik\widgets\DepDrop;
           //->dropDownList(PositionType::getList(),['prompt'=>Yii::t('app','Select')])
           ?>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-4">
           <?= $form->field($model, 'position_level_id')->widget(DepDrop::classname(), [
             'options'=>['id'=>'ddl-position_level'],
             'data'=> PositionLevel::getPositionLevels($model->person_type_id,$model->position_type_id),
@@ -112,8 +113,8 @@ use kartik\widgets\DepDrop;
               ]
         ]);  ?>
         </div>
-        <div class="col-sm-2">
-          <?= $form->field($model, 'rate_date')->dropDownList(FiscalYear::getList()) ?>
+        <div class="col-sm-3">
+          <?= $form->field($model, 'open_date')->widget(DatePicker::className()); ?>
         </div>
       </div>
 

@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-8">
             
             <?= DetailView::widget([
         'model' => $model,
@@ -63,12 +63,22 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute'=>'position_level_id',
               'value' => $model->positionLevel?$model->positionLevel->title:null,
             ],
-            'rate_date',
+            [
+              'attribute'=>'status',
+              'format'=>'html',
+              'value' => $model->statusLabel,
+            ],
+            'open_date:date',
+             [
+              'attribute'=>'close_date',
+              'format'=>'html',
+              'value' => $model->closeDateBtn,
+            ],
         ],
     ]) ?>
             
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-4">
             
              <?= DetailView::widget([
         'model' => $model,
@@ -78,11 +88,11 @@ $this->params['breadcrumbs'][] = $this->title;
             
             //'min_salary',
             //'max_salary',
-            'note',
             'created_at:datetime',
             'created_by',
             'updated_at:datetime',
             'updated_by',
+            'note',
         ],
     ]) ?>
             
