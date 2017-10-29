@@ -88,7 +88,7 @@ class Position extends \yii\db\ActiveRecord
         return [
             //[['person_type_id', 'section_id', 'position_line_id', 'title', 'position_type_id'], 'required'],
             [['person_type_id', 'section_id', 'title','code' ], 'required'],
-            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by', 'rate_date'], 'integer'],
+            [['person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['title'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 255],
             [['code'], 'string', 'max' => 20],
@@ -108,9 +108,9 @@ class Position extends \yii\db\ActiveRecord
     public function scenarios(){
       $scenarios = parent::scenarios();
       
-      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
+      $scenarios['insert'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
       
-      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'rate_date','created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
+      $scenarios['update'] = ['code', 'title','person_type_id', 'section_id', 'position_line_id', 'number', 'position_type_id', 'position_level_id', 'min_salary', 'max_salary','status' ,'created_at', 'created_by', 'updated_at', 'updated_by','open_date','close_date'];
       
       $scenarios['update-status'] = ['status','updated_at', 'updated_by','open_date', 'close_date'];
       
@@ -135,7 +135,7 @@ class Position extends \yii\db\ActiveRecord
             'position_level_id' => Yii::t('andahrm/structure', 'Position Level'),
             'min_salary' => Yii::t('andahrm/structure', 'Min Salary'),
             'max_salary' => Yii::t('andahrm/structure', 'Max Salary'),
-            'rate_date' => Yii::t('andahrm/structure', 'Rate Date'),
+            //'rate_date' => Yii::t('andahrm/structure', 'Rate Date'),
             'open_date' => Yii::t('andahrm/structure', 'Open Date'),
             'close_date' => Yii::t('andahrm/structure', 'Close Date'),
             'status' => Yii::t('andahrm/structure', 'Status'),

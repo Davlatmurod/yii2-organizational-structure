@@ -35,7 +35,7 @@ use andahrm\positionSalary\models\PersonPositionSalary;
  * @property PositionType $positionType
  * @property Section $section
  */
-class Position extends \yii\db\ActiveRecord
+class Position1 extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc

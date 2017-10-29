@@ -19,11 +19,11 @@ use yii\widgets\ActiveForm;
 
     <div class="raw">
     
-    <?= $form->field($model, 'code',['options' => ['class' => 'form-group col-xs-3 col-sm-3','enableAjaxValidation' => true]])->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'code',['options' => ['class' => 'form-group col-xs-4 col-sm-4','enableAjaxValidation' => true]])->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'title',['options' => ['class' => 'form-group col-xs-6 col-sm-6']])->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'title',['options' => ['class' => 'form-group col-xs-4 col-sm-4']])->textInput(['maxlength' => true]) ?>
     
-    <?= $form->field($model, 'status',['options' => ['class' => 'form-group col-xs-3 col-sm-3']])->textInput() ?>
+    <?php #= $form->field($model, 'status',['options' => ['class' => 'form-group col-xs-3 col-sm-3']])->textInput() ?>
     </div>
 
     <div class="raw">
