@@ -77,33 +77,34 @@ class PositionSearch extends Position
             'updated_by' => $this->updated_by,
         ]);
         
-        if($this->code){
-            $code = explode('-',$this->code);
-            if($code[0]=='46'){
-            $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
-            $sectionCode = isset($code[2])?$code[2]:null;
-            $positionLineCode = isset($code[3])?$code[3]:null;
-            $number = isset($code[4])?$code[4]*1:null;
-            }else{
-            $personTypeCode = $code[0];
-            $sectionCode = isset($code[1])?$code[1]:null;
-            $positionLineCode = isset($code[2])?$code[2]:null;
-            $number = isset($code[3])?$code[3]*1:null;
-            }
+        // if($this->code){
+        //     $code = explode('-',$this->code);
+        //     if($code[0]=='46'){
+        //     $personTypeCode = $code[0].(isset($code[1])?'-'.$code[1]:'');
+        //     $sectionCode = isset($code[2])?$code[2]:null;
+        //     $positionLineCode = isset($code[3])?$code[3]:null;
+        //     $number = isset($code[4])?$code[4]*1:null;
+        //     }else{
+        //     $personTypeCode = $code[0];
+        //     $sectionCode = isset($code[1])?$code[1]:null;
+        //     $positionLineCode = isset($code[2])?$code[2]:null;
+        //     $number = isset($code[3])?$code[3]*1:null;
+        //     }
             
-           $query->joinWith("personType");
-           $query->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
+        //   $query->joinWith("personType");
+        //   $query->andFilterWhere(['like', 'person_type.code', $personTypeCode]);
            
-           $query->joinWith("section");
-           $query->andFilterWhere(['like', 'section.code', $sectionCode]);
+        //   $query->joinWith("section");
+        //   $query->andFilterWhere(['like', 'section.code', $sectionCode]);
            
-           $query->joinWith("positionLine");
-           $query->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
+        //   $query->joinWith("positionLine");
+        //   $query->andFilterWhere(['like', 'position_line.code', $positionLineCode]);
            
-           $query->andFilterWhere(['like', 'number', $number]);
-        }
+        //   $query->andFilterWhere(['like', 'number', $number]);
+        // }
 
         $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
