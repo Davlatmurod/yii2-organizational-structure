@@ -101,5 +101,7 @@ class Section extends \yii\db\ActiveRecord
    { 
        return $this->hasOne(LeaveRelatedSection::className(), ['section_id' => 'id']); 
    }
+   
+   public $count_person = 0;
   
 }
