@@ -106,5 +106,7 @@ class PositionType extends \yii\db\ActiveRecord
         }
           return [];
     }
+    
+    public $count_person;
   
 }
