@@ -77,6 +77,7 @@ class Section extends \yii\db\ActiveRecord
             'created_by' => Yii::t('andahrm', 'Created By'),
             'updated_at' => Yii::t('andahrm', 'Updated At'),
             'updated_by' => Yii::t('andahrm', 'Updated By'),
+            'count_person' => Yii::t('andahrm', 'Count Person'),
         ];
     }
 
