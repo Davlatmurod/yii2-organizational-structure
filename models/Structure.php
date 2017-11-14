@@ -193,7 +193,7 @@ class Structure extends \yii\db\ActiveRecord
               if($num==2){
                      foreach($parent as $model){
                          
-                         //$user=[];
+                         $user=[];
                         //  echo $model->id;
                         //   echo count($model->structurePositions);
                         //   exit();
