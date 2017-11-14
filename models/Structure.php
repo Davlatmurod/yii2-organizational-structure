@@ -177,7 +177,7 @@ class Structure extends \yii\db\ActiveRecord
             ->getInfoMedia('#',[
                 'wrapper' => true,
                 'wrapperTag' => 'div'
-                ]):'ว่าง',
+                ]):$model->getEmptyPosition($model),
             'children'=>self::getOrgSubJson($model->children()->all(),$num),
             'className' => 'first-level',
             ];
@@ -187,11 +187,57 @@ class Structure extends \yii\db\ActiveRecord
    public static function getOrgSubJson($parent,$num){ 
        if($parent){
              $str = [];
+             $user=[];
              $num+=1;
              $index = 1;
+              if($num==2){
+                     foreach($parent as $model){
+                         
+                         //$user=[];
+                        //  echo $model->id;
+                        //   echo count($model->structurePositions);
+                        //   exit();
+                        //  echo "<pre>";
+                        //  print_r($model->structurePositions[0]->positions);
+                        //  exit();
+                        
+                        //if(isset($model->position) && isset($model->position->users)){
+                        // echo count($model->structurePositions);
+                        
+                        //  echo "\n"; echo "\n";
+                         foreach($model->structurePositions as $struture){
+                             //$user=[];
+                             foreach($struture->positions as $position){
+                                 if($position->users){
+                                     foreach($position->users as $u){
+                                         if(isset($u)){
+                                                $user[] = $u->getInfoMedia('#',[
+                                                'wrapper' => true,
+                                                'wrapperTag' => 'div'
+                                                ]);
+                                         }
+                                     }
+                                 }else{
+                                     $user[]=$model->getEmptyPosition($struture);
+                                 }
+                             }
+                            
+                           // }
+                        }
+                        
+                        $str[] = [
+                                'name'=>$model->title,
+                                'title'=>$user?implode("",$user):$model->getEmptyPosition($model),
+                                'children'=>self::getOrgSubJson($model->children()->all(),$num),
+                                'className' => 'child-level-'.$num.' index-'.($index++),
+                        ];
+                         
+                     }
+                 }else{
              foreach($parent as $model){
                  
                  $user=[];
+                
                     if(isset($model->position) && isset($model->position->users)){
                      foreach($model->position->users as $u){
                             $user[] = $u->getInfoMedia('#',[
@@ -201,18 +247,25 @@ class Structure extends \yii\db\ActiveRecord
                         }
                     }
                 $str[] = [
-                    'name'=>$model->title,
-                    'title'=>$user?implode("",$user):'ว่าง',
+                    'name'=>$model->title.count($parent),
+                    'title'=>$user?implode("",$user):$model->getEmptyPosition($model),
                     'children'=>self::getOrgSubJson($model->children()->all(),$num),
                     'className' => 'child-level-'.$num.' index-'.($index++),
                     ];
                  
              }
+            }
              
              return $str;
        }
        return null;
      
+   }
+   
+   public function getEmptyPosition($modelPosition = null){
+       $title = isset($modelPosition->position)?$modelPosition->position->title:null;
+       return '<div class="media event"><div class="media-body"><a class="title" href="#">ว่าง</a>
+            <p class="position">'.$title.'</p></div><div class="clearfix"></div></div>';
    }
   
   
