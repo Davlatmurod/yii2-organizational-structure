@@ -247,7 +247,7 @@ class Structure extends \yii\db\ActiveRecord
                         }
                     }
                 $str[] = [
-                    'name'=>$model->title.count($parent),
+                    'name'=>$model->title,
                     'title'=>$user?implode("",$user):$model->getEmptyPosition($model),
                     'children'=>self::getOrgSubJson($model->children()->all(),$num),
                     'className' => 'child-level-'.$num.' index-'.($index++),
