@@ -44,6 +44,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'org';
         $treeArray = Structure::find()->dataFancytree();
         return $this->render('index', ['treeArray' => $treeArray]);
     }
@@ -76,8 +77,15 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        
+        if(Yii::$app->request->isAjax){
+            return $this->renderAjax('view', [
+                'model' => $model,
+            ]);
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -227,7 +235,10 @@ class DefaultController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
+        if($model = Structure::findOne($id)){
+            $model->delete();
+        }
 
         return $this->redirect(['index']);
     }

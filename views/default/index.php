@@ -24,15 +24,32 @@ andahrm\structure\assets\MyChartAsset::register($this);
 
 
 ?>
-<div id="content" style="margin-bottom:30px;">
-  <div class="row">
-  <div class="col-xs-12 col-sm-12 col-ml-12 col-lg-12">
-    <div id="mainOrg">
-    </div>
-  </div>
-  </div>
-</div>
 
+<div class="row">
+    <div class="col-md-12">
+      
+        <div class="x_panel tile">
+            <div class="x_title">
+                <h2><?= $this->title; ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              
+                <div id="content" style="margin-bottom:30px;">
+                  <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-ml-12 col-lg-12">
+                    <div id="mainOrg">
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                
+<div class="clearfix"></div>
+            </div>
+        </div>
+      
+    </div>
+</div>
 
 <?php
 
@@ -56,7 +73,7 @@ $this->registerJs("
 
 
 <?php if(Yii::$app->user->can('manage-structure')):?>
-<div class="x_panel hidden-print">
+<div class="x_panel hidden-print ">
   <div class="x_title">
     <h2>จัดการองค์กร<small> </small></h2>
     <div class="clearfix"></div>
@@ -78,7 +95,7 @@ $this->registerJs("
                     'source' => $treeArray,
                     'activate' => new JsExpression('function(event, data) {
     var node = data.node;
-    $.get( "'.Url::to(['update']).'", { id: node.key } )
+    $.get( "'.Url::to(['view']).'", { id: node.key } )
         .done(function( data ) {
             $("#form-tree").html(data);
     });

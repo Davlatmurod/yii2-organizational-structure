@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -15,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('andahrm', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('andahrm', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-update']) ?>
         <?= Html::a(Yii::t('andahrm', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -28,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'root',
-            'lft',
-            'rgt',
-            'level',
+            //'id',
+            //'root',
+            //'lft',
+            //'rgt',
+            //'level',
+            'title',
             'section_id',
             'position_line_id',
-            'title',
             'status',
             'note:ntext',
             'created_at',
@@ -46,3 +47,24 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<?php
+$urlUpdate = Url::to(['update','id'=>$model->id]);
+if(Yii::$app->request->isAjax){
+
+$js[] = <<< JS
+//alert(555);
+$('.btn-update').click(function(){
+    //alert(555);
+    $.get($(this).attr('href')).done(function( data ) {
+       $("#form-tree").html(data);
+    });
+    
+    return false;
+
+});
+
+JS;
+
+
+$this->registerJs(implode($js));
+}
