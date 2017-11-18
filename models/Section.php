@@ -70,7 +70,7 @@ class Section extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
             'code' => Yii::t('andahrm/structure', 'Code'),
-            'title' => Yii::t('andahrm/structure', 'Title'),
+            'title' => Yii::t('andahrm/structure', 'Title Section'),
             'status' => Yii::t('andahrm/structure', 'Status'),
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
