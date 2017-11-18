@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+use kartik\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model andahrm\structure\models\Structure */
@@ -10,6 +13,16 @@ use yii\widgets\DetailView;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('andahrm/structure', 'Structures'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$modals['position'] =  Modal::begin([
+    'id'=>'add_position',
+    'header' => Yii::t('andahrm/structure', 'Add Position'),
+    'size' => Modal::SIZE_LARGE
+]);
+echo Yii::$app->runAction('/structure/default/add-position',['id'=>$model->id, 'formAction' => Url::to(['/structure/default/add-position'])]);
+
+Modal::end();
 ?>
 <div class="structure-view">
 
@@ -29,22 +42,73 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
-            //'root',
-            //'lft',
-            //'rgt',
-            //'level',
             'title',
-            'section_id',
-            'position_line_id',
-            'status',
+            //'section_id',
+            //'position_line_id',
+            //'status',
             'note:ntext',
-            'created_at',
+            'created_at:datetime',
             'created_by',
-            'updated_at',
+            'updated_at:datetime',
             'updated_by',
         ],
     ]) ?>
+    
+    
+    <?=Html::button('เพิ่มตำแหน่ง',
+    [
+        'class'=>'btn btn-success',
+        'data-toggle' => 'modal',
+        'data-target' => "#{$modals['position']->id}",
+    ]
+    )?>
+    
+    
+    
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'id' => 'position-selected',
+        'pjax'=>true,
+        'columns' => [
+            // [
+            //     'class' => 'yii\grid\CheckboxColumn',
+            //     'checkboxOptions' => function ($model, $key, $index, $column) {
+            //       return ['checked'=>$model->getStructurePosition(Yii::$app->request->get('id'))];
+            //     }
+            // ],
+            [
+             'attribute'=>'position.title',
+             'value'=>'position.codeTitle',
+            ],
+             [
+                'attribute' => 'position.personPositionSalary.user.fullname',
+                'value' => function($model){
+                    $model = $model->position->personPositionSalary;
+                    $user = $model?$model->position->personPositionSalary->user:null;
+                    return $user?$user->fullname:null;
+                }
+            ],
+            //  [
+            //     //'attribute' => 'position_type_id',
+            //     'value' => 'position.positionType.title'
+            // ],
+            //  [
+            //     //'attribute' => 'position_level_id',
+            //     'value' => 'position.positionLevel.title'
+            // ],
+             [
+                //'attribute' => 'position_level_id',
+                'content' => function($model){
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',  [
+                        '/structure/default/update-position',
+                        'id'=>$model->structure_id,
+                        'position_id'=>$model->position_id,
+                        'mode'=>'del',
+                        ],['class'=>'btn btn-danger','data-pjax'=>'0']);
+                }
+            ],
+                ],
+    ]); ?>
 
 </div>
 <?php
@@ -67,4 +131,18 @@ JS;
 
 
 $this->registerJs(implode($js));
+
 }
+
+// $modalPosition = $modals['position']->id;
+// $js[] = <<< JS
+
+
+// $("#{$modalPosition}").click(function(){
+//         $('.modal').modal('show')
+//             .find('#modelContent')
+//             .load($(this).attr('value'));
+//     });
+// JS;
+
+// $this->registerJs(implode($js));

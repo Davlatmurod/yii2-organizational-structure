@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 use andahrm\structure\models\Position;
 use andahrm\structure\models\PositionSearch;
@@ -79,13 +80,19 @@ class DefaultController extends Controller
     {
         $model = $this->findModel($id);
         
+        $dataProvider = new ArrayDataProvider([
+            'allModels'=>$model->structurePositions,
+            ]);
+        
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('view', [
                 'model' => $model,
+                'dataProvider'=>$dataProvider,
             ]);
         }
         return $this->render('view', [
             'model' => $model,
+            'dataProvider'=>$dataProvider,
         ]);
     }
 
@@ -259,7 +266,7 @@ class DefaultController extends Controller
         }
     }
     
-     public function actionGetPosition($section_id,$position_line_id,$structure_id=null)
+     public function actionGetPosition($section_id,$position_line_id=null,$structure_id=null,$position_id=null)
     {
       
         $query = Position::find()
@@ -268,8 +275,9 @@ class DefaultController extends Controller
           //->select('structure_position.structure_id as structure_id')
           ->where([
           'section_id' => $section_id,
-          'position_line_id' => $position_line_id,
         ]);
+        $query = $query->andFilterWhere(['position_line_id' => $position_line_id]);
+        
       //$selected = StructurePosition::find()->select(['position_id'])->where(['structure_id'=>$id])->all();
 
         $dataProvider = new ActiveDataProvider([
@@ -286,10 +294,12 @@ class DefaultController extends Controller
       if(Yii::$app->request->isAjax){
         return $this->renderAjax('get-position', [
             'dataProvider' => $dataProvider,
+            'structure_id'=>$structure_id
         ]);
       }else{
          return $this->renderPartial('get-position', [
             'dataProvider' => $dataProvider,
+            'structure_id'=>$structure_id
         ]);
       }
     }
@@ -300,6 +310,68 @@ class DefaultController extends Controller
         
         return Structure::getOrgJson();
         
+        
+    }
+    
+    public function actionAddPosition($id){
+        
+        $model = $this->findModel($id);
+
+        $post = Yii::$app->request->post();
+        if ($model->load($post)) {
+            if (Yii::$app->request->isAjax){
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+            if($model->saveNode()){
+          
+               if($model->id){
+                    StructurePosition::deleteAll(['structure_id'=>$model->id]);
+
+                   if(isset($post['selection'])){
+                        foreach($post['selection'] as $position_id){
+                          $modelStructurePosition = new StructurePosition();
+                          $modelStructurePosition->structure_id = $model->id;
+                          $modelStructurePosition->position_id = $position_id;
+                          if(!$modelStructurePosition->save(false)){
+                              print_r($modelStructurePosition->getErrors());
+                              exit();
+                          }
+                       }
+                   }
+                }
+                
+              
+              Yii::$app->getSession()->setFlash('clear',[
+                    'type' => 'success',
+                    'msg' => Yii::t('andahrm/setting', 'Clear assets completed.')
+                ]);
+            }  
+          
+            return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            
+            return $this->renderPartial('add_position', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
+    public function actionUpdatePosition($id,$position_id,$mode=''){
+        
+        $model = $this->findModel($id);
+
+        if($mode=='add'){
+            $modelStruct = new StructurePosition(['structure_id'=>$id,'position_id'=>$position_id]);
+            $modelStruct->save(false);
+        }elseif($mode == 'del'){
+            if($modelStruct = StructurePosition::find()->where(['structure_id'=>$id,'position_id'=>$position_id])->one()){
+               // print_r($modelStruct);
+                $modelStruct->delete();
+            }
+        }
+        
+        return $this->redirect(['index', 'id' => $model->id]);
         
     }
     
