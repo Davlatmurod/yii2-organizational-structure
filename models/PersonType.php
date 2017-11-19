@@ -83,6 +83,8 @@ class PersonType extends \yii\db\ActiveRecord
         ];
     }
     
+    public $count_person;
+    
     const PERSON_GOV = 1;
     const PERSON_SERVENT = 4;
     const PERSON_EMPLOYEE = 8;
