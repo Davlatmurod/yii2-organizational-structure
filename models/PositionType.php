@@ -62,7 +62,7 @@ class PositionType extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
             'person_type_id' => Yii::t('andahrm/structure', 'Person Type'),
-            'title' => Yii::t('andahrm/structure', 'Title'),
+            'title' => Yii::t('andahrm/structure', 'Title Postion Type'),
             'note' => Yii::t('andahrm/structure', 'Note'),
             'created_at' => Yii::t('andahrm', 'Created At'),
             'created_by' => Yii::t('andahrm', 'Created By'),
