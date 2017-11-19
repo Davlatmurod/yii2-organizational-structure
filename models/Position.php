@@ -242,6 +242,22 @@ class Position extends \yii\db\ActiveRecord
     {
         return $this->hasOne(PositionLine::className(), ['id' => 'position_line_id']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPerson()
+    {
+        return $this->hasOne(Person::className(), ['position_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersons()
+    {
+        return $this->hasMany(Person::className(), ['position_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -380,9 +396,8 @@ class Position extends \yii\db\ActiveRecord
             $btn = \yii\helpers\Html::a(Yii::t('andahrm/structure','Close'),['#'],['class'=>'btn btn-warning']);
             return $btn;
         }
-        
-        
-        
     }
+    
+    
   
 }
