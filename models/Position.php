@@ -398,6 +398,12 @@ class Position extends \yii\db\ActiveRecord
         }
     }
     
+    public static function myList($user_id){
+        $model = self::find()->joinWith('personPositionSalary')->where(['user_id'=>$user_id])->distinct('id')->all();
+        return ArrayHelper::map($model,'id','codeTitle');
+    }
+    
+    
     
   
 }
