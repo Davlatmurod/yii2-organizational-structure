@@ -117,6 +117,11 @@ class FiscalYear extends ActiveRecord
       $date_end=  date('Y', strtotime("+5 year"));
       return array_combine(range($date_end,$date_start),range($date_end+543,$date_start+543));
     }
+    public static function getYearly($start=2000){
+      $date_start =  date('Y');
+      $date_end=  $start;
+      return array_combine(range($date_end,$date_start),range($date_end+543,$date_start+543));
+    }
   
     public static function currentYear($th = null){
       $toDay = date('Y-m-d');
