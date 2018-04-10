@@ -41,7 +41,7 @@ class FiscalYear extends ActiveRecord
            [['year', 'date_start', 'date_end'], 'safe'],
            [['phase', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'], 
            [['note'], 'string'],
-           //[['year', 'phase'], 'unique', 'targetAttribute' => ['year', 'phase'], 'message' => 'มีปีและภาคนี้อยู่แล้ว'],
+           [['year', 'phase'], 'unique', 'targetAttribute' => ['year', 'phase'], 'message' => 'มีปีและภาคนี้อยู่แล้ว'],
            //[['phase', ], 'unique', 'targetAttribute' => ['year', 'phase'], 'message' => 'มีปีและภาคนี้อยู่แล้ว'],
         ];
     }

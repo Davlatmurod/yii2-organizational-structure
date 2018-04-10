@@ -8,19 +8,18 @@ use andahrm\structure\models\FiscalYearSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+
 /**
  * FiscalYearController implements the CRUD actions for FiscalYear model.
  */
-class FiscalYearController extends Controller
-{
+class FiscalYearController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -35,14 +34,13 @@ class FiscalYearController extends Controller
      * Lists all FiscalYear models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new FiscalYearSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -52,10 +50,9 @@ class FiscalYearController extends Controller
      * @param integer $phase
      * @return mixed
      */
-    public function actionView($year, $phase)
-    {
+    public function actionView($year, $phase) {
         return $this->render('view', [
-            'model' => $this->findModel($year, $phase),
+                    'model' => $this->findModel($year, $phase),
         ]);
     }
 
@@ -64,27 +61,30 @@ class FiscalYearController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new FiscalYear();
-        
-        // print_r(Yii::$app->request->post());
-        // exit();
-        if ($model->load(Yii::$app->request->post())){
+
+//         
+        if ($model->load(Yii::$app->request->post())) {
+
+//            if ($this->findModel($model->year, $model->phase)) {
+//                $model->addError('year', 'มีปีนี้อยู่แล้ว');
+//                $model->addError('phase', 'มีภาคอยู่แล้ว');
+//            }
             
-            if($this->findModel($model->year, $model->phase)){
-                $model->addError('year','มีปีนี้อยู่แล้ว');
-                $model->addError('phase','มีภาคอยู่แล้ว');
-            }
-            
-            if(!$model->hasErrors() && $model->save()) {
+//            print_r(Yii::$app->request->post());
+//         exit();
+
+            if ($model->save()) {
                 return $this->redirect(['view', 'year' => $model->year, 'phase' => $model->phase]);
+            }else{
+                print_r($model->getErrors());
+                exit();
             }
-        } 
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        
+        }
+        return $this->render('create', [
+                    'model' => $model,
+        ]);
     }
 
     /**
@@ -94,15 +94,14 @@ class FiscalYearController extends Controller
      * @param integer $phase
      * @return mixed
      */
-    public function actionUpdate($year, $phase)
-    {
+    public function actionUpdate($year, $phase) {
         $model = $this->findModel($year, $phase);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'year' => $model->year, 'phase' => $model->phase]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -114,8 +113,7 @@ class FiscalYearController extends Controller
      * @param integer $phase
      * @return mixed
      */
-    public function actionDelete($year, $phase)
-    {
+    public function actionDelete($year, $phase) {
         $this->findModel($year, $phase)->delete();
 
         return $this->redirect(['index']);
@@ -129,44 +127,44 @@ class FiscalYearController extends Controller
      * @return FiscalYear the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($year, $phase)
-    {
+    protected function findModel($year, $phase) {
         if (($model = FiscalYear::findOne(['year' => $year, 'phase' => $phase])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
-    
-    
-    ####################################################################
-    protected function MapData($datas,$fieldId,$fieldName){
-     $obj = [];
-     foreach ($datas as $key => $value) {
-         array_push($obj, ['id'=>$value->{$fieldId},'name'=>$value->{$fieldName}]);
-     }
-     return $obj;
-    }
- 
-    ###############
-     public function actionGetPhase() {
-     $out = [];
-      $post = Yii::$app->request->post();
-     if ($post['depdrop_parents']) {
-         $parents = $post['depdrop_parents'];
-         if ($parents != null) {
-             $year = $parents[0];
-             $out = $this->getPhase($year);
-             echo Json::encode(['output'=>$out, 'selected'=>'']);
-             return;
-         }
-         }
-         echo Json::encode(['output'=>'', 'selected'=>'']);
-     }
 
-      protected function getPhase($year){
-         $datas = FiscalYear::find()->where(['year'=>$year])->all();
-         return $this->MapData($datas,'phase','phaseTitle');
-     }
+    ####################################################################
+
+    protected function MapData($datas, $fieldId, $fieldName) {
+        $obj = [];
+        foreach ($datas as $key => $value) {
+            array_push($obj, ['id' => $value->{$fieldId}, 'name' => $value->{$fieldName}]);
+        }
+        return $obj;
+    }
+
+    ###############
+
+    public function actionGetPhase() {
+        $out = [];
+        $post = Yii::$app->request->post();
+        if ($post['depdrop_parents']) {
+            $parents = $post['depdrop_parents'];
+            if ($parents != null) {
+                $year = $parents[0];
+                $out = $this->getPhase($year);
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    protected function getPhase($year) {
+        $datas = FiscalYear::find()->where(['year' => $year])->all();
+        return $this->MapData($datas, 'phase', 'phaseTitle');
+    }
+
 }

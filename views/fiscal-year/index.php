@@ -1,8 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
+use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel andahrm\structure\models\FiscalYearSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,15 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('andahrm/structure', 'Create Fiscal Year'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
 
             [
                 'attribute' => 'year',
                 'value' => 'yearTh',
+                'group' => true,
             ],
             'phase',
             'date_start:date',
@@ -40,4 +40,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+</div>
