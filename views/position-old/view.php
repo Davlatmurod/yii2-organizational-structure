@@ -60,13 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $model,
                 'template' => "<tr><th class='text-right'>{label}</th><td>{value}</td></tr>",
                 'attributes' => [
-                    //'min_salary',
-                    //'max_salary',
                     'created_at:datetime',
                     'created_by',
                     'updated_at:datetime',
                     'updated_by',
-                    'note',
                 ],
             ])
             ?>
