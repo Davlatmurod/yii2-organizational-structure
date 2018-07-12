@@ -21,19 +21,17 @@ use andahrm\positionSalary\models\PersonPositionSalaryOld;
  * @property integer $updated_at
  * @property integer $updated_by
  */
-class PositionOld extends \yii\db\ActiveRecord
-{
+class PositionOld extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'position_old';
     }
-    
-    function behaviors()
-    {
-        return [ 
+
+    function behaviors() {
+        return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
             ],
@@ -42,13 +40,11 @@ class PositionOld extends \yii\db\ActiveRecord
             ]
         ];
     }
-    
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['code'], 'required'],
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
@@ -62,8 +58,7 @@ class PositionOld extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => Yii::t('andahrm/structure', 'ID'),
             'code' => Yii::t('andahrm/structure', 'Code'),
@@ -76,24 +71,32 @@ class PositionOld extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('andahrm', 'Updated By'),
         ];
     }
-    
-    public static function getList(){
-        return ArrayHelper::map(self::find()->all(),'id','code');
+
+    public static function getList() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'code');
     }
-    
-    public function getCodeTitle(){
-     //return '1';
-       return $this->code." ".$this->title;
+
+    public function getCodeTitle() {
+        //return '1';
+        return $this->code . " " . $this->title;
     }
-    
-    public function getExists(){
-        if(self::find()->where(['code'=>$this->code])->exists()){
+
+    public function getExists() {
+        if (self::find()->where(['code' => $this->code])->exists()) {
             return true;
         }
         return;
-    } 
-    
-    public static function getListTitle(){
-      return ArrayHelper::map(self::find()->all(),'id','codeTitle');
     }
+
+    public static function getListTitle() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'codeTitle');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonPositionSalaries() {
+        return $this->hasMany(PersonPositionSalaryOld::className(), ['position_old_id' => 'id']);
+    }
+
 }
