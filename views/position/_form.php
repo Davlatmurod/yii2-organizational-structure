@@ -118,7 +118,7 @@ use kartik\widgets\DepDrop;
         </div>
       </div>
 
-
+      <?php /*
       <!--<div class="row">-->
       <!--  <div class="col-sm-6">-->
       <!--    <?= $form->field($model, 'min_salary')->textInput() ?>-->
@@ -127,7 +127,7 @@ use kartik\widgets\DepDrop;
       <!--    <?= $form->field($model, 'max_salary')->textInput() ?>-->
       <!--  </div>-->
       <!--</div>-->
-    
+        */?>
     
       
       
