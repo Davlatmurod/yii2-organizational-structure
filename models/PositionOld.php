@@ -88,8 +88,8 @@ class PositionOld extends \yii\db\ActiveRecord {
         return;
     }
 
-    public static function getListTitle() {
-        return ArrayHelper::map(self::find()->all(), 'id', 'codeTitle');
+    public static function getListTitle($id = null) {
+        return ArrayHelper::map(self::find()->filterWhere(['id' => $id])->all(), 'id', 'codeTitle');
     }
 
     /**
