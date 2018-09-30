@@ -63,8 +63,9 @@ class PresidentController extends Controller {
         $model = new President();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            President::updateActive($model->user_id, $model->start_date);
-            return $this->redirect(['view', 'user_id' => $model->user_id,'start_date'=>$model->start_date]);
+            if ($model->status == President::STATUS_ACTIVE)
+                President::updateActive($model->user_id, $model->start_date);
+            return $this->redirect(['view', 'user_id' => $model->user_id, 'start_date' => $model->start_date]);
         }
 
         return $this->render('create', [
@@ -83,8 +84,9 @@ class PresidentController extends Controller {
         $model = $this->findModel($user_id, $start_date);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            President::updateActive($model->user_id, $model->start_date);
-            return $this->redirect(['view', 'user_id' => $model->user_id,'start_date'=>$model->start_date]);
+            if ($model->status == President::STATUS_ACTIVE)
+                President::updateActive($model->user_id, $model->start_date);
+            return $this->redirect(['view', 'user_id' => $model->user_id, 'start_date' => $model->start_date]);
         }
 
         return $this->render('update', [

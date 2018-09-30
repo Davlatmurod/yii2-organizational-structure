@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use andahrm\person\models\Person;
 use andahrm\datepicker\behaviors\DateBuddhistBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "president".
@@ -29,6 +31,25 @@ class President extends \yii\db\ActiveRecord {
      */
     public static function tableName() {
         return 'president';
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => BlameableBehavior::className(),
+            ],
+            [
+                'class' => TimestampBehavior::className(),
+            ],
+            'start_date' => [
+                'class' => DateBuddhistBehavior::className(),
+                'dateAttribute' => 'start_date',
+            ],
+            'end_date' => [
+                'class' => DateBuddhistBehavior::className(),
+                'dateAttribute' => 'end_date',
+            ],
+        ];
     }
 
     /**
