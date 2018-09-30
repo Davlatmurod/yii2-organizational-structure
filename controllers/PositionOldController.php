@@ -9,9 +9,11 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\ForbiddenHttpException;
 ###
 use andahrm\structure\models\PositionOld;
 use andahrm\structure\models\PositionOldSearch;
+
 /**
  * PositionOldController implements the CRUD actions for PositionOld model.
  */
@@ -166,8 +168,11 @@ class PositionOldController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        if (!Yii::$app->user->can('position-delete')) {
+            throw new ForbiddenHttpException(Yii::t('hrm', 'You cannot permission delete.'));
+        }
 
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

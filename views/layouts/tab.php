@@ -62,6 +62,11 @@ use mdm\admin\components\Helper;
                             'url' => ["/{$module}/base-salary"],
                             'icon' => 'fa fa-money'
                         ],   
+                        [
+                            'label' => Yii::t('andahrm/structure', 'President'),
+                            'url' => ["/{$module}/president"],
+                            'icon' => 'fa fa-user'
+                        ],   
                         
                        
                         
