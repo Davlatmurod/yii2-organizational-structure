@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'person.fullname'
             ],
             'start_date:date',
-            'end_date',
+            'end_date:date',
             //'status',
             [
                 'attribute' => 'status',
