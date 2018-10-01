@@ -63,9 +63,9 @@ use mdm\admin\components\Helper;
                             'icon' => 'fa fa-money'
                         ],   
                         [
-                            'label' => Yii::t('andahrm/structure', 'President'),
+                            'label' => Yii::t('andahrm/structure', 'Presidents'),
                             'url' => ["/{$module}/president"],
-                            'icon' => 'fa fa-user'
+                            'icon' => 'fa fa-user-circle'
                         ],   
                         
                        

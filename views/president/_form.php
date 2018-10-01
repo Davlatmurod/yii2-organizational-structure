@@ -46,12 +46,10 @@ use andahrm\setting\models\WidgetSettings;
     )->hint(false);
     ?>
 
-    <?=
-            $form->field($model, "start_date")
-            ->widget(DatePicker::classname(), WidgetSettings::DatePicker());
-    ?>
+    <?= $form->field($model, "start_date")->widget(DatePicker::classname(), WidgetSettings::DatePicker()); ?>
+    
+    <?= $form->field($model, "end_date")->widget(DatePicker::classname(), WidgetSettings::DatePicker()); ?>
 
-    <?= $form->field($model, 'end_date')->textInput() ?>
 
     <?= $form->field($model, 'status')->checkbox(['label' => 'ปัจจุบันยังรักษาการอยู่']) ?>
 
