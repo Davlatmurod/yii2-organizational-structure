@@ -81,10 +81,10 @@ Modal::end();
              'value'=>'position.codeTitle',
             ],
              [
-                'attribute' => 'position.personPositionSalary.user.fullname',
+                'attribute' => 'position.user.fullname',
                 'value' => function($model){
-                    $model = $model->position->personPositionSalary;
-                    $user = $model?$model->position->personPositionSalary->user:null;
+                    $model = $model->position;
+                    $user = $model->user?$model->user:null;
                     return $user?$user->fullname:null;
                 }
             ],

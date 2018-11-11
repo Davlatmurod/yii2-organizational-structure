@@ -218,6 +218,13 @@ class Position extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUser() {
+        return $this->hasOne(Person::className(), ['position_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPositionLevel() {
         return $this->hasOne(PositionLevel::className(), ['id' => 'position_level_id']);
     }

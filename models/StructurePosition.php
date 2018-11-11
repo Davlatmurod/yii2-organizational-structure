@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use andahrm\person\models\Person;
 
 /**
  * This is the model class for table "structure_position".
@@ -20,19 +21,17 @@ use yii\behaviors\BlameableBehavior;
  * @property Position $position
  * @property Structure $structure
  */
-class StructurePosition extends \yii\db\ActiveRecord
-{
+class StructurePosition extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'structure_position';
     }
-  
-    public function behaviors()
-    {
-        return [ 
+
+    public function behaviors() {
+        return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
             ],
@@ -41,13 +40,11 @@ class StructurePosition extends \yii\db\ActiveRecord
             ],
         ];
     }
-  
-  
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['structure_id', 'position_id'], 'required'],
             [['structure_id', 'position_id', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'integer'],
@@ -59,8 +56,7 @@ class StructurePosition extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'structure_id' => Yii::t('andahrm/structure', 'Structure'),
             'position_id' => Yii::t('andahrm/structure', 'Position'),
@@ -74,21 +70,23 @@ class StructurePosition extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPosition()
-    {
+    public function getPosition() {
         return $this->hasOne(Position::className(), ['id' => 'position_id']);
     }
-    
-    public function getPositions()
-    {
+
+    public function getPositions() {
         return $this->hasMany(Position::className(), ['id' => 'position_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStructure()
-    {
+    public function getStructure() {
         return $this->hasOne(Structure::className(), ['id' => 'structure_id']);
     }
+
+    public function getUser() {
+        return $this->hasOne(Person::className(), ['position_id' => 'position_id']);
+    }
+
 }

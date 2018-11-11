@@ -30,10 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'codeTitle',
     //'title',
      [
-                'attribute' => 'personPositionSalary.user.fullname',
+                'attribute' => 'user.fullname',
                 'value' => function($model){
-                    $model = $model->personPositionSalary;
-                    $user = $model?$model->user:null;
+                    //$model = $model->user;
+                    $user = $model->user?$model->user:null;
                     return $user?$user->fullname:null;
                 }
             ],
