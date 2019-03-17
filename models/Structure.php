@@ -165,7 +165,7 @@ class Structure extends \yii\db\ActiveRecord {
         $str = [
             'name' => $model->title,
             'title' => ($model->structurePosition && $model->structurePosition->user) ? $model->structurePosition->user
-                    ->getInfoMedia('#', [
+                    ->getInfoMedia(Html::a($model->title, ['index', 'id' => $model->id], ['data-pjax' => 0]), [
                         'wrapper' => true,
                         'wrapperTag' => 'div'
                     ]) : $model->getEmptyPosition($model),
