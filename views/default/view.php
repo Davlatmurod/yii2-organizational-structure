@@ -104,7 +104,7 @@ Modal::end();
                         'id'=>$model->structure_id,
                         'position_id'=>$model->position_id,
                         'mode'=>'del',
-                        ],['class'=>'btn btn-danger','data-pjax'=>'0']);
+                        ],['class'=>'btn btn-danger btn-xs','data-pjax'=>'0']);
                 }
             ],
                 ],

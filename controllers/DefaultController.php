@@ -282,9 +282,10 @@ class DefaultController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+//            'pagination' => [
+//                'pageSize' => 10,
+//            ],
+            'pagination' => false
             //'selected'=> $selected
         ]);
 //       echo "<pre>";
