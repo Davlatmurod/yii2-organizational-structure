@@ -3,6 +3,7 @@
 namespace andahrm\structure\models;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
@@ -223,7 +224,7 @@ class Structure extends \yii\db\ActiveRecord {
 
 //                                foreach ($position->users as $u) {
                                 if (isset($u)) {
-                                    $user[] = $u->getInfoMedia(['/person/default/view','id'=>$u->user_id], [
+                                    $user[] = $u->getInfoMedia(['/person/default/view', 'id' => $u->user_id], [
                                         'wrapper' => true,
                                         'wrapperTag' => 'div'
                                     ]);
@@ -236,7 +237,7 @@ class Structure extends \yii\db\ActiveRecord {
                     }
 
                     $str[] = [
-                        'name' => $model->title,
+                        'name' => Html::a($model->title, ['index', 'id' => $model->id], ['data-pjax' => 0]),
                         'title' => $user ? implode("", $user) : $model->getEmptyPosition($model),
                         'children' => self::getOrgSubJson($model->children()->all(), $num),
                         'className' => 'child-level-' . $num . ' index-' . ($index++),
@@ -258,7 +259,7 @@ class Structure extends \yii\db\ActiveRecord {
                     foreach ($model->structurePositions as $struture) {
                         if (isset($struture->users)) {
                             foreach ($struture->users as $u) {
-                                $user[] = $u->getInfoMedia(['/person/default/view','id'=>$u->user_id], [
+                                $user[] = $u->getInfoMedia(['/person/default/view', 'id' => $u->user_id], [
                                     'wrapper' => true,
                                     'wrapperTag' => 'div'
                                 ]);
@@ -266,7 +267,7 @@ class Structure extends \yii\db\ActiveRecord {
                         }
                     }
                     $str[] = [
-                        'name' => $model->title,
+                        'name' => Html::a($model->title, ['index', 'id' => $model->id], ['data-pjax' => 0]),
                         'title' => $user ? implode("", $user) : $model->getEmptyPosition($model),
                         'children' => self::getOrgSubJson($model->children()->all(), $num),
                         'className' => 'child-level-' . $num . ' index-' . ($index++),

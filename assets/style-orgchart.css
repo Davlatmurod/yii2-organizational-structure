@@ -26,6 +26,9 @@
     color: #fff;
     border-radius: 4px 4px 0 0;
 }
+.orgchart .node .title a{
+    color: #fff;
+}
 
 .orgchart .node .content {
     /*width: 100%;*/
@@ -52,7 +55,8 @@
 }
 
 .orgchart .child-level-2.index-1 {
-    width: 400px;
+/*    width: 400px;*/
+    width: 500px;
 }
 
 .orgchart .child-level-2.index-1 .media.event{
@@ -150,3 +154,15 @@
     border-radius: 50%;
 }
 
+.media-body {
+    /*width: 220px;*/
+    width: 120px !important;
+    overflow-x: hidden;
+    max-width: 125px;
+}
+.orgchart .child-level-2.index-1 .media-body{
+    /*width: 220px;*/
+    width: 135px !important;
+    overflow-x: hidden;
+    max-width: 135px;
+}
