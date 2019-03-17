@@ -158,9 +158,9 @@ class Structure extends \yii\db\ActiveRecord {
     public static function getOrgJson($id = null) {
         $model = self::findOne(['level' => 1]);
         $num = 1;
-
-        //print_r($model->position);
-        //exit();
+//        echo '<pre>';
+//        print_r($model->children()->all());
+//        exit();
         $str = [
             'name' => $model->title,
             'title' => ($model->structurePosition && $model->structurePosition->user) ? $model->structurePosition->user
@@ -193,24 +193,46 @@ class Structure extends \yii\db\ActiveRecord {
                     //if(isset($model->position) && isset($model->position->users)){
                     // echo count($model->structurePositions);
                     //  echo "\n"; echo "\n";
+//                    foreach ($model->structurePositions as $struture) {
+//                        //$user=[];
+//                        foreach ($struture->positions as $position) {
+//                            if ($position->users) {
+//                                foreach ($position->users as $u) {
+//                                    if (isset($u)) {
+//                                        $user[] = $u->getInfoMedia('#', [
+//                                            'wrapper' => true,
+//                                            'wrapperTag' => 'div'
+//                                        ]);
+//                                    }
+//                                }
+//                            } else {
+//                                $user[] = $model->getEmptyPosition($struture);
+//                            }
+//                        }
+//
+//                    }
                     foreach ($model->structurePositions as $struture) {
                         //$user=[];
-                        foreach ($struture->positions as $position) {
-                            if ($position->users) {
-                                foreach ($position->users as $u) {
-                                    if (isset($u)) {
-                                        $user[] = $u->getInfoMedia('#', [
-                                            'wrapper' => true,
-                                            'wrapperTag' => 'div'
-                                        ]);
-                                    }
-                                }
-                            } else {
-                                $user[] = $model->getEmptyPosition($struture);
-                            }
-                        }
+                        if ($struture->users) {
+//                            if ($struture->struture_id == 222) {
+//                                echo "<pre>";
+//                                print_r($struture->users);
+//                                exit();
+//                            }
+                            foreach ($struture->users as $u) {
 
-                        // }
+//                                foreach ($position->users as $u) {
+                                if (isset($u)) {
+                                    $user[] = $u->getInfoMedia(['/person/default/view','id'=>$u->user_id], [
+                                        'wrapper' => true,
+                                        'wrapperTag' => 'div'
+                                    ]);
+                                }
+//                                }
+                            }
+                        } else {
+                            $user[] = $model->getEmptyPosition($struture);
+                        }
                     }
 
                     $str[] = [
@@ -225,12 +247,22 @@ class Structure extends \yii\db\ActiveRecord {
 
                     $user = [];
 
-                    if (isset($model->position) && isset($model->position->users)) {
-                        foreach ($model->position->users as $u) {
-                            $user[] = $u->getInfoMedia('#', [
-                                'wrapper' => true,
-                                'wrapperTag' => 'div'
-                            ]);
+//                    if (isset($model->position) && isset($model->position->users)) {
+//                        foreach ($model->position->users as $u) {
+//                            $user[] = $u->getInfoMedia('#', [
+//                                'wrapper' => true,
+//                                'wrapperTag' => 'div'
+//                            ]);
+//                        }
+//                    }
+                    foreach ($model->structurePositions as $struture) {
+                        if (isset($struture->users)) {
+                            foreach ($struture->users as $u) {
+                                $user[] = $u->getInfoMedia(['/person/default/view','id'=>$u->user_id], [
+                                    'wrapper' => true,
+                                    'wrapperTag' => 'div'
+                                ]);
+                            }
                         }
                     }
                     $str[] = [

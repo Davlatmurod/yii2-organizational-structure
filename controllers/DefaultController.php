@@ -307,7 +307,9 @@ class DefaultController extends Controller
     
     public function actionOrg(){
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        
+//        echo "<pre>";
+//        print_r(Structure::getOrgJson());
+//        exit();
         return Structure::getOrgJson();
         
         

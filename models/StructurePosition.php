@@ -88,5 +88,8 @@ class StructurePosition extends \yii\db\ActiveRecord {
     public function getUser() {
         return $this->hasOne(Person::className(), ['position_id' => 'position_id']);
     }
+    public function getUsers() {
+        return $this->hasMany(Person::className(), ['position_id' => 'position_id']);
+    }
 
 }
